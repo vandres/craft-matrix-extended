@@ -3,7 +3,9 @@
 namespace vandres\matrixextended;
 
 use Craft;
+use craft\base\Model;
 use craft\base\Plugin;
+use vandres\matrixextended\models\Settings;
 use vandres\matrixextended\web\assets\cp\AssetBundle;
 
 /**
@@ -18,6 +20,8 @@ class MatrixExtended extends Plugin
 {
     public string $schemaVersion = '1.0.0';
 
+    public bool $hasCpSettings = true;
+
     public function init(): void
     {
         parent::init();
@@ -27,6 +31,18 @@ class MatrixExtended extends Plugin
         $this->setUpCp();
     }
 
+    protected function createSettingsModel(): ?Model
+    {
+        return Craft::createObject(Settings::class);
+    }
+
+    protected function settingsHtml(): ?string
+    {
+        return Craft::$app->view->renderTemplate('matrix-extended/_settings.twig', [
+            'plugin' => $this,
+            'settings' => $this->getSettings(),
+        ]);
+    }
 
     private function setUp()
     {

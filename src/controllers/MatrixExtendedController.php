@@ -7,12 +7,16 @@ use craft\elements\db\EntryQuery;
 use craft\elements\ElementCollection;
 use craft\elements\Entry;
 use craft\fields\Matrix;
+use vandres\matrixextended\MatrixExtended;
+use vandres\matrixextended\models\Settings;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
 class MatrixExtendedController extends \craft\web\Controller
 {
+    private ?Settings $settings;
+
     public function beforeAction($action): bool
     {
         if (!parent::beforeAction($action)) {
@@ -20,6 +24,8 @@ class MatrixExtendedController extends \craft\web\Controller
         }
 
         $this->requireCpRequest();
+
+        $this->settings = MatrixExtended::getInstance()->getSettings();
         return true;
     }
 
@@ -97,6 +103,10 @@ class MatrixExtendedController extends \craft\web\Controller
      */
     public function actionCopyEntry(): Response
     {
+        if (!$this->settings->experimentalFeatures) {
+            throw new ForbiddenHttpException('Experimental features not enabled.');
+        }
+
         $entryId = $this->request->getRequiredBodyParam('entryId');
         $fieldId = $this->request->getRequiredBodyParam('fieldId');
         $entryTypeId = $this->request->getRequiredBodyParam('entryTypeId');
@@ -162,6 +172,10 @@ class MatrixExtendedController extends \craft\web\Controller
      */
     public function actionPasteEntry(): Response
     {
+        if (!$this->settings->experimentalFeatures) {
+            throw new ForbiddenHttpException('Experimental features not enabled.');
+        }
+
         // check source
         $entryReference = Craft::$app->getSession()->get('matrixExtendedReference');
         if (empty($entryReference)) {

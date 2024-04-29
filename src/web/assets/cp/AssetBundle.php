@@ -2,10 +2,12 @@
 
 namespace vandres\matrixextended\web\assets\cp;
 
+use craft\helpers\Json;
 use craft\web\AssetBundle as BaseAssetBundle;
 use craft\web\assets\cp\CpAsset;
 use craft\web\assets\matrix\MatrixAsset;
 use craft\web\View;
+use vandres\matrixextended\MatrixExtended;
 
 class AssetBundle extends BaseAssetBundle
 {
@@ -34,9 +36,12 @@ class AssetBundle extends BaseAssetBundle
             ]);
         }
 
+        $data = ['settings' => MatrixExtended::getInstance()->getSettings()];
+        $config = Json::encode($data);
+
         $js = <<<JS
             if (window.Craft.MatrixExtension) {
-                new window.Craft.MatrixExtension();
+                new window.Craft.MatrixExtension($config);
             }
         JS;
         $view->registerJs($js, View::POS_END);
