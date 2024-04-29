@@ -29,17 +29,18 @@ composer require vandres/craft-matrix-extended
 ./craft plugin/install matrix-extended
 ```
 
-## Disclaimer
-
-There is no active development on this plugin. I am having a roadmap with features I would love to use in my own projects. 
-But there is, and will be, no timeline for completion.
-
 ## Roadmap
 
 - ~~duplicate entries~~ (done)
 - copy and paste an entry to another position in the same or another entry type (experimental, in progress)
-- copy and paste an entry to another section
+- copy and paste an entry to another section (experimental, in progress)
 - drag and drop between entry types
+
+## Next TODOs
+
+- check entry type restrictions when pasting
+    - frontend
+    - backend
 
 ## Support my work
 
