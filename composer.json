@@ -1,0 +1,54 @@
+{
+  "name": "vandres/craft-matrix-extended",
+  "description": "Adds functionality to the native Matrix field type",
+  "type": "craft-plugin",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Volker Andres",
+      "homepage": "https://www.voan.ch"
+    }
+  ],
+  "support": {
+    "email": "andres@voan.ch",
+    "issues": "https://github.com/vandres/craft-matrix-extended/issues?state=open",
+    "source": "https://github.com/vandres/craft-matrix-extended",
+    "docs": "https://github.com/vandres/craft-matrix-extended",
+    "rss": "https://github.com/vandres/craft-matrix-extended/releases.atom"
+  },
+  "require": {
+    "php": ">=8.2",
+    "craftcms/cms": "^5.1.0"
+  },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "vandres\\matrixextended\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "matrix-extended",
+    "name": "Matrix Extended",
+    "developer": "Volker Andres",
+    "documentationUrl": "https://github.com/vandres/craft-matrix-extended",
+    "class": "vandres\\matrixextended\\MatrixExtended"
+  },
+  "scripts": {
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --ansi --fix",
+    "phpstan": "phpstan --memory-limit=1G"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
+  }
+}
