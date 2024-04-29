@@ -25,7 +25,13 @@ class AssetBundle extends BaseAssetBundle
         parent::registerAssetFiles($view);
 
         if ($view instanceof View) {
-            $view->registerTranslations('app', ['Duplicate']);
+            $view->registerTranslations('app', [
+                'Duplicate',
+                'Copy',
+                'Paste',
+                'Entry reference copied',
+                'There was an error copying the entry reference',
+            ]);
         }
 
         $js = <<<JS

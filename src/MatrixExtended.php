@@ -18,15 +18,6 @@ class MatrixExtended extends Plugin
 {
     public string $schemaVersion = '1.0.0';
 
-    public static function config(): array
-    {
-        return [
-            'components' => [
-                // Define component configs here...
-            ],
-        ];
-    }
-
     public function init(): void
     {
         parent::init();

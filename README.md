@@ -37,7 +37,7 @@ But there is, and will be, no timeline for completion.
 ## Roadmap
 
 - ~~duplicate entries~~ (done)
-- copy and paste an entry to another position in the same or another entry type
+- copy and paste an entry to another position in the same or another entry type (experimental, in progress)
 - copy and paste an entry to another section
 - drag and drop between entry types
 
