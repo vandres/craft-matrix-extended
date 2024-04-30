@@ -145,7 +145,7 @@ class MatrixExtendedController extends \craft\web\Controller
             throw new ForbiddenHttpException('User not authorized to duplicate this element.');
         }
 
-        Craft::$app->getSession()->set('matrixExtendedReference', [
+        $entryReference = [
             'entryId' => $entryId,
             'fieldId' => $fieldId,
             'entryTypeId' => $entryTypeId,
@@ -153,12 +153,13 @@ class MatrixExtendedController extends \craft\web\Controller
             'ownerElementType' => $ownerElementType,
             'siteId' => $siteId,
             'namespace' => $namespace,
-        ]);
+        ];
+        MatrixExtended::getInstance()->service->setReference($entryReference);
 
         $view = $this->getView();
 
         return $this->asJson([
-            'blockHtml' => "",
+            'entryReference' => $entryReference,
             'headHtml' => $view->getHeadHtml(),
             'bodyHtml' => $view->getBodyHtml(),
         ]);
@@ -168,7 +169,6 @@ class MatrixExtendedController extends \craft\web\Controller
      * Get the latest entry reference from the user session and clones that entry at the given position.
      *
      * @return Response
-     * @todo check entry restriction (is that entry allowed to be posted into that owner)
      */
     public function actionPasteEntry(): Response
     {
@@ -177,7 +177,7 @@ class MatrixExtendedController extends \craft\web\Controller
         }
 
         // check source
-        $entryReference = Craft::$app->getSession()->get('matrixExtendedReference');
+        $entryReference = MatrixExtended::getInstance()->service->getReference();
         if (empty($entryReference)) {
             throw new BadRequestHttpException("There is nothing to paste");
         }
@@ -220,6 +220,11 @@ class MatrixExtendedController extends \craft\web\Controller
         $user = static::currentUser();
         if (!$entry->canDuplicateAsDraft($user)) {
             throw new ForbiddenHttpException('User not authorized to duplicate this element.');
+        }
+
+        $childParent = MatrixExtended::getInstance()->service->getChildParentRelations() ?? [];
+        if (!in_array($fieldId, $childParent[$entry->typeId])) {
+            throw new BadRequestHttpException('That entry type cannot be pasted in that element.');
         }
 
         $duplicatedEntry = $elementsService->duplicateElement($entry, [], true, true);

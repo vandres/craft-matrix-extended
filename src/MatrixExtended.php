@@ -6,6 +6,7 @@ use Craft;
 use craft\base\Model;
 use craft\base\Plugin;
 use vandres\matrixextended\models\Settings;
+use vandres\matrixextended\services\MatrixService;
 use vandres\matrixextended\web\assets\cp\AssetBundle;
 
 /**
@@ -18,7 +19,7 @@ use vandres\matrixextended\web\assets\cp\AssetBundle;
  */
 class MatrixExtended extends Plugin
 {
-    public string $schemaVersion = '1.0.0';
+    public string $schemaVersion = '1.2.0';
 
     public bool $hasCpSettings = true;
 
@@ -47,6 +48,9 @@ class MatrixExtended extends Plugin
     private function setUp()
     {
         Craft::$app->onInit(function () {
+            $this->setComponents([
+                'service' => MatrixService::class,
+            ]);
         });
     }
 

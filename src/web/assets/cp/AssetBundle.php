@@ -33,10 +33,16 @@ class AssetBundle extends BaseAssetBundle
                 'Paste',
                 'Entry reference copied',
                 'There was an error copying the entry reference',
+                'There was an error duplicating the entry',
+                'There was an error pasting the entry',
             ]);
         }
 
-        $data = ['settings' => MatrixExtended::getInstance()->getSettings()];
+        $data = [
+            'settings' => MatrixExtended::getInstance()->getSettings(),
+            'childParent' => MatrixExtended::getInstance()->service->getChildParentRelations(),
+            'entryReference' => MatrixExtended::getInstance()->service->getReference(),
+        ];
         $config = Json::encode($data);
 
         $js = <<<JS
