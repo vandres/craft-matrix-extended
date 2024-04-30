@@ -34,13 +34,10 @@ composer require vandres/craft-matrix-extended
 - ~~duplicate entries~~ (done)
 - copy and paste an entry to another position in the same or another entry type (experimental, in progress)
 - copy and paste an entry to another section (experimental, in progress)
+- cut and paste an entry
+  - easier than drag and drop implementation
+  - "delete" only after paste
 - drag and drop between entry types
-
-## Next TODOs
-
-- check entry type restrictions when pasting
-    - frontend
-    - backend
 
 ## Support my work
 
