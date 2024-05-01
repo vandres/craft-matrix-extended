@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/vandres/craft-matrix-extended/compare/v1.5.0...v1.4.1) (2024-05-01)
+
+
+### Features
+
+* **add:** allow to show menu as button group ([9743b37](https://github.com/vandres/craft-matrix-extended/commit/9743b374d49bca3fcee6a77f22efbb6655323ed9))
+
 ## [1.4.1](https://github.com/vandres/craft-matrix-extended/compare/v1.4.1...v1.4.0) (2024-05-01)
 
 ### Fixes
@@ -39,4 +46,3 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **copy:** experimental implementation of the copy and paste functionality ([b8a41fd](https://github.com/vandres/craft-matrix-extended/commit/b8a41fd81c003ba89e9daa7ccd055d7ee6e9c108))
 * **duplicate:**  implementation of the duplicate functionality
-
