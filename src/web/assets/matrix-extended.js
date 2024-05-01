@@ -310,12 +310,13 @@
             $addBlockButton.find('button').on('click', function () {
                 $('.matrix-extended-buttons').remove();
 
-                $buttons = $('<div class="buttons matrix-extended-buttons"></div>')
+                $buttonContainer = $('<div class="buttons matrix-extended-buttons"></div>')
                 $clone = matrix.$addEntryMenuBtn.clone();
                 $clone
                     .disclosureMenu()
                     .data('disclosureMenu')
-                    .$container.find('button')
+                    .$container
+                    .find('button')
                     .off()
                     .on('activate', async (ev) => {
                         $clone.addClass('loading');
@@ -323,11 +324,22 @@
                             await matrix.addEntry($(ev.currentTarget).data('type'), entry.$container);
                         } finally {
                             $clone.data('trigger').hide();
-                            $buttons.remove();
+                            $buttonContainer.remove();
                         }
                     });
-                $buttons.append($clone);
-                $buttons.insertBefore(entry.$container);
+
+                if (_this.settings.expandMenu) {
+                    const $container = $clone.data('disclosureMenu').$container;
+                    const $actionButtons = $container.find('button');
+                    $actionButtons.addClass('btn dashed');
+                    const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
+                    $actionButtonContainer.append($actionButtons);
+                    $buttonContainer.append($actionButtonContainer);
+                } else {
+                    $buttonContainer.append($clone);
+                }
+
+                $buttonContainer.insertBefore(entry.$container);
                 entry.actionDisclosure.hide();
             });
         },

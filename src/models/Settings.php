@@ -8,10 +8,12 @@ class Settings extends Model
 {
     public bool $experimentalFeatures = false;
 
+    public bool $expandMenu = false;
+
     public function defineRules(): array
     {
         return [
-            [['experimentalFeatures'], 'boolean'],
+            [['experimentalFeatures', 'expandMenu'], 'boolean'],
         ];
     }
 }

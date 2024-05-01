@@ -6,6 +6,8 @@ return [
     'Paste' => 'Einfügen',
     'Delete' => 'Löschen',
     'Add block above' => 'Block oberhalb einfügen',
+    'Expand menu' => 'Menü ausklappen',
+    'Displays "add block" menu as button group.' => 'Stellt das "Block oberhalb" Menü als Button-Gruppe dar.',
     'There is nothing to paste.' => 'Es wurde noch nichts kopiert.',
     'The copied entry is not allowed here.' => 'Das kopierte Element ist hier nicht erlaubt.',
     'Entry reference copied' => 'Referenz kopiert',

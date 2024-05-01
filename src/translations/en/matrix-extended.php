@@ -6,6 +6,8 @@ return [
     'Paste' => '',
     'Delete' => '',
     'Add block above' => '',
+    'Expand menu' => '',
+    'Displays "add block" menu as button group.' => '',
     'There is nothing to paste.' => '',
     'The copied entry is not allowed here.' => '',
     'Entry reference copied' => '',

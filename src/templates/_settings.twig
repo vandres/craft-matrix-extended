@@ -9,3 +9,11 @@
  instructions: 'Use experimental features right now. But they might not be for normal editorial users.'|t('matrix-extended'),
  on:           settings.experimentalFeatures,
 }) }}
+
+{{ forms.lightswitchField({
+ label:        'Expand menu'|t('matrix-extended'),
+ name:         'expandMenu',
+ id:           'expandMenu',
+ instructions: 'Displays "add block" menu as button group.'|t('matrix-extended'),
+ on:           settings.expandMenu,
+}) }}

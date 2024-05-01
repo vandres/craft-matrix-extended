@@ -32,6 +32,8 @@ class AssetBundle extends BaseAssetBundle
                 'Copy',
                 'Paste',
                 'Delete',
+                'Expand menu',
+                'Displays "add block" menu as button group.',
                 'Entry reference copied',
                 'There was an error copying the entry reference',
                 'There was an error duplicating the entry',
