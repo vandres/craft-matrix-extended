@@ -331,6 +331,7 @@
                 if (_this.settings.expandMenu) {
                     const $container = $clone.data('disclosureMenu').$container;
                     const $actionButtons = $container.find('button');
+                    $actionButtons.first().addClass('add icon');
                     $actionButtons.addClass('btn dashed');
                     const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
                     $actionButtonContainer.append($actionButtons);
