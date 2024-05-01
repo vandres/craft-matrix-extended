@@ -37,6 +37,9 @@ composer require vandres/craft-matrix-extended
 - "Add Block Above" Neo-style (experimental, testing)
 - Allow "Add Block Above" to be expanded via settings (experimental, in progress)
   - show as dropdown, if space is not enough 
+  - allow to group buttons
+    - by config
+    - by settings/backend module
 - cut and paste an entry
   - easier than drag and drop implementation
   - "delete" only after paste

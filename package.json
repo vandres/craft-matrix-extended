@@ -2,7 +2,13 @@
   "name": "craft-matrix-extended",
   "description": "Adds functionality to the native Matrix field type",
   "version": "1.5.0",
-  "scripts": {},
+  "scripts": {
+    "release": "standard-version",
+    "release:minor": "standard-version -a --release-as minor",
+    "release:patch": "standard-version -a --release-as patch",
+    "release:major": "standard-version -a --release-as major"
+  },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vandres/craft-matrix-extended.git"
