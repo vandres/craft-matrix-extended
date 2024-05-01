@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://bitbucket.org/illoV/craft-voan/compare/v1.3.0...v1.4.0) (2024-05-01)
+
+
+### Features
+
+* **add:** added experimental function "add block above" ([8601ccc](https://bitbucket.org/illoV/craft-voan/commit/8601ccca0c1836834cdfda8e4c7aff6be46061da))
+
 ## [1.3.0](https://bitbucket.org/illoV/craft-voan/compare/v1.2.0...v1.3.0) (2024-04-30)
 
 
