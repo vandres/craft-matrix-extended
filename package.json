@@ -1,0 +1,16 @@
+{
+  "name": "craft-matrix-extended",
+  "description": "Adds functionality to the native Matrix field type",
+  "version": "1.4.1",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vandres/craft-matrix-extended.git"
+  },
+  "author": "Volker Andres <andres@voan.ch",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/vandres/craft-matrix-extended/issues"
+  },
+  "homepage": "https://github.com/vandres/craft-matrix-extended#readme"
+}
