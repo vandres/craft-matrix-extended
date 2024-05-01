@@ -3,9 +3,9 @@
 {% import '_includes/forms.twig' as forms %}
 
 {{ forms.lightswitchField({
- label:        'Enable experimental features'|t('app'),
+ label:        'Enable experimental features'|t('matrix-extended'),
  name:         'experimentalFeatures',
  id:           'experimentalFeatures',
- instructions: 'Use experimental features right now. But they might not be for normal editorial users.'|t('app'),
+ instructions: 'Use experimental features right now. But they might not be for normal editorial users.'|t('matrix-extended'),
  on:           settings.experimentalFeatures,
 }) }}

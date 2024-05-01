@@ -18,7 +18,7 @@ class AssetBundle extends BaseAssetBundle
         MatrixAsset::class,
     ];
 
-    public $css = [];
+    public $css = ['matrix-extended.css'];
 
     public $js = ['matrix-extended.js'];
 
@@ -27,14 +27,18 @@ class AssetBundle extends BaseAssetBundle
         parent::registerAssetFiles($view);
 
         if ($view instanceof View) {
-            $view->registerTranslations('app', [
+            $view->registerTranslations('matrix-extended', [
                 'Duplicate',
                 'Copy',
                 'Paste',
+                'Delete',
                 'Entry reference copied',
                 'There was an error copying the entry reference',
                 'There was an error duplicating the entry',
                 'There was an error pasting the entry',
+                'Add block above',
+                'There is nothing to paste.',
+                'The copied entry is not allowed here.',
             ]);
         }
 
