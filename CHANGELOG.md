@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/vandres/craft-matrix-extended/compare/v2.0.1...v2.0.0) (2024-05-02)
+
+
+### Bug Fixes
+
+* **add:** nested fields didn't get grouped ([e059300](https://github.com/vandres/craft-matrix-extended/commit/e05930050980133b2d52960cbaaab25ccb2e1007))
+
 ## [2.0.0](https://github.com/vandres/craft-matrix-extended/compare/v2.0.0...v1.5.1) (2024-05-02)
 
 
