@@ -68,6 +68,9 @@ return [
 - Replace "New Entry" with expanded logic (experimental, testing)
 - ~~cut and paste an entry~~ (not for now)
 - drag and drop between entry types (highly experimental, in progress)
+  - drag and drop multiple
+  - drag and drop into "empty" matrix
+  - respect `canAddMoreEntries`
   - let dragdrop and dragsort coexist
   - get rid of warnings
 

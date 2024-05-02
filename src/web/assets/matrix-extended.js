@@ -37,6 +37,14 @@
                 matrixInitFn.apply(this, arguments);
                 this.entrySort.allowDragging = () => false;
                 this.entrySort.destroy();
+                _this.prepareEntryDropZones();
+            };
+
+            Craft.MatrixInput.prototype.canAddMoreEntries = function () {
+                return (
+                    !this.maxEntries ||
+                    this.$entriesContainer.children(':not(.matrix-extended-drop-target)').length < this.maxEntries
+                );
             };
 
             this.itemDrag = new Garnish.DragDrop({
@@ -46,7 +54,23 @@
                 moveHelperToCursor: true,
                 handle: (item) => $(item).find('> .actions > .move, > .titlebar'),
                 filter: () => this.itemDrag.$targetItem.closest('.matrixblock'),
-                dropTargets: () => $('.matrix-extended-drop-target').toArray().reverse(),
+                dropTargets: () => {
+                    if (!this.childParent) {
+                        return [];
+                    }
+
+                    const {entry, typeId} = this.itemDrag.$draggee.closest('.matrixblock').data();
+                    const matrix = entry.matrix;
+                    if (!matrix || !typeId) {
+                        return [];
+                    }
+                    // TODO check `canAddMore`, but only if drag and drop is between fields
+                    // const $allDropTargets = $('.matrix-extended-drop-target').filter((_, x) => !!$(x).data('canAddMore'));
+                    const $allDropTargets = $('.matrix-extended-drop-target')
+                        .filter((_, x) => (this.childParent[typeId] || []).includes($(x).data('entryTypeId')));
+
+                    return $allDropTargets.toArray().reverse();
+                },
                 onDragStart: () => {
                     Garnish.$bod.addClass('dragging');
                     this.itemDrag.$draggee.closest('.matrixblock').addClass('draggee');
@@ -62,7 +86,6 @@
 
                     if ($dropTarget.data('position') === 'before') {
                         $relationEntry = $dropTarget.next('.matrixblock');
-
                         $dropEntry.insertBefore($relationEntry);
                     } else {
                         $relationEntry = $dropTarget.prev('.matrixblock');
@@ -87,33 +110,44 @@
         },
 
         prepareEntryDropZones() {
+            if (!this.settings.experimentalFeatures) {
+                return;
+            }
+
             const $fields = $('.matrix-field');
-            const $blocks = $fields.find('.matrixblock').toArray();
-            this.itemDrag.removeAllItems();
-            this.itemDrag.addItems($blocks);
+            const $blocks = $fields.find('.matrixblock');
 
             $('.matrix-extended-drop-target').remove();
             for (const block of $blocks) {
-                // TODO data allowed, position, etc.
-
                 const $block = $(block);
-                const $dropTarget = $(`<div class="matrix-extended-drop-target" data-position="after"></div>`);
+
+                let $entryTypeId = null;
+                const entry = $block.data('entry');
+                if (!entry) {
+                    return;
+                }
+                const matrix = entry.matrix;
+                if (!matrix) {
+                    return;
+                }
+
+                $entryTypeId = matrix.settings.fieldId;
+
+                const $dropTarget = $(`<div class="matrix-extended-drop-target" data-position="after"><div></div></div>`);
                 $dropTarget.data($block.data());
+                $dropTarget.data('entryTypeId', $entryTypeId);
                 $block.after($dropTarget);
 
                 if ($block.is(':first-child')) {
-                    const $dropTargetBefore = $(`<div class="matrix-extended-drop-target" data-position="before"></div>`);
+                    const $dropTargetBefore = $(`<div class="matrix-extended-drop-target" data-position="before"><div></div></div>`);
                     $dropTargetBefore.data($block.data());
+                    $dropTargetBefore.data('entryTypeId', $entryTypeId);
                     $block.before($dropTargetBefore);
                 }
             }
-        },
 
-        _findDraggableItems: function ($items) {
-            return $($items
-                .toArray()
-                .map((item) => $(item).find('.element:first')[0])
-                .filter((item) => item && Garnish.hasAttr(item, 'data-movable')));
+            this.itemDrag.removeAllItems();
+            this.itemDrag.addItems($blocks);
         },
 
         initAddButtonMenu(disclosureMenu) {
