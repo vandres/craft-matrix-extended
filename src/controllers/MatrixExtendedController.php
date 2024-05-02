@@ -140,10 +140,11 @@ class MatrixExtendedController extends \craft\web\Controller
             throw new BadRequestHttpException("Invalid site ID: $siteId");
         }
 
-        $user = static::currentUser();
-        if (!$entry->canDuplicateAsDraft($user)) {
-            throw new ForbiddenHttpException('User not authorized to duplicate this element.');
-        }
+        // removed for now. Leads to errors on max occurrence elements, even the frontend doesn't allow a paste
+//        $user = static::currentUser();
+//        if (!$entry->canDuplicateAsDraft($user)) {
+//            throw new ForbiddenHttpException('User not authorized to duplicate this element.');
+//        }
 
         $entryReference = [
             'entryId' => $entryId,

@@ -47,6 +47,7 @@ class AssetBundle extends BaseAssetBundle
                 'Add block above',
                 'There is nothing to paste.',
                 'The copied entry is not allowed here.',
+                'No more entries can be added.',
             ]);
         }
 

@@ -26,22 +26,47 @@
                 _this.initDisclosureMenu(this);
                 disclosureMenuShowFn.apply(this, arguments);
             };
+            const disclosureMenuInitFn = Garnish.DisclosureMenu.prototype.init;
+            Garnish.DisclosureMenu.prototype.init = function () {
+                disclosureMenuInitFn.apply(this, arguments);
+                _this.initAddButtonMenu(this);
+            };
+        },
 
-            // TODO also show expanded menu instead of "New Entry"
-            // if (this.settings.experimentalFeatures && this.settings.expandMenu) {
-            //     const {$trigger, $container} = this;
-            //     if (!$trigger || !$container || !$trigger.hasClass('action-btn')) {
-            //         return;
-            //     }
-            //     const $element = $trigger.closest('.matrixblock,.element.card,.element.chip');
-            //     if (!$element.length) {
-            //         return;
-            //     }
-            //
-            //     const $container = $clone.data('disclosureMenu').$container;
-            //     const $actionButtons = $container.find('button').clone(true, true);
-            //     this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, matrix, entry);
-            // }
+        initAddButtonMenu(disclosureMenu) {
+            if (!this.settings.experimentalFeatures || !this.settings.expandMenu) {
+                return;
+            }
+
+            const {$trigger, $container} = disclosureMenu;
+            const $parent = $trigger.parent();
+            const $wrapper = $trigger.closest('.matrix-field');
+            if (!$trigger || !$container || !$parent.hasClass('buttons') || !$wrapper.attr('id')) {
+                return;
+            }
+
+            if ($trigger._hasMatrixExtensionButtonsInitialized) {
+                return;
+            }
+            $trigger.hide();
+            $trigger._hasMatrixExtensionButtonsInitialized = true;
+
+            const $buttonContainer = $('<div class="buttons matrix-extended-buttons"></div>')
+            const $actionButtons = $trigger
+                .disclosureMenu()
+                .data('disclosureMenu')
+                .$container.find('button')
+                .clone()
+                .off()
+                .on('activate', async (ev) => {
+                    const $button = $container.find('button').filter((_, x) => $(x).data('type') === $(ev.currentTarget).data('type'));
+                    $button.trigger('activate');
+                });
+
+            const id = $wrapper.attr('id').replace(/.*fields-/, '');
+            this.buildGroupedMenu($buttonContainer, $actionButtons, $trigger, id);
+
+            $buttonContainer.appendTo($parent);
         },
 
         initDisclosureMenu(disclosureMenu) {
@@ -49,17 +74,12 @@
             if (!$trigger || !$container || !$trigger.hasClass('action-btn')) {
                 return;
             }
-            const $element = $trigger.closest('.matrixblock,.element.card,.element.chip');
+            const $element = $trigger.closest('.matrixblock');
             if (!$element.length) {
                 return;
             }
-            const {typeId} = $element.data();
-            if (!typeId) {
-                return;
-            }
-
-            const entry = $element.data('entry');
-            if (!entry) {
+            const {typeId, entry} = $element.data();
+            if (!typeId || !entry) {
                 return;
             }
 
@@ -70,6 +90,7 @@
 
             if (disclosureMenu._hasMatrixExtensionButtonsInitialized) {
                 this.checkPaste($container, typeId, entry, matrix);
+                this.checkDuplicate($container, typeId, entry, matrix);
                 return;
             }
             disclosureMenu._hasMatrixExtensionButtonsInitialized = true;
@@ -177,6 +198,7 @@
 
                 this.entryReference = data.entryReference;
                 this.checkPaste($menu, typeId, entry, matrix);
+                this.checkDuplicate($menu, typeId, entry, matrix);
                 await Craft.appendHeadHtml(data.headHtml);
                 await Craft.appendBodyHtml(data.bodyHtml);
                 this._hasMatrixExtensionButtonsInitialized
@@ -277,6 +299,7 @@
             this.addPasteButton($menu, typeId, entry, matrix);
             this.addDeleteButton($menu, typeId, entry, matrix);
             this.checkPaste($menu, typeId, entry, matrix);
+            this.checkDuplicate($menu, typeId, entry, matrix);
 
             $menu.insertBefore($container.find('ul').eq(0));
             $hr.insertAfter($menu);
@@ -324,30 +347,53 @@
             $menu.append($addBlockButton);
 
             $addBlockButton.find('button').on('click', function () {
-                $('.matrix-extended-buttons').remove();
+                const id = matrix.settings.namespace ? matrix.id.replace(`${matrix.settings.namespace}-`, '') : matrix.id;
 
-                $buttonContainer = $('<div class="buttons matrix-extended-buttons"></div>')
-                $clone = matrix.$addEntryMenuBtn.clone();
-                $clone
-                    .disclosureMenu()
-                    .data('disclosureMenu')
-                    .$container
-                    .find('button')
-                    .off()
-                    .on('activate', async (ev) => {
-                        $clone.addClass('loading');
-                        try {
-                            await matrix.addEntry($(ev.currentTarget).data('type'), entry.$container);
-                        } finally {
-                            $clone.data('trigger').hide();
-                            $buttonContainer.remove();
-                        }
-                    });
+                $('.matrix-extended-buttons-above').remove();
+                $(`#matrix-extended-menu-${id}-all`).remove();
+
+                const $buttonContainer = $('<div class="buttons matrix-extended-buttons matrix-extended-buttons-above"></div>')
+                const $actionButtons = matrix.$addEntryMenuBtn.data('disclosureMenu').$container.find('button').clone().off();
+
+                const $clone = Craft.ui
+                    .createButton({
+                        label: matrix.$addEntryMenuBtn.find('.label').text(),
+                        spinner: true,
+                    })
+                    .addClass('btn menubtn dashed add icon')
+                    .attr('aria-controls', `matrix-extended-menu-${id}-all`);
+
+                const $menuContainer = $(`<div class="menu menu--disclosure" id="matrix-extended-menu-${id}-all">`);
+                const $menu = $('<ul></ul>');
+
+                $menuContainer.append($menu);
+                $(document.body).append($menuContainer);
+                const disclosure = new Garnish.DisclosureMenu($clone);
+
+                for (const button of $actionButtons) {
+                    const $li = $(`<li></li>`);
+                    const $button = $(button);
+                    $li.append($button)
+                    $menu.append($li);
+                }
+
+                $actionButtons.on('activate', async (ev) => {
+                    $clone.addClass('loading');
+                    try {
+                        await matrix.addEntry($(ev.currentTarget).data('type'), entry.$container);
+                    } finally {
+                        disclosure.hide();
+                        $clone.remove();
+                        $menuContainer.remove();
+                        $buttonContainer.remove();
+                    }
+                });
 
                 if (_this.settings.expandMenu) {
                     const $container = $clone.data('disclosureMenu').$container;
                     const $actionButtons = $container.find('button').clone(true, true);
-                    _this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, matrix, entry);
+                    const id = matrix.settings.namespace ? matrix.id.replace(`${matrix.settings.namespace}-`, '') : matrix.id;
+                    _this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, id);
                 } else {
                     $buttonContainer.append($clone);
                 }
@@ -413,7 +459,7 @@
             });
         },
 
-        buildGroupedMenu: function ($buttonContainer, $actionButtons, $actionBtn, matrix, entry) {
+        buildGroupedMenu: function ($buttonContainer, $actionButtons, $actionBtn, id) {
             let $unused = $actionButtons;
             if (!this.settings.fields) {
                 const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
@@ -424,7 +470,6 @@
                 return;
             }
 
-            const id = matrix.settings.namespace ? matrix.id.replace(`${matrix.settings.namespace}-`, '') : matrix.id;
             if (!this.settings.fields[id]) {
                 const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
                 $unused.first().addClass('add icon');
@@ -509,10 +554,25 @@
 
             for (const button of $unused) {
                 const $li = $(`<li></li>`);
-                $li.append($(button))
+                const $button = $(button);
+                $li.append($button)
                 $menu.append($li);
-                $(button).on('activate', () => disclosure.hide())
+                $button.on('activate', () => disclosure.hide())
             }
+        },
+
+        checkDuplicate: function ($container, typeId, entry, matrix) {
+            $duplicateButton = $container.find('button[data-action="duplicate"]');
+            $duplicateButton.disable();
+            $parent = $duplicateButton.parent();
+            $parent.attr('title', '');
+
+            if (!matrix.canAddMoreEntries()) {
+                $parent.attr('title', Craft.t('matrix-extended', 'No more entries can be added.'));
+                return;
+            }
+
+            $duplicateButton.enable();
         },
 
         checkPaste: function ($container, typeId, entry, matrix) {
@@ -528,6 +588,12 @@
 
             if (!this.childParent) {
                 $parent.attr('title', Craft.t('matrix-extended', 'The copied entry is not allowed here.'));
+                return;
+            }
+
+
+            if (!matrix.canAddMoreEntries()) {
+                $parent.attr('title', Craft.t('matrix-extended', 'No more entries can be added.'));
                 return;
             }
 

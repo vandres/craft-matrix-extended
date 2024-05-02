@@ -29,6 +29,31 @@ composer require vandres/craft-matrix-extended
 ./craft plugin/install matrix-extended
 ```
 
+## Configuration
+
+You can use the settings dialog in the control panel. But I would recommend creating a `matrix-extended.php` in your config folder. 
+That is also the only way (for now), to configure the group buttons. That could look like this:
+
+```php
+return [
+    'experimentalFeatures' => true,
+    'expandMenu' => true,
+    'expandUngrouped' => false,
+    'ungroupedPosition' => 'start',
+    'fields' => [
+        'dyncontent' => [ // matrix field name
+            'groups' => [
+                [
+                    'label' => \Craft::t('app', 'Simple'),
+                    'types' => ['header', 'text'], // entry type handles
+                ],
+            ],
+        ]
+    ]
+];
+
+```
+
 ## Roadmap
 
 - ~~duplicate entries~~ (done)
@@ -37,7 +62,7 @@ composer require vandres/craft-matrix-extended
 - "Add Block Above" Neo-style (experimental, testing)
 - Allow "Add Block Above" to be expanded via settings (experimental, testing)
   - ~~show as dropdown, if space is not enough~~ (not for now)
-  - allow to group buttons (experimental, testing)
+  - allow to group buttons (experimental, in progress)
     - by config (experimental, testing)
     - ~~by settings/backend module~~ (not for now)
 - Replace "New Entry" with expanded logic (experimental, in progress)

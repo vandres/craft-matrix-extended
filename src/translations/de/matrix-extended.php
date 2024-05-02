@@ -16,6 +16,7 @@ return [
     'Displays "add block" menu as button group.' => 'Stellt das "Block oberhalb" Menü als Button-Gruppe dar.',
     'There is nothing to paste.' => 'Es wurde noch nichts kopiert.',
     'The copied entry is not allowed here.' => 'Das kopierte Element ist hier nicht erlaubt.',
+    'No more entries can be added.' => 'Die maximale Anzahl an Einträge wurde bereits erreicht.',
     'Entry reference copied' => 'Referenz kopiert',
     'There was an error copying the entry reference' => 'Beim Kopieren der Referenz ist ein Fehler aufgetreten',
     'There was an error duplicating the entry' => 'Beim Duplizieren des Elements ist ein Fehler aufgetreten',

@@ -16,6 +16,7 @@ return [
     'Displays "add block" menu as button group.' => '',
     'There is nothing to paste.' => '',
     'The copied entry is not allowed here.' => '',
+    'No more entries can be added.' => '',
     'Entry reference copied' => '',
     'There was an error copying the entry reference' => '',
     'There was an error duplicating the entry' => '',
