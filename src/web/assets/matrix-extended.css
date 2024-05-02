@@ -1,8 +1,27 @@
+.matrixblock {
+    margin: 0;
+}
+
+.matrixblock.draggee {
+    opacity: 0.5;
+}
+
 .matrix-extended-buttons {
-    margin-top: 10px;
+    margin-top: 1px;
     margin-bottom: 10px;
 }
 
 .matrix-extended-btngroup {
     flex-wrap: wrap;
+}
+
+.matrix-extended-drop-target {
+    padding: 10px;
+    border-radius: 3px;
+    margin: 3px;
+}
+
+.matrix-extended-drop-target.active {
+    background: #f3f7fc;
+    opacity: 0.9;
 }

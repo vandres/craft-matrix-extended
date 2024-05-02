@@ -62,14 +62,14 @@ return [
 - "Add Block Above" Neo-style (experimental, testing)
 - Allow "Add Block Above" to be expanded via settings (experimental, testing)
   - ~~show as dropdown, if space is not enough~~ (not for now)
-  - allow to group buttons (experimental, in progress)
+  - allow to group buttons (experimental, testing)
     - by config (experimental, testing)
     - ~~by settings/backend module~~ (not for now)
-- Replace "New Entry" with expanded logic (experimental, in progress)
-- cut and paste an entry
-  - easier than drag and drop implementation
-  - "delete" only after paste
-- drag and drop between entry types
+- Replace "New Entry" with expanded logic (experimental, testing)
+- ~~cut and paste an entry~~ (not for now)
+- drag and drop between entry types (highly experimental, in progress)
+  - let dragdrop and dragsort coexist
+  - get rid of warnings
 
 ## Support my work
 

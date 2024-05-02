@@ -6,9 +6,7 @@
     }
 
     Craft.MatrixExtended = Garnish.Base.extend({
-        settings: {},
-        childParent: {},
-        entryReference: undefined,
+        settings: {}, childParent: {}, entryReference: undefined, itemDrag: undefined,
 
         init: function (config) {
             const _this = this;
@@ -26,11 +24,96 @@
                 _this.initDisclosureMenu(this);
                 disclosureMenuShowFn.apply(this, arguments);
             };
+
             const disclosureMenuInitFn = Garnish.DisclosureMenu.prototype.init;
             Garnish.DisclosureMenu.prototype.init = function () {
                 disclosureMenuInitFn.apply(this, arguments);
                 _this.initAddButtonMenu(this);
+                _this.prepareEntryDropZones();
             };
+
+            const matrixInitFn = Craft.MatrixInput.prototype.init;
+            Craft.MatrixInput.prototype.init = function () {
+                matrixInitFn.apply(this, arguments);
+                this.entrySort.allowDragging = () => false;
+                this.entrySort.destroy();
+            };
+
+            this.itemDrag = new Garnish.DragDrop({
+                activeDropTargetClass: 'active',
+                minMouseDist: 10,
+                hideDraggee: false,
+                moveHelperToCursor: true,
+                handle: (item) => $(item).find('> .actions > .move, > .titlebar'),
+                filter: () => this.itemDrag.$targetItem.closest('.matrixblock'),
+                dropTargets: () => $('.matrix-extended-drop-target').toArray().reverse(),
+                onDragStart: () => {
+                    Garnish.$bod.addClass('dragging');
+                    this.itemDrag.$draggee.closest('.matrixblock').addClass('draggee');
+                },
+                onDragStop: () => {
+                    this.itemDrag.$draggee.closest('.matrixblock').removeClass('draggee');
+                    const $dropEntry = this.itemDrag.$draggee.data('entry').$container;
+                    const $dropTarget = this.itemDrag.$activeDropTarget;
+
+                    if (!$dropTarget || !$dropTarget) {
+                        return this.itemDrag.returnHelpersToDraggees();
+                    }
+
+                    if ($dropTarget.data('position') === 'before') {
+                        $relationEntry = $dropTarget.next('.matrixblock');
+
+                        $dropEntry.insertBefore($relationEntry);
+                    } else {
+                        $relationEntry = $dropTarget.prev('.matrixblock');
+                        $dropEntry.insertAfter($relationEntry);
+                    }
+
+                    const $pullBlock = $dropEntry.closest('.matrix-field');
+                    const $dropBlock = $dropTarget.closest('.matrix-field');
+                    if ($pullBlock.is($dropBlock)) {
+                        // only update one block
+                        $pullBlock.data('matrix').entrySelect.resetItemOrder();
+                    } else {
+                        $dropBlock.data('matrix').entrySelect.resetItemOrder();
+                        $pullBlock.data('matrix').entrySelect.resetItemOrder();
+                    }
+
+                    this.itemDrag.returnHelpersToDraggees();
+                    this.prepareEntryDropZones();
+                    Garnish.$bod.removeClass('dragging');
+                },
+            });
+        },
+
+        prepareEntryDropZones() {
+            const $fields = $('.matrix-field');
+            const $blocks = $fields.find('.matrixblock').toArray();
+            this.itemDrag.removeAllItems();
+            this.itemDrag.addItems($blocks);
+
+            $('.matrix-extended-drop-target').remove();
+            for (const block of $blocks) {
+                // TODO data allowed, position, etc.
+
+                const $block = $(block);
+                const $dropTarget = $(`<div class="matrix-extended-drop-target" data-position="after"></div>`);
+                $dropTarget.data($block.data());
+                $block.after($dropTarget);
+
+                if ($block.is(':first-child')) {
+                    const $dropTargetBefore = $(`<div class="matrix-extended-drop-target" data-position="before"></div>`);
+                    $dropTargetBefore.data($block.data());
+                    $block.before($dropTargetBefore);
+                }
+            }
+        },
+
+        _findDraggableItems: function ($items) {
+            return $($items
+                .toArray()
+                .map((item) => $(item).find('.element:first')[0])
+                .filter((item) => item && Garnish.hasAttr(item, 'data-movable')));
         },
 
         initAddButtonMenu(disclosureMenu) {
@@ -114,28 +197,21 @@
             if (matrix.elementEditor) {
                 // First ensure we're working with drafts for all elements leading up
                 // to this field’s element
-                await matrix.elementEditor.setFormValue(
-                    matrix.settings.baseInputName,
-                    '*'
-                );
+                await matrix.elementEditor.setFormValue(matrix.settings.baseInputName, '*');
             }
 
             try {
-                const {data} = await Craft.sendActionRequest(
-                    'POST',
-                    'matrix-extended/matrix-extended/paste-entry',
-                    {
-                        data: {
-                            fieldId: matrix.settings.fieldId,
-                            entryId: entry.id,
-                            entryTypeId: typeId,
-                            ownerId: matrix.settings.ownerId,
-                            ownerElementType: matrix.settings.ownerElementType,
-                            siteId: matrix.settings.siteId,
-                            namespace: matrix.settings.namespace,
-                        },
-                    }
-                );
+                const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/matrix-extended/paste-entry', {
+                    data: {
+                        fieldId: matrix.settings.fieldId,
+                        entryId: entry.id,
+                        entryTypeId: typeId,
+                        ownerId: matrix.settings.ownerId,
+                        ownerElementType: matrix.settings.ownerElementType,
+                        siteId: matrix.settings.siteId,
+                        namespace: matrix.settings.namespace,
+                    },
+                });
 
                 const $entry = $(data.blockHtml);
 
@@ -157,13 +233,9 @@
                 matrix.updateAddEntryBtn();
 
                 // Animate the entry into position
-                $entry.css(matrix.getHiddenEntryCss($entry)).velocity(
-                    {
-                        opacity: 1,
-                        'margin-bottom': 10,
-                    },
-                    'fast',
-                );
+                $entry.css(matrix.getHiddenEntryCss($entry)).velocity({
+                    opacity: 1, 'margin-bottom': 10,
+                }, 'fast',);
 
                 Garnish.requestAnimationFrame(function () {
                     // Resume the element editor
@@ -180,21 +252,17 @@
 
         copyEntry: async function ($menu, typeId, entry, matrix) {
             try {
-                const {data} = await Craft.sendActionRequest(
-                    'POST',
-                    'matrix-extended/matrix-extended/copy-entry',
-                    {
-                        data: {
-                            fieldId: matrix.settings.fieldId,
-                            entryId: entry.id,
-                            entryTypeId: typeId,
-                            ownerId: matrix.settings.ownerId,
-                            ownerElementType: matrix.settings.ownerElementType,
-                            siteId: matrix.settings.siteId,
-                            namespace: matrix.settings.namespace,
-                        },
-                    }
-                );
+                const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/matrix-extended/copy-entry', {
+                    data: {
+                        fieldId: matrix.settings.fieldId,
+                        entryId: entry.id,
+                        entryTypeId: typeId,
+                        ownerId: matrix.settings.ownerId,
+                        ownerElementType: matrix.settings.ownerElementType,
+                        siteId: matrix.settings.siteId,
+                        namespace: matrix.settings.namespace,
+                    },
+                });
 
                 this.entryReference = data.entryReference;
                 this.checkPaste($menu, typeId, entry, matrix);
@@ -226,28 +294,21 @@
             if (matrix.elementEditor) {
                 // First ensure we're working with drafts for all elements leading up
                 // to this field’s element
-                await matrix.elementEditor.setFormValue(
-                    matrix.settings.baseInputName,
-                    '*'
-                );
+                await matrix.elementEditor.setFormValue(matrix.settings.baseInputName, '*');
             }
 
             try {
-                const {data} = await Craft.sendActionRequest(
-                    'POST',
-                    'matrix-extended/matrix-extended/duplicate-entry',
-                    {
-                        data: {
-                            fieldId: matrix.settings.fieldId,
-                            entryId: entry.id,
-                            entryTypeId: typeId,
-                            ownerId: matrix.settings.ownerId,
-                            ownerElementType: matrix.settings.ownerElementType,
-                            siteId: matrix.settings.siteId,
-                            namespace: matrix.settings.namespace,
-                        },
-                    }
-                );
+                const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/matrix-extended/duplicate-entry', {
+                    data: {
+                        fieldId: matrix.settings.fieldId,
+                        entryId: entry.id,
+                        entryTypeId: typeId,
+                        ownerId: matrix.settings.ownerId,
+                        ownerElementType: matrix.settings.ownerElementType,
+                        siteId: matrix.settings.siteId,
+                        namespace: matrix.settings.namespace,
+                    },
+                });
 
                 const $entry = $(data.blockHtml);
 
@@ -269,13 +330,9 @@
                 matrix.updateAddEntryBtn();
 
                 // Animate the entry into position
-                $entry.css(matrix.getHiddenEntryCss($entry)).velocity(
-                    {
-                        opacity: 1,
-                        'margin-bottom': 10,
-                    },
-                    'fast',
-                );
+                $entry.css(matrix.getHiddenEntryCss($entry)).velocity({
+                    opacity: 1, 'margin-bottom': 10,
+                }, 'fast',);
 
                 Garnish.requestAnimationFrame(function () {
                     // Resume the element editor
@@ -357,8 +414,7 @@
 
                 const $clone = Craft.ui
                     .createButton({
-                        label: matrix.$addEntryMenuBtn.find('.label').text(),
-                        spinner: true,
+                        label: matrix.$addEntryMenuBtn.find('.label').text(), spinner: true,
                     })
                     .addClass('btn menubtn dashed add icon')
                     .attr('aria-controls', `matrix-extended-menu-${id}-all`);
@@ -486,8 +542,7 @@
 
                 const $groupedMenuButton = Craft.ui
                     .createButton({
-                        label: group.label,
-                        spinner: true,
+                        label: group.label, spinner: true,
                     })
                     .addClass('btn menubtn dashed add icon')
                     .attr('aria-controls', `matrix-extended-menu-${id}-${index}`)
@@ -532,8 +587,7 @@
 
             const $groupedMenuButton = Craft.ui
                 .createButton({
-                    label: $actionBtn.find('.label').text(),
-                    spinner: true,
+                    label: $actionBtn.find('.label').text(), spinner: true,
                 })
                 .addClass('btn menubtn dashed add icon')
                 .attr('aria-controls', `matrix-extended-menu-${id}-others`);
