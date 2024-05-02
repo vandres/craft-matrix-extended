@@ -3,17 +3,37 @@
 {% import '_includes/forms.twig' as forms %}
 
 {{ forms.lightswitchField({
- label:        'Enable experimental features'|t('matrix-extended'),
- name:         'experimentalFeatures',
- id:           'experimentalFeatures',
- instructions: 'Use experimental features right now. But they might not be for normal editorial users.'|t('matrix-extended'),
- on:           settings.experimentalFeatures,
+    label:        'Enable experimental features'|t('matrix-extended'),
+    name:         'experimentalFeatures',
+    id:           'experimentalFeatures',
+    instructions: 'Use experimental features right now. But they might not be for normal editorial users.'|t('matrix-extended'),
+    on:           settings.experimentalFeatures,
 }) }}
 
 {{ forms.lightswitchField({
- label:        'Expand menu'|t('matrix-extended'),
- name:         'expandMenu',
- id:           'expandMenu',
- instructions: 'Displays "add block" menu as button group.'|t('matrix-extended'),
- on:           settings.expandMenu,
+    label:        'Expand menu'|t('matrix-extended'),
+    name:         'expandMenu',
+    id:           'expandMenu',
+    instructions: 'Displays "add block" menu as button group.'|t('matrix-extended'),
+    on:           settings.expandMenu,
+}) }}
+
+{{ forms.lightswitchField({
+    label:        'Expand ungrouped'|t('matrix-extended'),
+    name:         'expandUngrouped',
+    id:           'expandUngrouped',
+    instructions: 'Expands ungrouped elements, instead of grouping them under "New Entry".'|t('matrix-extended'),
+    on:           settings.expandUngrouped,
+}) }}
+
+{{ forms.selectField({
+    label: "Ungrouped position"|t('matrix-extended'),
+    name: 'ungroupedPosition',
+    id: 'ungroupedPosition',
+    instructions: "Where to position the ungrouped elements?"|t('matrix-extended'),
+    options: [
+        {value: 'start', label: 'Start'|t('matrix-extended')},
+        {value: 'end', label: 'End'|t('matrix-extended')},
+    ],
+    value: settings.ungroupedPosition
 }) }}

@@ -35,11 +35,12 @@ composer require vandres/craft-matrix-extended
 - copy and paste an entry to another position in the same or another entry type (experimental, testing)
 - copy and paste an entry to another section (experimental, testing)
 - "Add Block Above" Neo-style (experimental, testing)
-- Allow "Add Block Above" to be expanded via settings (experimental, in progress)
-  - show as dropdown, if space is not enough 
-  - allow to group buttons
-    - by config
-    - by settings/backend module
+- Allow "Add Block Above" to be expanded via settings (experimental, testing)
+  - ~~show as dropdown, if space is not enough~~ (not for now)
+  - allow to group buttons (experimental, testing)
+    - by config (experimental, testing)
+    - ~~by settings/backend module~~ (not for now)
+- Replace "New Entry" with expanded logic (experimental, in progress)
 - cut and paste an entry
   - easier than drag and drop implementation
   - "delete" only after paste

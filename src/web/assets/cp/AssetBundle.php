@@ -32,6 +32,12 @@ class AssetBundle extends BaseAssetBundle
                 'Copy',
                 'Paste',
                 'Delete',
+                'Start',
+                'End',
+                'Ungrouped position',
+                'Where to position the ungrouped elements?',
+                'Expand ungrouped',
+                'Expands ungrouped elements, instead of grouping them under "New Entry".',
                 'Expand menu',
                 'Displays "add block" menu as button group.',
                 'Entry reference copied',
@@ -52,8 +58,8 @@ class AssetBundle extends BaseAssetBundle
         $config = Json::encode($data);
 
         $js = <<<JS
-            if (window.Craft.MatrixExtension) {
-                new window.Craft.MatrixExtension($config);
+            if (window.Craft.MatrixExtended) {
+                new window.Craft.MatrixExtended($config);
             }
         JS;
         $view->registerJs($js, View::POS_END);

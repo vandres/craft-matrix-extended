@@ -10,10 +10,17 @@ class Settings extends Model
 
     public bool $expandMenu = false;
 
+    public bool $expandUngrouped = false;
+
+    public string $ungroupedPosition = 'start';
+
+    public array $fields = [];
+
     public function defineRules(): array
     {
         return [
-            [['experimentalFeatures', 'expandMenu'], 'boolean'],
+            [['experimentalFeatures', 'expandMenu', 'expandUngrouped'], 'boolean'],
+            [['ungroupedPosition'], 'in', 'range' => ['start', 'end']],
         ];
     }
 }

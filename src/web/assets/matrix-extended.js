@@ -5,7 +5,7 @@
         return;
     }
 
-    Craft.MatrixExtension = Garnish.Base.extend({
+    Craft.MatrixExtended = Garnish.Base.extend({
         settings: {},
         childParent: {},
         entryReference: undefined,
@@ -26,6 +26,22 @@
                 _this.initDisclosureMenu(this);
                 disclosureMenuShowFn.apply(this, arguments);
             };
+
+            // TODO also show expanded menu instead of "New Entry"
+            // if (this.settings.experimentalFeatures && this.settings.expandMenu) {
+            //     const {$trigger, $container} = this;
+            //     if (!$trigger || !$container || !$trigger.hasClass('action-btn')) {
+            //         return;
+            //     }
+            //     const $element = $trigger.closest('.matrixblock,.element.card,.element.chip');
+            //     if (!$element.length) {
+            //         return;
+            //     }
+            //
+            //     const $container = $clone.data('disclosureMenu').$container;
+            //     const $actionButtons = $container.find('button').clone(true, true);
+            //     this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, matrix, entry);
+            // }
         },
 
         initDisclosureMenu(disclosureMenu) {
@@ -292,7 +308,7 @@
                 return;
             }
 
-            if (!matrix.$addEntryMenuBtn) {
+            if (!matrix.$addEntryMenuBtn.length) {
                 return;
             }
 
@@ -330,12 +346,8 @@
 
                 if (_this.settings.expandMenu) {
                     const $container = $clone.data('disclosureMenu').$container;
-                    const $actionButtons = $container.find('button');
-                    $actionButtons.first().addClass('add icon');
-                    $actionButtons.addClass('btn dashed');
-                    const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
-                    $actionButtonContainer.append($actionButtons);
-                    $buttonContainer.append($actionButtonContainer);
+                    const $actionButtons = $container.find('button').clone(true, true);
+                    _this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, matrix, entry);
                 } else {
                     $buttonContainer.append($clone);
                 }
@@ -399,6 +411,108 @@
                 entry.selfDestruct();
                 entry.actionDisclosure.hide();
             });
+        },
+
+        buildGroupedMenu: function ($buttonContainer, $actionButtons, $actionBtn, matrix, entry) {
+            let $unused = $actionButtons;
+            if (!this.settings.fields) {
+                const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
+                $unused.first().addClass('add icon');
+                $unused.addClass('btn dashed');
+                $actionButtonContainer.append($unused);
+                $buttonContainer.append($actionButtonContainer)
+                return;
+            }
+
+            const id = matrix.settings.namespace ? matrix.id.replace(`${matrix.settings.namespace}-`, '') : matrix.id;
+            if (!this.settings.fields[id]) {
+                const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
+                $unused.first().addClass('add icon');
+                $unused.addClass('btn dashed');
+                $actionButtonContainer.append($unused);
+                $buttonContainer.append($actionButtonContainer)
+                return;
+            }
+
+            const fieldGroup = this.settings.fields[id];
+            for (const [index, group] of Object.entries(fieldGroup.groups)) {
+                if ($(`matrix-extended-menu-${id}-${index}`).length) {
+                    continue;
+                }
+
+                const $groupedMenuButton = Craft.ui
+                    .createButton({
+                        label: group.label,
+                        spinner: true,
+                    })
+                    .addClass('btn menubtn dashed add icon')
+                    .attr('aria-controls', `matrix-extended-menu-${id}-${index}`)
+                    .appendTo($buttonContainer);
+                const $menuContainer = $(`<div class="menu menu--disclosure" id="matrix-extended-menu-${id}-${index}">`);
+                const $menu = $('<ul></ul>');
+
+                $menuContainer.append($menu);
+                $(document.body).append($menuContainer);
+                const disclosure = new Garnish.DisclosureMenu($groupedMenuButton);
+
+                for (const type of group.types) {
+                    const $li = $(`<li></li>`);
+                    const $button = $actionButtons.filter((_, x) => $(x).data('type') === type);
+                    $unused = $unused.filter((_, x) => $(x).data('type') !== type);
+                    if (!$button.length) {
+                        console.warn(`Type ${type} not found in group ${id}`)
+                        continue;
+                    }
+                    $li.append($button)
+                    $menu.append($li);
+                    $button.on('activate', () => disclosure.hide())
+                }
+            }
+
+            if (!$unused.length) {
+                return;
+            }
+
+            if (this.settings.expandUngrouped) {
+                const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
+                $unused.first().addClass('add icon');
+                $unused.addClass('btn dashed');
+                $actionButtonContainer.append($unused);
+                if (this.settings.ungroupedPosition === 'end') {
+                    $buttonContainer.append($actionButtonContainer)
+                } else {
+                    $buttonContainer.prepend($actionButtonContainer)
+                }
+                return;
+            }
+
+            const $groupedMenuButton = Craft.ui
+                .createButton({
+                    label: $actionBtn.find('.label').text(),
+                    spinner: true,
+                })
+                .addClass('btn menubtn dashed add icon')
+                .attr('aria-controls', `matrix-extended-menu-${id}-others`);
+
+            if (this.settings.ungroupedPosition === 'end') {
+                $groupedMenuButton.appendTo($buttonContainer);
+            } else {
+                $groupedMenuButton.prependTo($buttonContainer);
+            }
+
+            const $menuContainer = $(`<div class="menu menu--disclosure" id="matrix-extended-menu-${id}-others">`);
+            const $menu = $('<ul></ul>');
+
+            $menuContainer.append($menu);
+            $(document.body).append($menuContainer);
+            const disclosure = new Garnish.DisclosureMenu($groupedMenuButton);
+
+            for (const button of $unused) {
+                const $li = $(`<li></li>`);
+                $li.append($(button))
+                $menu.append($li);
+                $(button).on('activate', () => disclosure.hide())
+            }
         },
 
         checkPaste: function ($container, typeId, entry, matrix) {
