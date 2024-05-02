@@ -1,7 +1,7 @@
 {
   "name": "craft-matrix-extended",
   "description": "Adds functionality to the native Matrix field type",
-  "version": "1.5.1",
+  "version": "2.0.0",
   "scripts": {
     "release": "standard-version",
     "release:minor": "standard-version -a --release-as minor",

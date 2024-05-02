@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/vandres/craft-matrix-extended/compare/v2.0.0...v1.5.1) (2024-05-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* **add:** renamed Craft.MatrixExtension to Craft.MatrixExtended in JS
+
+### Features
+
+* **add:** allow to group also in default button ([3d6dd3b](https://github.com/vandres/craft-matrix-extended/commit/3d6dd3b57849348d43a8a413a8294a4e93e3008e))
+* **add:** allow to group blocks ([3b0773d](https://github.com/vandres/craft-matrix-extended/commit/3b0773d4bd4271dec825d32bdadf29b7a990cd50))
+* **add:** allow to group blocks ([f47c205](https://github.com/vandres/craft-matrix-extended/commit/f47c205726b990cec5c953ab489ce185f3b2ceec))
+
 ### [1.5.1](https://github.com/vandres/craft-matrix-extended/compare/v1.5.1...v1.5.0) (2024-05-01)
 
 
