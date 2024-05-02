@@ -7,6 +7,8 @@ return [
     'Delete' => '',
     'Start' => '',
     'End' => '',
+    'Enable drag and drop' => '',
+    'Enable drag and drop support, even allowing dragging between matrix fields.' => '',
     'Ungrouped position' => '',
     'Where to position the ungrouped elements?' => '',
     'Expand ungrouped' => '',

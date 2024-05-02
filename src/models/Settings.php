@@ -8,6 +8,8 @@ class Settings extends Model
 {
     public bool $experimentalFeatures = false;
 
+    public bool $enableDragDrop = false;
+
     public bool $expandMenu = false;
 
     public bool $expandUngrouped = false;
@@ -19,7 +21,7 @@ class Settings extends Model
     public function defineRules(): array
     {
         return [
-            [['experimentalFeatures', 'expandMenu', 'expandUngrouped'], 'boolean'],
+            [['experimentalFeatures', 'expandMenu', 'expandUngrouped', 'enableDragDrop'], 'boolean'],
             [['ungroupedPosition'], 'in', 'range' => ['start', 'end']],
         ];
     }

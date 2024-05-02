@@ -32,6 +32,10 @@
                 _this.prepareEntryDropZones();
             };
 
+            if (!this.settings.experimentalFeatures || !this.settings.enableDragDrop) {
+                return;
+            }
+
             const matrixInitFn = Craft.MatrixInput.prototype.init;
             Craft.MatrixInput.prototype.init = function () {
                 matrixInitFn.apply(this, arguments);
@@ -75,21 +79,24 @@
                     Garnish.$bod.addClass('dragging');
                     this.itemDrag.$draggee.closest('.matrixblock').addClass('draggee');
                 },
+                // TODO fix: drag drop into other fields works, but doesn't persist
                 onDragStop: () => {
                     this.itemDrag.$draggee.closest('.matrixblock').removeClass('draggee');
                     const $dropEntry = this.itemDrag.$draggee.data('entry').$container;
                     const $dropTarget = this.itemDrag.$activeDropTarget;
 
-                    if (!$dropTarget || !$dropTarget) {
+                    if (!$dropEntry || !$dropTarget) {
                         return this.itemDrag.returnHelpersToDraggees();
                     }
 
-                    if ($dropTarget.data('position') === 'before') {
-                        $relationEntry = $dropTarget.next('.matrixblock');
-                        $dropEntry.insertBefore($relationEntry);
+                    console.log($dropEntry.data('entry'));
+
+                    if ($dropTarget.data('position') === 'button') {
+                        const $relationEntry = $dropTarget.closest('.matrix-field').find('> .blocks');
+                        $dropEntry.appendTo($relationEntry);
                     } else {
-                        $relationEntry = $dropTarget.prev('.matrixblock');
-                        $dropEntry.insertAfter($relationEntry);
+                        const $relationEntry = $dropTarget.next('.matrixblock');
+                        $dropEntry.insertBefore($relationEntry);
                     }
 
                     const $pullBlock = $dropEntry.closest('.matrix-field');
@@ -110,7 +117,7 @@
         },
 
         prepareEntryDropZones() {
-            if (!this.settings.experimentalFeatures) {
+            if (!this.settings.experimentalFeatures || !this.settings.enableDragDrop) {
                 return;
             }
 
@@ -133,21 +140,29 @@
 
                 $entryTypeId = matrix.settings.fieldId;
 
-                const $dropTarget = $(`<div class="matrix-extended-drop-target" data-position="after"><div></div></div>`);
-                $dropTarget.data($block.data());
-                $dropTarget.data('entryTypeId', $entryTypeId);
-                $block.after($dropTarget);
+                const $dropTargetBefore = $(`<div class="matrix-extended-drop-target" data-position="block"><div></div></div>`);
+                $dropTargetBefore.data($block.data());
+                $dropTargetBefore.data('entryTypeId', $entryTypeId);
+                $block.before($dropTargetBefore);
+            }
 
-                if ($block.is(':first-child')) {
-                    const $dropTargetBefore = $(`<div class="matrix-extended-drop-target" data-position="before"><div></div></div>`);
-                    $dropTargetBefore.data($block.data());
-                    $dropTargetBefore.data('entryTypeId', $entryTypeId);
-                    $block.before($dropTargetBefore);
+            const $buttons = $fields.find('> .buttons');
+            for (const button of $buttons) {
+                const $button = $(button);
+
+                const matrix = $button.closest('.matrix-field').data('matrix');
+                if (!matrix) {
+                    continue;
                 }
+
+                const $dropTargetButton = $(`<div class="matrix-extended-drop-target" data-position="button"><div></div></div>`);
+                $dropTargetButton.data('entryTypeId', matrix.settings.fieldId);
+                $dropTargetButton.insertBefore($button);
             }
 
             this.itemDrag.removeAllItems();
             this.itemDrag.addItems($blocks);
+            Garnish.$bod.addClass('matrix-extended-drag-drop');
         },
 
         initAddButtonMenu(disclosureMenu) {

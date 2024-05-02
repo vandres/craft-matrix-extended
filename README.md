@@ -37,6 +37,7 @@ That is also the only way (for now), to configure the group buttons. That could 
 ```php
 return [
     'experimentalFeatures' => true,
+    'enableDragDrop' => false,
     'expandMenu' => true,
     'expandUngrouped' => false,
     'ungroupedPosition' => 'start',
@@ -69,7 +70,7 @@ return [
 - ~~cut and paste an entry~~ (not for now)
 - drag and drop between entry types (highly experimental, in progress)
   - drag and drop multiple
-  - drag and drop into "empty" matrix
+  - ~~drag and drop into "empty" matrix~~ (highly experimental, testing)
   - respect `canAddMoreEntries`
   - let dragdrop and dragsort coexist
   - get rid of warnings

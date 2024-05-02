@@ -11,6 +11,14 @@
 }) }}
 
 {{ forms.lightswitchField({
+    label:        'Enable drag and drop'|t('matrix-extended'),
+    name:         'enableDragDrop',
+    id:           'enableDragDrop',
+    instructions: 'Enable drag and drop support, even allowing dragging between matrix fields.'|t('matrix-extended'),
+    on:           settings.enableDragDrop,
+}) }}
+
+{{ forms.lightswitchField({
     label:        'Expand menu'|t('matrix-extended'),
     name:         'expandMenu',
     id:           'expandMenu',

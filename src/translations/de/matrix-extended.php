@@ -7,6 +7,8 @@ return [
     'Delete' => 'Löschen',
     'Start' => 'Am Anfang',
     'End' => 'Am Ende',
+    'Enable drag and drop' => 'Aktivieren von Drag & Drop',
+    'Enable drag and drop support, even allowing dragging between matrix fields.' => 'Aktiviert die Unterstützung von Drag & Drop, sogar zwischen Matrixfeldern.',
     'Ungrouped position' => 'Position der nicht-gruppierten Blöcke',
     'Where to position the ungrouped elements?' => 'Wo werden die nicht-gruppierten Blöcke aufgelöst?',
     'Expand ungrouped' => 'Nicht-gruppierte Blöcke auflösen',
