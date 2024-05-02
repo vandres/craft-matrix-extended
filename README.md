@@ -41,7 +41,7 @@ return [
     'expandUngrouped' => false,
     'ungroupedPosition' => 'start',
     'fields' => [
-        'dyncontent' => [ // matrix field name
+        'dyncontent' => [ // matrix field handle
             'groups' => [
                 [
                     'label' => \Craft::t('app', 'Simple'),

@@ -347,7 +347,7 @@
             $menu.append($addBlockButton);
 
             $addBlockButton.find('button').on('click', function () {
-                const id = matrix.settings.namespace ? matrix.id.replace(`${matrix.settings.namespace}-`, '') : matrix.id;
+                const id = matrix.settings.namespace ? matrix.id.replace(/.*fields-/, '') : matrix.id;
 
                 $('.matrix-extended-buttons-above').remove();
                 $(`#matrix-extended-menu-${id}-all`).remove();
@@ -392,7 +392,6 @@
                 if (_this.settings.expandMenu) {
                     const $container = $clone.data('disclosureMenu').$container;
                     const $actionButtons = $container.find('button').clone(true, true);
-                    const id = matrix.settings.namespace ? matrix.id.replace(`${matrix.settings.namespace}-`, '') : matrix.id;
                     _this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, id);
                 } else {
                     $buttonContainer.append($clone);
