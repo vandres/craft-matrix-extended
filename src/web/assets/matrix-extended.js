@@ -78,18 +78,23 @@
                 onDragStart: () => {
                     Garnish.$bod.addClass('dragging');
                     this.itemDrag.$draggee.closest('.matrixblock').addClass('draggee');
+                    this.$dropEntry = this.itemDrag.$draggee.data('entry').$container;
+                    this.$pullBlock = this.$dropEntry.closest('.matrix-field');
                 },
-                // TODO fix: drag drop into other fields works, but doesn't persist
+                // TODO fix: drag drop into other fields works in frontend, but doesn't persist
+                // maybe owner change is enough with `matrix.updateFieldLayout`
+                // maybe clone & delete is needed
                 onDragStop: () => {
                     this.itemDrag.$draggee.closest('.matrixblock').removeClass('draggee');
-                    const $dropEntry = this.itemDrag.$draggee.data('entry').$container;
+                    if (!this.$dropEntry || !this.$pullBlock) {
+                        return this.itemDrag.returnHelpersToDraggees();
+                    }
+                    const $dropEntry = this.$dropEntry;
                     const $dropTarget = this.itemDrag.$activeDropTarget;
 
                     if (!$dropEntry || !$dropTarget) {
                         return this.itemDrag.returnHelpersToDraggees();
                     }
-
-                    console.log($dropEntry.data('entry'));
 
                     if ($dropTarget.data('position') === 'button') {
                         const $relationEntry = $dropTarget.closest('.matrix-field').find('> .blocks');
@@ -99,7 +104,7 @@
                         $dropEntry.insertBefore($relationEntry);
                     }
 
-                    const $pullBlock = $dropEntry.closest('.matrix-field');
+                    const $pullBlock = this.$pullBlock;
                     const $dropBlock = $dropTarget.closest('.matrix-field');
                     if ($pullBlock.is($dropBlock)) {
                         // only update one block
@@ -112,6 +117,8 @@
                     this.itemDrag.returnHelpersToDraggees();
                     this.prepareEntryDropZones();
                     Garnish.$bod.removeClass('dragging');
+                    this.$dropEntry = undefined;
+                    this.$pullBlock = undefined;
                 },
             });
         },
