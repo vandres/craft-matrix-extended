@@ -1,91 +1,84 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## [v2.1.0]
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+- docs(changelog): updated to "Keep a Changelog" format [`9c9f005`](https://github.com/vandres/craft-matrix-extended/commit/9c9f005b103a8a47e221ccfe90aedd6735165319)
+- feat(dragdrop): first implementation of dragdrop [`0b1dba3`](https://github.com/vandres/craft-matrix-extended/commit/0b1dba31a5d5d06810c260cc34fd7d2e6ecad592)
+- feat(dragdrop): added permission check [`d14a094`](https://github.com/vandres/craft-matrix-extended/commit/d14a094851c3761034458c18a1179b2891136b29)
 
-## [Unreleased]
+## [v2.0.1] - 2024-05-02
 
-## [2.0.1] - 2024-05-02
+- chore(release): 2.0.1 [`84040d8`](https://github.com/vandres/craft-matrix-extended/commit/84040d891d2c760db863a24ac16ca08715a8db5b)
+- fix(add): nested fields didn't get grouped [`e059300`](https://github.com/vandres/craft-matrix-extended/commit/e05930050980133b2d52960cbaaab25ccb2e1007)
 
+## [v2.0.0] - 2024-05-02
 
-### Bug Fixes
+- feat(add): allow to group blocks [`f47c205`](https://github.com/vandres/craft-matrix-extended/commit/f47c205726b990cec5c953ab489ce185f3b2ceec)
+- feat(add): allow to group also in default button [`3d6dd3b`](https://github.com/vandres/craft-matrix-extended/commit/3d6dd3b57849348d43a8a413a8294a4e93e3008e)
+- chore(release): 2.0.0 [`45a6282`](https://github.com/vandres/craft-matrix-extended/commit/45a6282ee229862da6082a1f7e48de3903b8ca99)
 
-* **add:** nested fields didn't get grouped ([e059300](https://github.com/vandres/craft-matrix-extended/commit/e05930050980133b2d52960cbaaab25ccb2e1007))
+## [v1.5.1] - 2024-05-01
 
-## [2.0.0] - 2024-05-02
+- docs(add): updated roadmap [`8af7774`](https://github.com/vandres/craft-matrix-extended/commit/8af7774140d7da01e7482539e4fc4df7956b8b56)
+- chore(release): 1.5.1 [`d7bd755`](https://github.com/vandres/craft-matrix-extended/commit/d7bd755d98c1969957a0aee2146fd898227d1f93)
+- fix(add): first button gets add icon [`1608af5`](https://github.com/vandres/craft-matrix-extended/commit/1608af54f57807b98284f6b1900debb34510c285)
 
+## [v1.5.0] - 2024-05-01
 
-### ⚠ BREAKING CHANGES
+- feat(add): allow to show menu as button group [`9743b37`](https://github.com/vandres/craft-matrix-extended/commit/9743b374d49bca3fcee6a77f22efbb6655323ed9)
+- chore(release): 1.5.0 [`6a84656`](https://github.com/vandres/craft-matrix-extended/commit/6a8465622d8d8705a6ec837adfdeda661df53fb7)
 
-* **add:** renamed Craft.MatrixExtension to Craft.MatrixExtended in JS
+## [v1.4.1] - 2024-05-01
 
-### Features
+- fix(changelog): fixed changelog [`4189e08`](https://github.com/vandres/craft-matrix-extended/commit/4189e088d5264b5f2121eb605976e53727b7ab46)
+- chore(release): 1.4.0 [`aabfa57`](https://github.com/vandres/craft-matrix-extended/commit/aabfa57f8e7cc6ea45b1c09bfd57093b155a8e9a)
 
-* **add:** allow to group also in default button ([3d6dd3b](https://github.com/vandres/craft-matrix-extended/commit/3d6dd3b57849348d43a8a413a8294a4e93e3008e))
-* **add:** allow to group blocks ([3b0773d](https://github.com/vandres/craft-matrix-extended/commit/3b0773d4bd4271dec825d32bdadf29b7a990cd50))
-* **add:** allow to group blocks ([f47c205](https://github.com/vandres/craft-matrix-extended/commit/f47c205726b990cec5c953ab489ce185f3b2ceec))
+## [v1.4.0] - 2024-05-01
 
-## [1.5.1] - 2024-05-01
+- feat(add): added experimental function "add block above" [`8601ccc`](https://github.com/vandres/craft-matrix-extended/commit/8601ccca0c1836834cdfda8e4c7aff6be46061da)
+- docs(cut): changed roadmap [`ea8d817`](https://github.com/vandres/craft-matrix-extended/commit/ea8d81791fda0da23c40ac321ba2f51c5d391d3e)
+- chore(release): 1.4.0 [`cd16af7`](https://github.com/vandres/craft-matrix-extended/commit/cd16af7362c5ddef6c425983e20a38272651baa8)
 
+## [v1.3.0] - 2024-04-30
 
-### Bug Fixes
+- feat(copy): added check field relations (which entry type is allowed where) [`e55041e`](https://github.com/vandres/craft-matrix-extended/commit/e55041e9c47e9516d945e39e51c90618d36825ac)
+- chore(release): 1.3.0 [`40c0a28`](https://github.com/vandres/craft-matrix-extended/commit/40c0a281cb47339ba6a6f2ee88969c8732da861b)
 
-* **add:** first button gets add icon ([1608af5](https://github.com/vandres/craft-matrix-extended/commit/1608af54f57807b98284f6b1900debb34510c285))
+## [v1.2.0] - 2024-04-29
 
-## [1.5.0] - 2024-05-01
+- feat(copy): hide experimental features behind a setting [`dbebeda`](https://github.com/vandres/craft-matrix-extended/commit/dbebeda887bfa601af47ccdf0d2b746c5bfe561f)
+- chore(release): 1.2.0 [`dc1b7b1`](https://github.com/vandres/craft-matrix-extended/commit/dc1b7b1709722243a01a26b2ece407934e42bd1e)
 
+## [v1.1.1] - 2024-04-29
 
-### Features
+- docs(copy): updated readme [`3b1f1d6`](https://github.com/vandres/craft-matrix-extended/commit/3b1f1d66a6511b6d07846f2ce17349be91a429db)
+- chore(release): 1.1.1 [`ca61e53`](https://github.com/vandres/craft-matrix-extended/commit/ca61e530c7537d5d207035be7500584ea1488f69)
 
-* **add:** allow to show menu as button group ([9743b37](https://github.com/vandres/craft-matrix-extended/commit/9743b374d49bca3fcee6a77f22efbb6655323ed9))
+## [v1.1.0] - 2024-04-29
 
-## [1.4.1] - 2024-05-01
+- feat(copy): experimental implementation of the copy and paste functionality [`b8a41fd`](https://github.com/vandres/craft-matrix-extended/commit/b8a41fd81c003ba89e9daa7ccd055d7ee6e9c108)
+- chore(release): 1.1.0 [`8ceee05`](https://github.com/vandres/craft-matrix-extended/commit/8ceee059b1a16709b48151e5213381713e66cc22)
 
-### Bug Fixes
+## [v1.0.2] - 2024-04-29
 
-* **changelog**: fixed changelog urls
+- chore(backend): updated tooling [`3a44587`](https://github.com/vandres/craft-matrix-extended/commit/3a44587a85ed35cdb665d4d48249463992e26e35)
+- chore(release): 1.0.2 [`cbcc8f2`](https://github.com/vandres/craft-matrix-extended/commit/cbcc8f26acc178f860d2eb00104868ff33e90fe8)
 
+## v1.0.1 - 2024-04-29
 
-## [1.4.0] - 2024-05-01
+- initial commit [`ca7df0a`](https://github.com/vandres/craft-matrix-extended/commit/ca7df0ae9a845bf43eb593645293190638533fd9)
+- chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
+- docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
-
-### Features
-
-* **add:** added experimental function "add block above" ([8601ccc](https://github.com/vandres/craft-matrix-extended/commit/8601ccca0c1836834cdfda8e4c7aff6be46061da))
-
-## [1.3.0] - 2024-04-30
-
-
-### Features
-
-* **copy:** added check field relations (which entry type is allowed where) ([e55041e](https://github.com/vandres/craft-matrix-extended/commit/e55041e9c47e9516d945e39e51c90618d36825ac))
-
-## [1.2.0] - 2024-04-29
-
-
-### Features
-
-* **copy:** hide experimental features behind a setting ([dbebeda](https://github.com/vandres/craft-matrix-extended/commit/dbebeda887bfa601af47ccdf0d2b746c5bfe561f))
-
-## [1.1.1] - 2024-04-29
-
-
-### Features
-
-* **copy:** experimental implementation of the copy and paste functionality ([b8a41fd](https://github.com/vandres/craft-matrix-extended/commit/b8a41fd81c003ba89e9daa7ccd055d7ee6e9c108))
-* **duplicate:**  implementation of the duplicate functionality
-
-[2.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.0.1...v2.1.0
-[2.0.1]: https://github.com/vandres/craft-matrix-extended/compare/v2.0.1...v2.0.0
-[2.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.0.0...v1.5.1
-[1.5.1]: https://github.com/vandres/craft-matrix-extended/compare/v1.5.1...v1.5.0
-[1.5.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.5.0...v1.4.1
-[1.4.1]: https://github.com/vandres/craft-matrix-extended/compare/v1.4.1...v1.4.0
-[1.4.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.3.0...v1.4.0
-[1.3.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.2.0...v1.3.0
-[1.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.1.1...v1.2.0
-[1.1.1]: https://github.com/vandres/craft-matrix-extended/compare/v1.1.0...v1.1.1
-
-[unreleased]: https://github.com/vandres/craft-matrix-extended/compare/v2.1.0...HEAD
+[v2.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.0.1...v2.1.0
+[v2.0.1]: https://github.com/vandres/craft-matrix-extended/compare/v2.0.0...v2.0.1
+[v2.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.5.1...v2.0.0
+[v1.5.1]: https://github.com/vandres/craft-matrix-extended/compare/v1.5.0...v1.5.1
+[v1.5.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.4.1...v1.5.0
+[v1.4.1]: https://github.com/vandres/craft-matrix-extended/compare/v1.4.0...v1.4.1
+[v1.4.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.3.0...v1.4.0
+[v1.3.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.2.0...v1.3.0
+[v1.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.1.1...v1.2.0
+[v1.1.1]: https://github.com/vandres/craft-matrix-extended/compare/v1.1.0...v1.1.1
+[v1.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.0.2...v1.1.0
+[v1.0.2]: https://github.com/vandres/craft-matrix-extended/compare/v1.0.1...v1.0.2
