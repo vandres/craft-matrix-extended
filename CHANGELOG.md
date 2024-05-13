@@ -1,12 +1,16 @@
 # Changelog
 
+## [v2.2.0]
+
+- feat(dragdrop): feature now fully working [`88403ea`](https://github.com/vandres/craft-matrix-extended/commit/88403ead8cc5d7eae41aa3cd81e50ce840aabadd)
+- docs(changelog): updated to "Keep a Changelog" format [`03cc0bd`](https://github.com/vandres/craft-matrix-extended/commit/03cc0bd71c1deb4bddf8d85980010775a82f9cc5)
+- docs(changelog): updated to "Keep a Changelog" format [`ef7c166`](https://github.com/vandres/craft-matrix-extended/commit/ef7c166fd8b7eb9b7a41ac97b7f3798b5732101f)
+
 ## [v2.1.0] - 2024-05-03
 
 - docs(changelog): updated to "Keep a Changelog" format [`9c9f005`](https://github.com/vandres/craft-matrix-extended/commit/9c9f005b103a8a47e221ccfe90aedd6735165319)
 - feat(dragdrop): first implementation of dragdrop [`0b1dba3`](https://github.com/vandres/craft-matrix-extended/commit/0b1dba31a5d5d06810c260cc34fd7d2e6ecad592)
-- feat(dragdrop): added permission check [`d14a094`](https://github.com/vandres/craft-matrix-extended/commit/d14a094851c3761034458c18a1179b2891136b29)
-- feat(dragdrop): hide feature behind setting [`9e0a26d`](https://github.com/vandres/craft-matrix-extended/commit/9e0a26d0f02ac2b3c482801e6c143e34b956a9be)
-- fix(dragdrop): drag and drop field were always the same [`f55bc9d`](https://github.com/vandres/craft-matrix-extended/commit/f55bc9dc5795a6e8871a3fd1b25c2ef5f283e284)
+- Release 2.1.0 [`b6db176`](https://github.com/vandres/craft-matrix-extended/commit/b6db1768e59a9d777b39f7e366a81b09f8a9fdb2)
 
 ## [v2.0.1] - 2024-05-02
 
@@ -72,6 +76,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v2.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.1.0...v2.2.0
 [v2.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.0.1...v2.1.0
 [v2.0.1]: https://github.com/vandres/craft-matrix-extended/compare/v2.0.0...v2.0.1
 [v2.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v1.5.1...v2.0.0
