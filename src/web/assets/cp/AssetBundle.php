@@ -47,6 +47,7 @@ class AssetBundle extends BaseAssetBundle
                 'There was an error copying the entry reference',
                 'There was an error duplicating the entry',
                 'There was an error pasting the entry',
+                'There was an error dropping the entry',
                 'Add block above',
                 'There is nothing to paste.',
                 'The copied entry is not allowed here.',

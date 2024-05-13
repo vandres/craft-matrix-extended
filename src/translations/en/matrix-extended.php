@@ -23,6 +23,7 @@ return [
     'There was an error copying the entry reference' => '',
     'There was an error duplicating the entry' => '',
     'There was an error pasting the entry' => '',
+    'There was an error dropping the entry' => '',
     'Enable experimental features' => '',
     'Use experimental features right now. But they might not be for normal editorial users.' => '',
 ];

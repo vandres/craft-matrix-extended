@@ -81,10 +81,8 @@
                     this.$dropEntry = this.itemDrag.$draggee.data('entry').$container;
                     this.$pullBlock = this.$dropEntry.closest('.matrix-field');
                 },
-                // TODO fix: drag drop into other fields works in frontend, but doesn't persist
-                // maybe owner change is enough with `matrix.updateFieldLayout`
-                // maybe clone & delete is needed
-                onDragStop: () => {
+                // TODO find better way, like changing the owner. Currently clone & delete is used
+                onDragStop: async () => {
                     this.itemDrag.$draggee.closest('.matrixblock').removeClass('draggee');
                     if (!this.$dropEntry || !this.$pullBlock) {
                         return this.itemDrag.returnHelpersToDraggees();
@@ -96,21 +94,32 @@
                         return this.itemDrag.returnHelpersToDraggees();
                     }
 
+                    let $relationEntry;
+                    let relationPosition = 'insertBefore';
                     if ($dropTarget.data('position') === 'button') {
-                        const $relationEntry = $dropTarget.closest('.matrix-field').find('> .blocks');
-                        $dropEntry.appendTo($relationEntry);
+                        $relationEntry = $dropTarget.closest('.matrix-field').find('> .blocks');
+                        relationPosition = 'appendTo';
                     } else {
-                        const $relationEntry = $dropTarget.next('.matrixblock');
-                        $dropEntry.insertBefore($relationEntry);
+                        $relationEntry = $dropTarget.next('.matrixblock');
                     }
 
                     const $pullBlock = this.$pullBlock;
                     const $dropBlock = $dropTarget.closest('.matrix-field');
                     if ($pullBlock.is($dropBlock)) {
+                        if (relationPosition === 'appendTo') {
+                            $dropEntry.appendTo($relationEntry);
+                        } else {
+                            $dropEntry.insertBefore($relationEntry);
+                        }
+
                         // only update one block
                         $pullBlock.data('matrix').entrySelect.resetItemOrder();
                     } else {
-                        $dropBlock.data('matrix').entrySelect.resetItemOrder();
+                        const matrix = $dropBlock.data('matrix');
+                        const entry = $dropEntry.data('entry');
+                        const typeId = $dropEntry.data('typeId');
+                        await this.duplicateWithNewOwner($relationEntry, relationPosition, typeId, entry, matrix)
+                        matrix.entrySelect.resetItemOrder();
                         $pullBlock.data('matrix').entrySelect.resetItemOrder();
                     }
 
@@ -300,6 +309,81 @@
 
             } catch (error) {
                 this.addStatusMessage(Craft.t('matrix-extended', 'There was an error pasting the entry'), 'error');
+            }
+
+            matrix.addingEntry = false;
+            entry.actionDisclosure.hide();
+        },
+
+        duplicateWithNewOwner: async function ($relationEntry, relationPosition, typeId, entry, matrix) {
+            if (matrix.addingEntry) {
+                // only one new entry at a time
+                return;
+            }
+
+            if (!matrix.canAddMoreEntries()) {
+                matrix.updateStatusMessage();
+                return;
+            }
+
+            matrix.addingEntry = true;
+
+            if (matrix.elementEditor) {
+                // First ensure we're working with drafts for all elements leading up
+                // to this field’s element
+                await matrix.elementEditor.setFormValue(matrix.settings.baseInputName, '*');
+            }
+
+            try {
+                const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/matrix-extended/duplicate-entry-with-new-owner', {
+                    data: {
+                        fieldId: matrix.settings.fieldId,
+                        entryId: entry.id,
+                        entryTypeId: typeId,
+                        ownerId: matrix.settings.ownerId,
+                        ownerElementType: matrix.settings.ownerElementType,
+                        siteId: matrix.settings.siteId,
+                        namespace: matrix.settings.namespace,
+                    },
+                });
+
+                const $entry = $(data.blockHtml);
+
+                // Pause the element editor
+                matrix.elementEditor?.pause();
+
+                if (relationPosition === 'appendTo') {
+                    $entry.appendTo($relationEntry);
+                } else {
+                    $entry.insertBefore($relationEntry);
+                }
+                entry.$container.hide();
+
+                matrix.trigger('entryAdded', {
+                    $entry: $entry,
+                });
+
+                $entry.css('margin-bottom', '');
+                Craft.initUiElements($entry.children('.fields'));
+                await Craft.appendHeadHtml(data.headHtml);
+                await Craft.appendBodyHtml(data.bodyHtml);
+                new Craft.MatrixInput.Entry(matrix, $entry);
+                matrix.entrySort.addItems($entry);
+                matrix.entrySelect.addItems($entry);
+                matrix.updateAddEntryBtn();
+
+                // Animate the entry into position
+                $entry.css(matrix.getHiddenEntryCss($entry)).velocity({
+                    opacity: 1, 'margin-bottom': 10,
+                }, 'fast',);
+
+                Garnish.requestAnimationFrame(function () {
+                    // Resume the element editor
+                    matrix.elementEditor?.resume();
+                    entry.selfDestruct();
+                });
+            } catch (error) {
+                this.addStatusMessage(Craft.t('matrix-extended', 'There was an error dropping the entry'), 'error');
             }
 
             matrix.addingEntry = false;

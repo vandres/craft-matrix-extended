@@ -1,5 +1,6 @@
 {
   "git": {
+    "commitMessage": "chore(release): ${version}",
     "changelog": "npx auto-changelog --stdout --commit-limit false -u --template ./.github/keepachangelog.hbs"
   },
   "hooks": {
