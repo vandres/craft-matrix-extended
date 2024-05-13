@@ -68,7 +68,7 @@ return [
     - ~~by settings/backend module~~ (not for now)
 - Replace "New Entry" with expanded logic (experimental, testing)
 - ~~cut and paste an entry~~ (not for now)
-- drag and drop between entry types (highly experimental, in progress)
+- drag and drop between entry types (highly experimental, testing)
   - drag and drop multiple
   - ~~drag and drop into "empty" matrix~~ (highly experimental, testing)
   - respect `canAddMoreEntries`
