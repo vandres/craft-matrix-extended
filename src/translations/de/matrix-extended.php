@@ -26,5 +26,5 @@ return [
     'There was an error dropping the entry' => 'Beim Einfügen des Elements ist ein Fehler aufgetreten',
     'Enable experimental features' => 'Experimentelle Funktionen',
     'Use experimental features right now. But they might not be for normal editorial users.' => 'Experimentelle Funktionen schon jetzt nutzen. Die könnten aber unter Umständen nichts für normale Redakteure sein.',
-    'This is being overridden by the {setting} config setting in your {file} config file.' => 'Dies wird durch die {setting} Einstellung in der {file} Config-Datei überschrieben.“',
+    'This is being overridden by the {setting} config setting in your {file} config file.' => 'Dies wird durch die {setting} Einstellung in der {file} Config-Datei überschrieben.',
 ];
