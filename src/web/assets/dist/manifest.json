@@ -1,0 +1,14 @@
+{
+  "src/js/matrixExtended.css": {
+    "file": "assets/matrixExtended-894653a9.css",
+    "src": "src/js/matrixExtended.css"
+  },
+  "src/js/matrixExtended.ts": {
+    "css": [
+      "assets/matrixExtended-894653a9.css"
+    ],
+    "file": "assets/matrixExtended-7c005497.js",
+    "isEntry": true,
+    "src": "src/js/matrixExtended.ts"
+  }
+}

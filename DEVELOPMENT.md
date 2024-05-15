@@ -23,3 +23,10 @@
     }
 ]
 ```
+
+## `.env`
+
+```php
+# Plugin development
+VITE_PLUGIN_DEVSERVER=1
+```

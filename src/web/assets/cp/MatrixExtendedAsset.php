@@ -3,24 +3,20 @@
 namespace vandres\matrixextended\web\assets\cp;
 
 use craft\helpers\Json;
-use craft\web\AssetBundle as BaseAssetBundle;
-use craft\web\assets\cp\CpAsset;
+use craft\web\AssetBundle;
 use craft\web\assets\matrix\MatrixAsset;
 use craft\web\View;
 use vandres\matrixextended\MatrixExtended;
+use verbb\base\assetbundles\CpAsset;
 
-class AssetBundle extends BaseAssetBundle
+class MatrixExtendedAsset extends AssetBundle
 {
-    public $sourcePath = '@vandres/matrixextended/web/assets';
+    public $sourcePath = '@vandres/matrixextended/web/assets/dist';
 
     public $depends = [
         CpAsset::class,
         MatrixAsset::class,
     ];
-
-    public $css = ['matrix-extended.css'];
-
-    public $js = ['matrix-extended.js'];
 
     public function registerAssetFiles($view): void
     {
@@ -63,9 +59,11 @@ class AssetBundle extends BaseAssetBundle
         $config = Json::encode($data);
 
         $js = <<<JS
-            if (window.Craft.MatrixExtended) {
-                new window.Craft.MatrixExtended($config);
-            }
+            document.addEventListener('vite-script-loaded', function (ev) {
+                if (ev.detail.path === 'src/js/matrixExtended.ts' && window.Craft.MatrixExtended) {
+                    new window.Craft.MatrixExtended($config);
+                }
+            });
         JS;
         $view->registerJs($js, View::POS_END);
     }

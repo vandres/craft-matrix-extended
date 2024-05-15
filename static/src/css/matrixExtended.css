@@ -1,0 +1,36 @@
+.matrixblock {
+  .matrix-extended-drag-drop & {
+    margin: 0 !important;
+  }
+
+  .draggee {
+    opacity: 0.5;
+  }
+}
+
+.matrix-extended-buttons {
+  margin-top: 1px;
+  margin-bottom: 10px;
+}
+
+.matrix-extended-btngroup {
+  flex-wrap: wrap;
+}
+
+.matrix-extended-drop-target {
+  padding: 6px;
+  border-radius: 3px;
+  margin: 0 -15px;
+  overflow: hidden;
+
+  > div {
+    border-radius: 3px;
+    height: 4px;
+  }
+
+  &.active {
+    > div {
+      background: var(--ui-control-bg-color);
+    }
+  }
+}

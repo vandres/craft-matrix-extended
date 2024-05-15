@@ -1,6 +1,7 @@
-(function (window) {
-    const {Craft, Garnish, $} = window;
+import '@/css/matrixExtended.css';
 
+(function (window: any) {
+    const {Craft, Garnish, $} = window;
     if (!Craft || !Garnish || !$) {
         return;
     }
@@ -8,8 +9,8 @@
     Craft.MatrixExtended = Garnish.Base.extend({
         settings: {}, childParent: {}, entryReference: undefined, itemDrag: undefined,
 
-        init: function (config) {
-            const _this = this;
+        init: function (config: { settings: any, childParent: any, entryReference: any }) {
+            const self = this;
             this.settings = config.settings || {};
             this.childParent = config.childParent || {};
             this.entryReference = config.entryReference || undefined;
@@ -20,16 +21,16 @@
             }
 
             const disclosureMenuShowFn = Garnish.DisclosureMenu.prototype.show;
-            Garnish.DisclosureMenu.prototype.show = function () {
-                _this.initDisclosureMenu(this);
-                disclosureMenuShowFn.apply(this, arguments);
+            Garnish.DisclosureMenu.prototype.show = function (...args: any[]) {
+                self.initDisclosureMenu(this);
+                disclosureMenuShowFn.apply(this, args);
             };
 
             const disclosureMenuInitFn = Garnish.DisclosureMenu.prototype.init;
-            Garnish.DisclosureMenu.prototype.init = function () {
-                disclosureMenuInitFn.apply(this, arguments);
-                _this.initAddButtonMenu(this);
-                _this.prepareEntryDropZones();
+            Garnish.DisclosureMenu.prototype.init = function (...args: any[]) {
+                disclosureMenuInitFn.apply(this, args);
+                self.initAddButtonMenu(this);
+                self.prepareEntryDropZones();
             };
 
             if (!this.settings.experimentalFeatures || !this.settings.enableDragDrop) {
@@ -37,11 +38,11 @@
             }
 
             const matrixInitFn = Craft.MatrixInput.prototype.init;
-            Craft.MatrixInput.prototype.init = function () {
-                matrixInitFn.apply(this, arguments);
+            Craft.MatrixInput.prototype.init = function (...args: any[]) {
+                matrixInitFn.apply(this, args);
                 this.entrySort.allowDragging = () => false;
                 this.entrySort.destroy();
-                _this.prepareEntryDropZones();
+                self.prepareEntryDropZones();
             };
 
             Craft.MatrixInput.prototype.canAddMoreEntries = function () {
@@ -56,7 +57,7 @@
                 minMouseDist: 10,
                 hideDraggee: false,
                 moveHelperToCursor: true,
-                handle: (item) => $(item).find('> .actions > .move, > .titlebar'),
+                handle: (item: any) => $(item).find('> .actions > .move, > .titlebar'),
                 filter: () => this.itemDrag.$targetItem.closest('.matrixblock'),
                 dropTargets: () => {
                     if (!this.childParent) {
@@ -71,7 +72,7 @@
                     // TODO check `canAddMore`, but only if drag and drop is between fields
                     // const $allDropTargets = $('.matrix-extended-drop-target').filter((_, x) => !!$(x).data('canAddMore'));
                     const $allDropTargets = $('.matrix-extended-drop-target')
-                        .filter((_, x) => (this.childParent[typeId] || []).includes($(x).data('entryTypeId')));
+                        .filter((_: any, x: any) => (this.childParent[typeId] || []).includes($(x).data('entryTypeId')));
 
                     return $allDropTargets.toArray().reverse();
                 },
@@ -181,7 +182,7 @@
             Garnish.$bod.addClass('matrix-extended-drag-drop');
         },
 
-        initAddButtonMenu(disclosureMenu) {
+        initAddButtonMenu(disclosureMenu: any) {
             if (!this.settings.experimentalFeatures || !this.settings.expandMenu) {
                 return;
             }
@@ -206,8 +207,8 @@
                 .$container.find('button')
                 .clone()
                 .off()
-                .on('activate', async (ev) => {
-                    const $button = $container.find('button').filter((_, x) => $(x).data('type') === $(ev.currentTarget).data('type'));
+                .on('activate', async (ev: any) => {
+                    const $button = $container.find('button').filter((_: any, x: any) => $(x).data('type') === $(ev.currentTarget).data('type'));
                     $button.trigger('activate');
                 });
 
@@ -217,7 +218,7 @@
             $buttonContainer.appendTo($parent);
         },
 
-        initDisclosureMenu(disclosureMenu) {
+        initDisclosureMenu(disclosureMenu: any) {
             const {$trigger, $container} = disclosureMenu;
             if (!$trigger || !$container || !$trigger.hasClass('action-btn')) {
                 return;
@@ -237,8 +238,8 @@
             }
 
             if (disclosureMenu._hasMatrixExtensionButtonsInitialized) {
-                this.checkPaste($container, typeId, entry, matrix);
-                this.checkDuplicate($container, typeId, entry, matrix);
+                this.checkPaste($container, matrix);
+                this.checkDuplicate($container, matrix);
                 return;
             }
             disclosureMenu._hasMatrixExtensionButtonsInitialized = true;
@@ -246,7 +247,7 @@
             this.addMenu($container, typeId, entry, matrix);
         },
 
-        pasteEntry: async function ($menu, typeId, entry, matrix) {
+        pasteEntry: async function (_: any, typeId: any, entry: any, matrix: any) {
             if (matrix.addingEntry) {
                 // only one new entry at a time
                 return;
@@ -315,7 +316,7 @@
             entry.actionDisclosure.hide();
         },
 
-        duplicateWithNewOwner: async function ($relationEntry, relationPosition, typeId, entry, matrix) {
+        duplicateWithNewOwner: async function ($relationEntry: any, relationPosition: any, typeId: any, entry: any, matrix: any) {
             if (matrix.addingEntry) {
                 // only one new entry at a time
                 return;
@@ -390,7 +391,7 @@
             entry.actionDisclosure.hide();
         },
 
-        copyEntry: async function ($menu, typeId, entry, matrix) {
+        copyEntry: async function ($menu: any, typeId: any, entry: any, matrix: any) {
             try {
                 const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/matrix-extended/copy-entry', {
                     data: {
@@ -405,8 +406,8 @@
                 });
 
                 this.entryReference = data.entryReference;
-                this.checkPaste($menu, typeId, entry, matrix);
-                this.checkDuplicate($menu, typeId, entry, matrix);
+                this.checkPaste($menu, matrix);
+                this.checkDuplicate($menu, matrix);
                 await Craft.appendHeadHtml(data.headHtml);
                 await Craft.appendBodyHtml(data.bodyHtml);
                 this._hasMatrixExtensionButtonsInitialized
@@ -418,7 +419,7 @@
             entry.actionDisclosure.hide();
         },
 
-        duplicateEntry: async function ($menu, typeId, entry, matrix) {
+        duplicateEntry: async function (_: any, typeId: any, entry: any, matrix: any) {
             if (matrix.addingEntry) {
                 // only one new entry at a time
                 return;
@@ -486,44 +487,42 @@
             entry.actionDisclosure.hide();
         },
 
-        addMenu: function ($container, typeId, entry, matrix) {
-            $menu = $('<ul class="matrix-extended"></ul>');
-            $hr = $('<hr class="padded">');
+        addMenu: function ($container: any, typeId: any, entry: any, matrix: any) {
+            const $menu = $('<ul class="matrix-extended"></ul>');
+            const $hr = $('<hr class="padded">');
 
             this.addAddBlockButton($menu, typeId, entry, matrix);
             this.addDuplicateButton($menu, typeId, entry, matrix);
             this.addCopyButton($menu, typeId, entry, matrix);
             this.addPasteButton($menu, typeId, entry, matrix);
-            this.addDeleteButton($menu, typeId, entry, matrix);
-            this.checkPaste($menu, typeId, entry, matrix);
-            this.checkDuplicate($menu, typeId, entry, matrix);
+            this.addDeleteButton($menu, entry);
+            this.checkPaste($menu, matrix);
+            this.checkDuplicate($menu, matrix);
 
             $menu.insertBefore($container.find('ul').eq(0));
             $hr.insertAfter($menu);
         },
 
-        addPasteButton: function ($menu, typeId, entry, matrix) {
+        addPasteButton: function ($menu: any, typeId: any, entry: any, matrix: any) {
             if (!this.settings.experimentalFeatures) {
                 return;
             }
 
-            const _this = this;
-
             const $pasteButton = $(`<li>
             <button class="menu-item" data-action="paste" tabindex="0">
                         <span class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M104.6 48H64C28.7 48 0 76.7 0 112V384c0 35.3 28.7 64 64 64h96V400H64c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H80c0 17.7 14.3 32 32 32h72.4C202 108.4 227.6 96 256 96h62c-7.1-27.6-32.2-48-62-48H215.4C211.6 20.9 188.2 0 160 0s-51.6 20.9-55.4 48zM144 56a16 16 0 1 1 32 0 16 16 0 1 1 -32 0zM448 464H256c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16l140.1 0L464 243.9V448c0 8.8-7.2 16-16 16zM256 512H448c35.3 0 64-28.7 64-64V243.9c0-12.7-5.1-24.9-14.1-33.9l-67.9-67.9c-9-9-21.2-14.1-33.9-14.1H256c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64z"/></svg>                    
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M104.6 48H64C28.7 48 0 76.7 0 112V384c0 35.3 28.7 64 64 64h96V400H64c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H80c0 17.7 14.3 32 32 32h72.4C202 108.4 227.6 96 256 96h62c-7.1-27.6-32.2-48-62-48H215.4C211.6 20.9 188.2 0 160 0s-51.6 20.9-55.4 48zM144 56a16 16 0 1 1 32 0 16 16 0 1 1 -32 0zM448 464H256c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16l140.1 0L464 243.9V448c0 8.8-7.2 16-16 16zM256 512H448c35.3 0 64-28.7 64-64V243.9c0-12.7-5.1-24.9-14.1-33.9l-67.9-67.9c-9-9-21.2-14.1-33.9-14.1H256c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64z"/></svg>
                         </span><span class="menu-item-label">${Craft.t('matrix-extended', 'Paste')}</span>
                     </button>
                 </li>`);
             $menu.append($pasteButton);
 
-            $pasteButton.find('button').on('click', function () {
-                _this.pasteEntry($menu, typeId, entry, matrix);
+            $pasteButton.find('button').on('click', () => {
+                this.pasteEntry($menu, typeId, entry, matrix);
             });
         },
 
-        addAddBlockButton: function ($menu, typeId, entry, matrix) {
+        addAddBlockButton: function ($menu: any, _: any, entry: any, matrix: any) {
             if (!this.settings.experimentalFeatures) {
                 return;
             }
@@ -532,18 +531,16 @@
                 return;
             }
 
-            const _this = this;
-
             const $addBlockButton = $(`<li>
                     <button class="menu-item" data-action="add-block" tabindex="0">
                         <span class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>                        
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
                         </span><span class="menu-item-label">${Craft.t('matrix-extended', 'Add block above')}</span>
                     </button>
                 </li>`);
             $menu.append($addBlockButton);
 
-            $addBlockButton.find('button').on('click', function () {
+            $addBlockButton.find('button').on('click', () => {
                 const id = matrix.settings.namespace ? matrix.id.replace(/.*fields-/, '') : matrix.id;
 
                 $('.matrix-extended-buttons-above').remove();
@@ -573,7 +570,7 @@
                     $menu.append($li);
                 }
 
-                $actionButtons.on('activate', async (ev) => {
+                $actionButtons.on('activate', async (ev: any) => {
                     $clone.addClass('loading');
                     try {
                         await matrix.addEntry($(ev.currentTarget).data('type'), entry.$container);
@@ -585,10 +582,10 @@
                     }
                 });
 
-                if (_this.settings.expandMenu) {
+                if (this.settings.expandMenu) {
                     const $container = $clone.data('disclosureMenu').$container;
                     const $actionButtons = $container.find('button').clone(true, true);
-                    _this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, id);
+                    this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, id);
                 } else {
                     $buttonContainer.append($clone);
                 }
@@ -598,12 +595,10 @@
             });
         },
 
-        addCopyButton: function ($menu, typeId, entry, matrix) {
+        addCopyButton: function ($menu: any, typeId: any, entry: any, matrix: any) {
             if (!this.settings.experimentalFeatures) {
                 return;
             }
-
-            const _this = this;
 
             const $copyButton = $(`<li>
                     <button class="menu-item" data-action="copy" tabindex="0">
@@ -614,14 +609,12 @@
                 </li>`);
             $menu.append($copyButton);
 
-            $copyButton.find('button').on('click', function () {
-                _this.copyEntry($menu, typeId, entry, matrix);
+            $copyButton.find('button').on('click', () => {
+                this.copyEntry($menu, typeId, entry, matrix);
             });
         },
 
-        addDuplicateButton: function ($menu, typeId, entry, matrix) {
-            const _this = this;
-
+        addDuplicateButton: function ($menu: any, typeId: any, entry: any, matrix: any) {
             const $duplicateButton = $(`<li>
                 <button class="menu-item" data-action="duplicate" tabindex="0">
                     <span class="icon">
@@ -631,14 +624,12 @@
             </li>`);
             $menu.append($duplicateButton);
 
-            $duplicateButton.find('button').on('click', function () {
-                _this.duplicateEntry($menu, typeId, entry, matrix);
+            $duplicateButton.find('button').on('click', () => {
+                this.duplicateEntry($menu, typeId, entry, matrix);
             });
         },
 
-        addDeleteButton: function ($menu, typeId, entry, matrix) {
-            const _this = this;
-
+        addDeleteButton: function ($menu: any, entry: any) {
             const $duplicateButton = $(`<li>
                 <button class="menu-item error" data-action="delete" tabindex="0">
                     <span class="icon">
@@ -654,7 +645,7 @@
             });
         },
 
-        buildGroupedMenu: function ($buttonContainer, $actionButtons, $actionBtn, id) {
+        buildGroupedMenu: function ($buttonContainer: any, $actionButtons: any, $actionBtn: any, id: any) {
             let $unused = $actionButtons;
             if (!this.settings.fields) {
                 const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
@@ -674,7 +665,7 @@
                 return;
             }
 
-            const fieldGroup = this.settings.fields[id];
+            const fieldGroup: Record<string, { groups: any }> = this.settings.fields[id];
             for (const [index, group] of Object.entries(fieldGroup.groups)) {
                 if ($(`matrix-extended-menu-${id}-${index}`).length) {
                     continue;
@@ -696,8 +687,8 @@
 
                 for (const type of group.types) {
                     const $li = $(`<li></li>`);
-                    const $button = $actionButtons.filter((_, x) => $(x).data('type') === type);
-                    $unused = $unused.filter((_, x) => $(x).data('type') !== type);
+                    const $button = $actionButtons.filter((_: any, x: any) => $(x).data('type') === type);
+                    $unused = $unused.filter((_: any, x: any) => $(x).data('type') !== type);
                     if (!$button.length) {
                         console.warn(`Type ${type} not found in group ${id}`)
                         continue;
@@ -754,10 +745,10 @@
             }
         },
 
-        checkDuplicate: function ($container, typeId, entry, matrix) {
-            $duplicateButton = $container.find('button[data-action="duplicate"]');
+        checkDuplicate: function ($container: any, matrix: any) {
+            const $duplicateButton = $container.find('button[data-action="duplicate"]');
             $duplicateButton.disable();
-            $parent = $duplicateButton.parent();
+            const $parent = $duplicateButton.parent();
             $parent.attr('title', '');
 
             if (!matrix.canAddMoreEntries()) {
@@ -768,10 +759,10 @@
             $duplicateButton.enable();
         },
 
-        checkPaste: function ($container, typeId, entry, matrix) {
-            $pasteButton = $container.find('button[data-action="paste"]');
+        checkPaste: function ($container: any, matrix: any) {
+            const $pasteButton = $container.find('button[data-action="paste"]');
             $pasteButton.disable();
-            $parent = $pasteButton.parent();
+            const $parent = $pasteButton.parent();
             $parent.attr('title', '');
 
             if (!this.entryReference || !this.entryReference.entryTypeId) {
@@ -798,9 +789,7 @@
             $pasteButton.enable();
         },
 
-        addStatusMessage: function (message, type) {
-            type = type || 'notice';
-
+        addStatusMessage: function (message: string, type: 'notice' | 'error' = 'notice') {
             if (type === 'notice') {
                 Craft.cp.displayNotice(message);
             }
