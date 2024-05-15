@@ -2,12 +2,24 @@
 {# @var settings \vandres\matrixextended\models\Settings #}
 {% import '_includes/forms.twig' as forms %}
 
+{% macro configWarning(setting) -%}
+    {% set setting = '<code>'~setting~'</code>' %}
+    {{ "This is being overridden by the {setting} config setting in your {file} config file."|t('matrix-extended', {
+        setting: setting,
+        file: '<code>matrix-extended.php</code>'
+    })|raw }}
+{%- endmacro %}
+
+{% from _self import configWarning %}
+
 {{ forms.lightswitchField({
     label:        'Enable experimental features'|t('matrix-extended'),
     name:         'experimentalFeatures',
     id:           'experimentalFeatures',
     instructions: 'Use experimental features right now. But they might not be for normal editorial users.'|t('matrix-extended'),
     on:           settings.experimentalFeatures,
+    disabled:     'experimentalFeatures' in overrides,
+    warning:      'experimentalFeatures' in overrides ? configWarning('experimentalFeatures'),
 }) }}
 
 {{ forms.lightswitchField({
@@ -16,6 +28,8 @@
     id:           'enableDragDrop',
     instructions: 'Enable drag and drop support, even allowing dragging between matrix fields.'|t('matrix-extended'),
     on:           settings.enableDragDrop,
+    disabled:     'enableDragDrop' in overrides,
+    warning:      'enableDragDrop' in overrides ? configWarning('enableDragDrop'),
 }) }}
 
 {{ forms.lightswitchField({
@@ -24,6 +38,8 @@
     id:           'expandMenu',
     instructions: 'Displays "add block" menu as button group.'|t('matrix-extended'),
     on:           settings.expandMenu,
+    disabled:     'expandMenu' in overrides,
+    warning:      'expandMenu' in overrides ? configWarning('expandMenu'),
 }) }}
 
 {{ forms.lightswitchField({
@@ -32,6 +48,8 @@
     id:           'expandUngrouped',
     instructions: 'Expands ungrouped elements, instead of grouping them under "New Entry".'|t('matrix-extended'),
     on:           settings.expandUngrouped,
+    disabled:     'expandUngrouped' in overrides,
+    warning:      'expandUngrouped' in overrides ? configWarning('expandUngrouped'),
 }) }}
 
 {{ forms.selectField({
@@ -43,5 +61,7 @@
         {value: 'start', label: 'Start'|t('matrix-extended')},
         {value: 'end', label: 'End'|t('matrix-extended')},
     ],
-    value: settings.ungroupedPosition
+    value: settings.ungroupedPosition,
+    disabled:     'ungroupedPosition' in overrides,
+    warning:      'ungroupedPosition' in overrides ? configWarning('ungroupedPosition'),
 }) }}

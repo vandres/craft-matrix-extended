@@ -26,4 +26,5 @@ return [
     'There was an error dropping the entry' => '',
     'Enable experimental features' => '',
     'Use experimental features right now. But they might not be for normal editorial users.' => '',
+    'This is being overridden by the {setting} config setting in your {file} config file.' => '',
 ];
