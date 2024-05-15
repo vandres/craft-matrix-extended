@@ -1,6 +1,12 @@
-# Changelog
+# Release Notes for Matrix Extended
 
-## [v2.2.0]
+## [v2.3.0] - 2024-05-15
+
+- feat(settings): show overriden config settings [`170226d`](https://github.com/vandres/craft-matrix-extended/commit/170226d5e2e6834037b136022dc85ff10568b664)
+- fix(setup): fixed changelog [`cbb9315`](https://github.com/vandres/craft-matrix-extended/commit/cbb93150db6b274e22213deae5c281f08be7c3ce)
+- fix(settings): fixed typo [`c845393`](https://github.com/vandres/craft-matrix-extended/commit/c8453932c28c93cb8005acd35f493815af9de8e9)
+
+## [v2.2.0] - 2024-05-13
 
 - feat(dragdrop): feature now fully working [`88403ea`](https://github.com/vandres/craft-matrix-extended/commit/88403ead8cc5d7eae41aa3cd81e50ce840aabadd)
 - docs(changelog): updated to "Keep a Changelog" format [`03cc0bd`](https://github.com/vandres/craft-matrix-extended/commit/03cc0bd71c1deb4bddf8d85980010775a82f9cc5)
@@ -76,6 +82,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v2.3.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.2.0...v2.3.0
 [v2.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.1.0...v2.2.0
 [v2.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.0.1...v2.1.0
 [v2.0.1]: https://github.com/vandres/craft-matrix-extended/compare/v2.0.0...v2.0.1
