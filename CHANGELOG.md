@@ -5,24 +5,35 @@
 - feat(setup): created frontend buildchain with Vite [`d4bdc66`](https://github.com/vandres/craft-matrix-extended/commit/d4bdc66e8093eebfecbe74840e444f4d77184235)
 - feat(setup): simplified frontend buildchain [`c0422f7`](https://github.com/vandres/craft-matrix-extended/commit/c0422f7c9b899e5387bc6043dd71fbd5629c9cb1)
 - feat(craft): added logic from latest Craft release [`b6e281d`](https://github.com/vandres/craft-matrix-extended/commit/b6e281d5ab5cc91f0afa11a14e7a0ddafbb3b662)
+- feat(dragdrop): don't reset order [`6a0265f`](https://github.com/vandres/craft-matrix-extended/commit/6a0265f66291c4c0a0ffdbf19a437ad2f8250b64)
+- fix(duplicate): fixed duplicating nested elements [`90a0d68`](https://github.com/vandres/craft-matrix-extended/commit/90a0d68c54645216cf89937b97a875af6c1d01bf)
+- chore(release): 3.0.0 [`5689092`](https://github.com/vandres/craft-matrix-extended/commit/56890926b0edfae6880a428adbe801d194f5eabf)
+- fix(duplicate): fixed duplicating nested elements [`ec42725`](https://github.com/vandres/craft-matrix-extended/commit/ec4272556545edc78fac06c5e76d98f19bb9d0db)
 
 ## [v2.3.0] - 2024-05-15
 
 - feat(settings): show overriden config settings [`170226d`](https://github.com/vandres/craft-matrix-extended/commit/170226d5e2e6834037b136022dc85ff10568b664)
 - chore(release): 2.3.0 [`7bfb460`](https://github.com/vandres/craft-matrix-extended/commit/7bfb460d7b690e3eb9198c480ddb4b71894a1e5f)
 - fix(setup): fixed changelog [`cbb9315`](https://github.com/vandres/craft-matrix-extended/commit/cbb93150db6b274e22213deae5c281f08be7c3ce)
+- fix(settings): fixed typo [`c845393`](https://github.com/vandres/craft-matrix-extended/commit/c8453932c28c93cb8005acd35f493815af9de8e9)
+- docs(dragdrop): updated roadmap [`651532a`](https://github.com/vandres/craft-matrix-extended/commit/651532a45324127a17dff41f9c0f1f19f60b3502)
 
 ## [v2.2.0] - 2024-05-13
 
 - feat(dragdrop): feature now fully working [`88403ea`](https://github.com/vandres/craft-matrix-extended/commit/88403ead8cc5d7eae41aa3cd81e50ce840aabadd)
 - docs(changelog): updated to "Keep a Changelog" format [`03cc0bd`](https://github.com/vandres/craft-matrix-extended/commit/03cc0bd71c1deb4bddf8d85980010775a82f9cc5)
 - docs(changelog): updated to "Keep a Changelog" format [`ef7c166`](https://github.com/vandres/craft-matrix-extended/commit/ef7c166fd8b7eb9b7a41ac97b7f3798b5732101f)
+- chore(release): 2.2.0 [`6bfa9ee`](https://github.com/vandres/craft-matrix-extended/commit/6bfa9eee8af8d65d7e65527a419fc68d27fc151a)
+- Release 2.1.0 [`2feefdd`](https://github.com/vandres/craft-matrix-extended/commit/2feefddac530f90a256e1b288813b8197e5dc16c)
 
 ## [v2.1.0] - 2024-05-03
 
 - docs(changelog): updated to "Keep a Changelog" format [`9c9f005`](https://github.com/vandres/craft-matrix-extended/commit/9c9f005b103a8a47e221ccfe90aedd6735165319)
 - feat(dragdrop): first implementation of dragdrop [`0b1dba3`](https://github.com/vandres/craft-matrix-extended/commit/0b1dba31a5d5d06810c260cc34fd7d2e6ecad592)
 - Release 2.1.0 [`b6db176`](https://github.com/vandres/craft-matrix-extended/commit/b6db1768e59a9d777b39f7e366a81b09f8a9fdb2)
+- feat(dragdrop): added permission check [`d14a094`](https://github.com/vandres/craft-matrix-extended/commit/d14a094851c3761034458c18a1179b2891136b29)
+- feat(dragdrop): hide feature behind setting [`9e0a26d`](https://github.com/vandres/craft-matrix-extended/commit/9e0a26d0f02ac2b3c482801e6c143e34b956a9be)
+- fix(dragdrop): drag and drop field were always the same [`f55bc9d`](https://github.com/vandres/craft-matrix-extended/commit/f55bc9dc5795a6e8871a3fd1b25c2ef5f283e284)
 
 ## [v2.0.1] - 2024-05-02
 
@@ -34,6 +45,7 @@
 - feat(add): allow to group blocks [`f47c205`](https://github.com/vandres/craft-matrix-extended/commit/f47c205726b990cec5c953ab489ce185f3b2ceec)
 - feat(add): allow to group also in default button [`3d6dd3b`](https://github.com/vandres/craft-matrix-extended/commit/3d6dd3b57849348d43a8a413a8294a4e93e3008e)
 - chore(release): 2.0.0 [`45a6282`](https://github.com/vandres/craft-matrix-extended/commit/45a6282ee229862da6082a1f7e48de3903b8ca99)
+- feat(add): allow to group blocks [`3b0773d`](https://github.com/vandres/craft-matrix-extended/commit/3b0773d4bd4271dec825d32bdadf29b7a990cd50)
 
 ## [v1.5.1] - 2024-05-01
 
@@ -56,6 +68,8 @@
 - feat(add): added experimental function "add block above" [`8601ccc`](https://github.com/vandres/craft-matrix-extended/commit/8601ccca0c1836834cdfda8e4c7aff6be46061da)
 - docs(cut): changed roadmap [`ea8d817`](https://github.com/vandres/craft-matrix-extended/commit/ea8d81791fda0da23c40ac321ba2f51c5d391d3e)
 - chore(release): 1.4.0 [`cd16af7`](https://github.com/vandres/craft-matrix-extended/commit/cd16af7362c5ddef6c425983e20a38272651baa8)
+- docs(funding): removed GitHub funding [`9ef982b`](https://github.com/vandres/craft-matrix-extended/commit/9ef982bc4150b9a72e112c1173c3dc09fdad4181)
+- docs(cut): changed roadmap [`bf2a201`](https://github.com/vandres/craft-matrix-extended/commit/bf2a20196bc984a0ca0e215721f77927c9291dbb)
 
 ## [v1.3.0] - 2024-04-30
 
