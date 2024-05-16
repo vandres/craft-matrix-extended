@@ -115,11 +115,12 @@
                         $pullBlock.data('matrix').entrySelect.resetItemOrder();
                     } else {
                         const matrix = $dropBlock.data('matrix');
+                        const matrix2 = $pullBlock.data('matrix');
                         const entry = $dropEntry.data('entry');
                         const typeId = $dropEntry.data('typeId');
-                        await this.duplicateWithNewOwner($relationEntry, relationPosition, typeId, entry, matrix)
-                        matrix.entrySelect.resetItemOrder();
-                        $pullBlock.data('matrix').entrySelect.resetItemOrder();
+                        await this.duplicateWithNewOwner($relationEntry, relationPosition, typeId, entry, matrix, matrix2)
+                        // matrix.entrySelect.resetItemOrder();
+                        // matrix2.entrySelect.resetItemOrder();
                     }
 
                     this.itemDrag.returnHelpersToDraggees();
@@ -315,7 +316,7 @@
             entry.actionDisclosure.hide();
         },
 
-        duplicateWithNewOwner: async function ($relationEntry: any, relationPosition: any, typeId: any, entry: any, matrix: any) {
+        duplicateWithNewOwner: async function ($relationEntry: any, relationPosition: any, typeId: any, entry: any, matrix: any, matrix2: any) {
             if (matrix.addingEntry) {
                 // only one new entry at a time
                 return;
