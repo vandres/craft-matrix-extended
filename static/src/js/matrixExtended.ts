@@ -1,5 +1,3 @@
-import '@/css/matrixExtended.css';
-
 (function (window: any) {
     const {Craft, Garnish, $} = window;
     if (!Craft || !Garnish || !$) {

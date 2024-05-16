@@ -2,10 +2,13 @@
 
 namespace vandres\matrixextended\web\assets\cp;
 
+use Craft;
+use craft\helpers\App;
 use craft\helpers\Json;
 use craft\web\AssetBundle;
 use craft\web\assets\matrix\MatrixAsset;
 use craft\web\View;
+use nystudio107\pluginvite\services\VitePluginService;
 use vandres\matrixextended\MatrixExtended;
 use verbb\base\assetbundles\CpAsset;
 
@@ -16,7 +19,43 @@ class MatrixExtendedAsset extends AssetBundle
     public $depends = [
         CpAsset::class,
         MatrixAsset::class,
+        MatrixExtendedViteAsset::class,
     ];
+
+    public function init()
+    {
+        $viteServer = 'http://localhost:3004';
+        $vite = Craft::createObject([
+            'class' => VitePluginService::class,
+            'assetClass' => MatrixExtendedViteAsset::class,
+            'useDevServer' => true,
+            'devServerPublic' => $viteServer,
+            'serverPublic' => App::env('PRIMARY_SITE_URL'),
+            'errorEntry' => 'src/js/matrixExtended.ts',
+            'devServerInternal' => $viteServer,
+            'checkDevServer' => false,
+        ]);
+
+        if ($vite->devServerRunning()) {
+            $this->js = [
+                "$viteServer/src/js/matrixExtended.ts",
+            ];
+
+            $this->css = [
+                "$viteServer/src/css/matrixExtended.scss",
+            ];
+        } else {
+            $this->js = [
+                ltrim($vite->entry('src/js/matrixExtended.ts'), '/'),
+            ];
+
+            $this->css = [
+                ltrim($vite->entry('src/css/matrixExtended.scss'), '/'),
+            ];
+        }
+
+        parent::init();
+    }
 
     public function registerAssetFiles($view): void
     {
@@ -59,11 +98,9 @@ class MatrixExtendedAsset extends AssetBundle
         $config = Json::encode($data);
 
         $js = <<<JS
-            document.addEventListener('vite-script-loaded', function (ev) {
-                if (ev.detail.path === 'src/js/matrixExtended.ts' && window.Craft.MatrixExtended) {
-                    new window.Craft.MatrixExtended($config);
-                }
-            });
+            if (window.Craft.MatrixExtended) {
+                new window.Craft.MatrixExtended($config);
+            }
         JS;
         $view->registerJs($js, View::POS_END);
     }

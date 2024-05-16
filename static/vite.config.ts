@@ -13,7 +13,8 @@ export default defineConfig(({command}) => ({
         outDir: '../src/web/assets/dist',
         rollupOptions: {
             input: {
-                matrixExtended: 'src/js/matrixExtended.ts',
+                matrixExtendedJs: 'src/js/matrixExtended.ts',
+                matrixExtendedCss: 'src/css/matrixExtended.scss',
             },
             output: {
                 sourcemap: true
