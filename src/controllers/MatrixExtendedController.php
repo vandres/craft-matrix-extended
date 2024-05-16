@@ -3,11 +3,12 @@
 namespace vandres\matrixextended\controllers;
 
 use Craft;
-use craft\base\Element;
 use craft\elements\db\EntryQuery;
 use craft\elements\ElementCollection;
 use craft\elements\Entry;
 use craft\fields\Matrix;
+use craft\helpers\ElementHelper;
+use craft\helpers\StringHelper;
 use vandres\matrixextended\MatrixExtended;
 use vandres\matrixextended\models\Settings;
 use yii\web\BadRequestHttpException;
@@ -72,11 +73,11 @@ class MatrixExtendedController extends \craft\web\Controller
         }
 
         $user = static::currentUser();
-        if (!$entry->canDuplicateAsDraft($user)) {
+        if (!$entry->canSave($user)) {
             throw new ForbiddenHttpException('User not authorized to duplicate this element.');
         }
 
-        $duplicatedEntry = $elementsService->duplicateElement($entry, [], true, true);
+        $duplicatedEntry = $this->cloneEntry($entry, $ownerId);
 
         /** @var EntryQuery|ElementCollection $value */
         $value = $owner->getFieldValue($field->handle);
@@ -97,6 +98,58 @@ class MatrixExtendedController extends \craft\web\Controller
             'headHtml' => $view->getHeadHtml(),
             'bodyHtml' => $view->getBodyHtml(),
         ]);
+    }
+
+    private function cloneEntry(Entry $entry, $ownerId)
+    {
+        $elementsService = Craft::$app->getElements();
+
+        $owner = $elementsService->getElementById($ownerId);
+
+        // Ensure all fields have been normalized
+        $entry->getFieldValues();
+
+        $duplicatedEntry = Craft::createObject([
+            'class' => Entry::class,
+            'siteId' => $entry->siteId,
+            'uid' => StringHelper::UUID(),
+            'typeId' => $entry->typeId,
+            'fieldId' => $entry->fieldId,
+            'owner' => $owner,
+            'title' => $entry->title,
+            'slug' => ElementHelper::tempSlug(),
+            'fieldValues' => $entry->getFieldValues(),
+        ]);
+        $children = [];
+        $transaction = Craft::$app->getDb()->beginTransaction();
+
+        try {
+            $dirtyFields = $duplicatedEntry->getDirtyFields();
+            foreach ($entry->getFieldValues() as $handle => $value) {
+                if ($value instanceof EntryQuery) {
+                    $children[] = ['owner' => $entry->id, 'handle' => $handle, 'elements' => $value->status(null)->all()];
+                } else if (is_object($value) && !$value instanceof \UnitEnum) {
+                    $duplicatedEntry->setFieldValue($handle, clone $value);
+                }
+            }
+            $duplicatedEntry->setDirtyFields($dirtyFields, false);
+            if (!$elementsService->saveElement($duplicatedEntry, false)) {
+                throw new \Exception('Could not save element on cloning process');
+            }
+
+            foreach ($children as $child) {
+                foreach ($child['elements'] as $childElement) {
+                    $this->cloneEntry($childElement, $duplicatedEntry->id);
+                }
+            }
+
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
+
+        return $duplicatedEntry;
     }
 
     /**
@@ -233,7 +286,7 @@ class MatrixExtendedController extends \craft\web\Controller
             throw new BadRequestHttpException('That entry type cannot be pasted in that element.');
         }
 
-        $duplicatedEntry = $elementsService->duplicateElement($entry, [], true, true);
+        $duplicatedEntry = $this->cloneEntry($entry, $ownerId);
 
         /** @var EntryQuery|ElementCollection $value */
         $value = $owner->getFieldValue($field->handle);
@@ -319,7 +372,7 @@ class MatrixExtendedController extends \craft\web\Controller
             throw new BadRequestHttpException('That entry type cannot be pasted in that element.');
         }
 
-        $duplicatedEntry = $elementsService->duplicateElement($entry, [], true, true);
+        $duplicatedEntry = $this->cloneEntry($entry, $ownerId);
 
         /** @var EntryQuery|ElementCollection $value */
         $value = $owner->getFieldValue($field->handle);
