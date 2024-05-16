@@ -3,6 +3,7 @@
 namespace vandres\matrixextended\controllers;
 
 use Craft;
+use craft\base\Element;
 use craft\elements\db\EntryQuery;
 use craft\elements\ElementCollection;
 use craft\elements\Entry;
@@ -43,6 +44,7 @@ class MatrixExtendedController extends \craft\web\Controller
         $ownerElementType = $this->request->getRequiredBodyParam('ownerElementType');
         $siteId = $this->request->getRequiredBodyParam('siteId');
         $namespace = $this->request->getRequiredBodyParam('namespace');
+        $staticEntries = $this->request->getBodyParam('staticEntries', false);
 
         $elementsService = Craft::$app->getElements();
         $entry = $elementsService->getElementById($entryId, $ownerElementType, $siteId);
@@ -87,6 +89,7 @@ class MatrixExtendedController extends \craft\web\Controller
             'entryTypes' => $field->getEntryTypesForField($entries, $owner),
             'entry' => $duplicatedEntry,
             'isFresh' => true,
+            'staticEntries' => $staticEntries,
         ]), $namespace);
 
         return $this->asJson([
@@ -114,6 +117,7 @@ class MatrixExtendedController extends \craft\web\Controller
         $ownerElementType = $this->request->getRequiredBodyParam('ownerElementType');
         $siteId = $this->request->getRequiredBodyParam('siteId');
         $namespace = $this->request->getRequiredBodyParam('namespace');
+        $staticEntries = $this->request->getBodyParam('staticEntries', false);
 
         $elementsService = Craft::$app->getElements();
         $entry = $elementsService->getElementById($entryId, $ownerElementType, $siteId);
@@ -154,6 +158,7 @@ class MatrixExtendedController extends \craft\web\Controller
             'ownerElementType' => $ownerElementType,
             'siteId' => $siteId,
             'namespace' => $namespace,
+            'staticEntries' => $staticEntries,
         ];
         MatrixExtended::getInstance()->service->setReference($entryReference);
 
@@ -184,6 +189,7 @@ class MatrixExtendedController extends \craft\web\Controller
         $ownerElementType = $this->request->getRequiredBodyParam('ownerElementType');
         $siteId = $this->request->getRequiredBodyParam('siteId');
         $namespace = $this->request->getRequiredBodyParam('namespace');
+        $staticEntries = $this->request->getBodyParam('staticEntries', false);
 
         $elementsService = Craft::$app->getElements();
         $entryReference = $elementsService->getElementById($entryId, $ownerElementType, $siteId);
@@ -240,6 +246,7 @@ class MatrixExtendedController extends \craft\web\Controller
             'entryTypes' => $field->getEntryTypesForField($entries, $owner),
             'entry' => $duplicatedEntry,
             'isFresh' => true,
+            'staticEntries' => $staticEntries,
         ]), $namespace);
 
         return $this->asJson([
@@ -273,6 +280,7 @@ class MatrixExtendedController extends \craft\web\Controller
         $ownerElementType = $this->request->getRequiredBodyParam('ownerElementType');
         $siteId = $this->request->getRequiredBodyParam('siteId');
         $namespace = $this->request->getRequiredBodyParam('namespace');
+        $staticEntries = $this->request->getBodyParam('staticEntries', false);
 
         $elementsService = Craft::$app->getElements();
         $owner = $elementsService->getElementById($ownerId, $ownerElementType, $siteId);
@@ -324,6 +332,7 @@ class MatrixExtendedController extends \craft\web\Controller
             'entryTypes' => $field->getEntryTypesForField($entries, $owner),
             'entry' => $duplicatedEntry,
             'isFresh' => true,
+            'staticEntries' => $staticEntries,
         ]), $namespace);
 
         return $this->asJson([

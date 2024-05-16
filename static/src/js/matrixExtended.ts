@@ -274,6 +274,7 @@
                         ownerElementType: matrix.settings.ownerElementType,
                         siteId: matrix.settings.siteId,
                         namespace: matrix.settings.namespace,
+                        staticEntries: matrix.settings.staticEntries,
                     },
                 });
 
@@ -343,6 +344,7 @@
                         ownerElementType: matrix.settings.ownerElementType,
                         siteId: matrix.settings.siteId,
                         namespace: matrix.settings.namespace,
+                        staticEntries: matrix.settings.staticEntries,
                     },
                 });
 
@@ -400,6 +402,7 @@
                         ownerElementType: matrix.settings.ownerElementType,
                         siteId: matrix.settings.siteId,
                         namespace: matrix.settings.namespace,
+                        staticEntries: matrix.settings.staticEntries,
                     },
                 });
 
@@ -446,6 +449,7 @@
                         ownerElementType: matrix.settings.ownerElementType,
                         siteId: matrix.settings.siteId,
                         namespace: matrix.settings.namespace,
+                        staticEntries: matrix.settings.staticEntries,
                     },
                 });
 
