@@ -1,10 +1,16 @@
 # Release Notes for Matrix Extended
 
+## [v3.0.0] - 2024-05-16
+
+- feat(setup): created frontend buildchain with Vite [`d4bdc66`](https://github.com/vandres/craft-matrix-extended/commit/d4bdc66e8093eebfecbe74840e444f4d77184235)
+- feat(setup): simplified frontend buildchain [`c0422f7`](https://github.com/vandres/craft-matrix-extended/commit/c0422f7c9b899e5387bc6043dd71fbd5629c9cb1)
+- feat(craft): added logic from latest Craft release [`b6e281d`](https://github.com/vandres/craft-matrix-extended/commit/b6e281d5ab5cc91f0afa11a14e7a0ddafbb3b662)
+
 ## [v2.3.0] - 2024-05-15
 
 - feat(settings): show overriden config settings [`170226d`](https://github.com/vandres/craft-matrix-extended/commit/170226d5e2e6834037b136022dc85ff10568b664)
+- chore(release): 2.3.0 [`7bfb460`](https://github.com/vandres/craft-matrix-extended/commit/7bfb460d7b690e3eb9198c480ddb4b71894a1e5f)
 - fix(setup): fixed changelog [`cbb9315`](https://github.com/vandres/craft-matrix-extended/commit/cbb93150db6b274e22213deae5c281f08be7c3ce)
-- fix(settings): fixed typo [`c845393`](https://github.com/vandres/craft-matrix-extended/commit/c8453932c28c93cb8005acd35f493815af9de8e9)
 
 ## [v2.2.0] - 2024-05-13
 
@@ -82,6 +88,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.3.0...v3.0.0
 [v2.3.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.2.0...v2.3.0
 [v2.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.1.0...v2.2.0
 [v2.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.0.1...v2.1.0
