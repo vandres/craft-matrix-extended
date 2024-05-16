@@ -197,12 +197,6 @@ class MatrixExtendedController extends \craft\web\Controller
             throw new BadRequestHttpException("Invalid site ID: $siteId");
         }
 
-        // removed for now. Leads to errors on max occurrence elements, even the frontend doesn't allow a paste
-//        $user = static::currentUser();
-//        if (!$entry->canDuplicateAsDraft($user)) {
-//            throw new ForbiddenHttpException('User not authorized to duplicate this element.');
-//        }
-
         $entryReference = [
             'entryId' => $entryId,
             'fieldId' => $fieldId,
@@ -277,7 +271,7 @@ class MatrixExtendedController extends \craft\web\Controller
             throw new BadRequestHttpException("Invalid entry ID, element type, or site ID.");
         }
         $user = static::currentUser();
-        if (!$entry->canDuplicateAsDraft($user)) {
+        if (!$entry->canSave($user)) {
             throw new ForbiddenHttpException('User not authorized to duplicate this element.');
         }
 
@@ -363,7 +357,7 @@ class MatrixExtendedController extends \craft\web\Controller
             throw new BadRequestHttpException("Invalid entry ID, element type, or site ID.");
         }
         $user = static::currentUser();
-        if (!$entry->canDuplicateAsDraft($user)) {
+        if (!$entry->canSave($user)) {
             throw new ForbiddenHttpException('User not authorized to duplicate this element.');
         }
 
