@@ -1,9 +1,14 @@
 # Release Notes for Matrix Extended
 
+## [v3.1.0] - 2024-05-17
+
+- feat(delete): made delete button configurable [`c1dc22f`](https://github.com/vandres/craft-matrix-extended/commit/c1dc22fae934844049280236aaf158d5cf1016d2)
+
 ## [v3.0.1] - 2024-05-17
 
 - fix(add): grouped blocks didn't insert at correct postion [`c07bacd`](https://github.com/vandres/craft-matrix-extended/commit/c07bacdfbc9a8a471b78429361f20c808602b27d)
 - fix(setup): fixed missing commits in changelog [`33f270f`](https://github.com/vandres/craft-matrix-extended/commit/33f270fa19e675d61795d2f66ae1b417ffe48372)
+- chore(release): 3.0.1 [`a129251`](https://github.com/vandres/craft-matrix-extended/commit/a1292513f07b0eef88eb7f66de2f647fc469da14)
 
 ## [v3.0.0] - 2024-05-16
 
@@ -107,6 +112,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.0.1...v3.1.0
 [v3.0.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.0.0...v3.0.1
 [v3.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.3.0...v3.0.0
 [v2.3.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.2.0...v2.3.0
