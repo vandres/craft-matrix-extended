@@ -1,5 +1,10 @@
 # Release Notes for Matrix Extended
 
+## [v3.0.1] - 2024-05-17
+
+- fix(add): grouped blocks didn't insert at correct postion [`c07bacd`](https://github.com/vandres/craft-matrix-extended/commit/c07bacdfbc9a8a471b78429361f20c808602b27d)
+- fix(setup): fixed missing commits in changelog [`33f270f`](https://github.com/vandres/craft-matrix-extended/commit/33f270fa19e675d61795d2f66ae1b417ffe48372)
+
 ## [v3.0.0] - 2024-05-16
 
 - feat(setup): created frontend buildchain with Vite [`d4bdc66`](https://github.com/vandres/craft-matrix-extended/commit/d4bdc66e8093eebfecbe74840e444f4d77184235)
@@ -102,6 +107,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.0.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.0.0...v3.0.1
 [v3.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.3.0...v3.0.0
 [v2.3.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.2.0...v2.3.0
 [v2.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.1.0...v2.2.0
