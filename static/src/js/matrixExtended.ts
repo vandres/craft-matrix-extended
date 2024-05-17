@@ -211,7 +211,7 @@
                     $button.trigger('activate');
                 });
 
-            const id = $wrapper.attr('id').replace(/.*fields-/, '');
+            const id = $wrapper.attr('id');
             this.buildGroupedMenu($buttonContainer, $actionButtons, $trigger, id);
 
             $buttonContainer.appendTo($parent);
@@ -544,7 +544,7 @@
             $menu.append($addBlockButton);
 
             $addBlockButton.find('button').on('click', () => {
-                const id = matrix.settings.namespace ? matrix.id.replace(/.*fields-/, '') : matrix.id;
+                const id = matrix.id;
 
                 $('.matrix-extended-buttons-above').remove();
                 $(`#matrix-extended-menu-${id}-all`).remove();
@@ -588,7 +588,7 @@
                 if (this.settings.expandMenu) {
                     const $container = $clone.data('disclosureMenu').$container;
                     const $actionButtons = $container.find('button').clone(true, true);
-                    this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, id);
+                    this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, id, true);
                 } else {
                     $buttonContainer.append($clone);
                 }
@@ -648,7 +648,8 @@
             });
         },
 
-        buildGroupedMenu: function ($buttonContainer: any, $actionButtons: any, $actionBtn: any, id: any) {
+        buildGroupedMenu: function ($buttonContainer: any, $actionButtons: any, $actionBtn: any, id: any, above = false) {
+            const fieldIndex: string = id.replace(/.*fields-/, '');
             let $unused = $actionButtons;
             if (!this.settings.fields) {
                 const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
@@ -659,7 +660,7 @@
                 return;
             }
 
-            if (!this.settings.fields[id]) {
+            if (!this.settings.fields[fieldIndex]) {
                 const $actionButtonContainer = $('<div class="btngroup matrix-extended-btngroup"></div>')
                 $unused.first().addClass('add icon');
                 $unused.addClass('btn dashed');
@@ -668,20 +669,18 @@
                 return;
             }
 
-            const fieldGroup: Record<string, { groups: any }> = this.settings.fields[id];
+            const fieldGroup: Record<string, { groups: any }> = this.settings.fields[fieldIndex];
             for (const [index, group] of Object.entries(fieldGroup.groups)) {
-                if ($(`matrix-extended-menu-${id}-${index}`).length) {
-                    continue;
-                }
+                $(`#matrix-extended-menu-${id}-${index}${above ? '-above' : ''}`).remove();
 
                 const $groupedMenuButton = Craft.ui
                     .createButton({
                         label: group.label, spinner: true,
                     })
                     .addClass('btn menubtn dashed add icon')
-                    .attr('aria-controls', `matrix-extended-menu-${id}-${index}`)
+                    .attr('aria-controls', `matrix-extended-menu-${id}-${index}${above ? '-above' : ''}`)
                     .appendTo($buttonContainer);
-                const $menuContainer = $(`<div class="menu menu--disclosure" id="matrix-extended-menu-${id}-${index}">`);
+                const $menuContainer = $(`<div class="menu menu--disclosure" id="matrix-extended-menu-${id}-${index}${above ? '-above' : ''}">`);
                 const $menu = $('<ul></ul>');
 
                 $menuContainer.append($menu);
@@ -696,9 +695,12 @@
                         console.warn(`Type ${type} not found in group ${id}`)
                         continue;
                     }
-                    $li.append($button)
+                    $li.append($button);
                     $menu.append($li);
-                    $button.on('activate', () => disclosure.hide())
+                    $button.on('activate', () => {
+                        $menuContainer.remove();
+                        disclosure.destroy();
+                    });
                 }
             }
 
@@ -719,12 +721,13 @@
                 return;
             }
 
+            $(`#matrix-extended-menu-${id}-others${above ? '-above' : ''}`).remove();
             const $groupedMenuButton = Craft.ui
                 .createButton({
                     label: $actionBtn.find('.label').text(), spinner: true,
                 })
                 .addClass('btn menubtn dashed add icon')
-                .attr('aria-controls', `matrix-extended-menu-${id}-others`);
+                .attr('aria-controls', `matrix-extended-menu-${id}-others${above ? '-above' : ''}`);
 
             if (this.settings.ungroupedPosition === 'end') {
                 $groupedMenuButton.appendTo($buttonContainer);
@@ -732,7 +735,7 @@
                 $groupedMenuButton.prependTo($buttonContainer);
             }
 
-            const $menuContainer = $(`<div class="menu menu--disclosure" id="matrix-extended-menu-${id}-others">`);
+            const $menuContainer = $(`<div class="menu menu--disclosure" id="matrix-extended-menu-${id}-others${above ? '-above' : ''}">`);
             const $menu = $('<ul></ul>');
 
             $menuContainer.append($menu);
@@ -742,9 +745,12 @@
             for (const button of $unused) {
                 const $li = $(`<li></li>`);
                 const $button = $(button);
-                $li.append($button)
+                $li.append($button);
                 $menu.append($li);
-                $button.on('activate', () => disclosure.hide())
+                $button.on('activate', () => {
+                    $menuContainer.remove();
+                    disclosure.destroy();
+                })
             }
         },
 

@@ -3,6 +3,7 @@
 namespace vandres\matrixextended\controllers;
 
 use Craft;
+use craft\base\Element;
 use craft\elements\db\EntryQuery;
 use craft\elements\ElementCollection;
 use craft\elements\Entry;
@@ -120,6 +121,7 @@ class MatrixExtendedController extends \craft\web\Controller
             'slug' => ElementHelper::tempSlug(),
             'fieldValues' => $entry->getFieldValues(),
         ]);
+        $duplicatedEntry->setScenario(Element::SCENARIO_ESSENTIALS);
         $children = [];
         $transaction = Craft::$app->getDb()->beginTransaction();
 
