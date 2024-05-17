@@ -62,6 +62,7 @@ return [
 - copy and paste an entry to another position in the same or another entry type (experimental, testing)
 - copy and paste an entry to another section (experimental, testing)
 - "Add Block Above" Neo-style (experimental, testing)
+  - respect `canAddMoreEntries`
 - Allow "Add Block Above" to be expanded via settings (experimental, testing)
   - ~~show as dropdown, if space is not enough~~ (not for now)
   - allow to group buttons (experimental, testing)
