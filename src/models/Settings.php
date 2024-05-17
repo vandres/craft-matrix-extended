@@ -6,6 +6,8 @@ use craft\base\Model;
 
 class Settings extends Model
 {
+    public bool $extraDeleteButton = false;
+
     public bool $experimentalFeatures = false;
 
     public bool $enableDragDrop = false;
@@ -21,7 +23,7 @@ class Settings extends Model
     public function defineRules(): array
     {
         return [
-            [['experimentalFeatures', 'expandMenu', 'expandUngrouped', 'enableDragDrop'], 'boolean'],
+            [['experimentalFeatures', 'expandMenu', 'expandUngrouped', 'enableDragDrop', 'extraDeleteButton'], 'boolean'],
             [['ungroupedPosition'], 'in', 'range' => ['start', 'end']],
         ];
     }

@@ -7,6 +7,8 @@ return [
     'Delete' => 'Löschen',
     'Start' => 'Am Anfang',
     'End' => 'Am Ende',
+    'Extra delete button' => 'Extra Löschbutton',
+    'If there are a lot of entry types, this might come in handy.' => 'Wenn es viele Eintragstypen gibt, kann dies sehr nützlich sein.',
     'Enable drag and drop' => 'Aktivieren von Drag & Drop',
     'Enable drag and drop support, even allowing dragging between matrix fields.' => 'Aktiviert die Unterstützung von Drag & Drop, sogar zwischen Matrixfeldern.',
     'Ungrouped position' => 'Position der nicht-gruppierten Blöcke',

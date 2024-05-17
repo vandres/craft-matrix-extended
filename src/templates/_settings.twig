@@ -13,6 +13,16 @@
 {% from _self import configWarning %}
 
 {{ forms.lightswitchField({
+    label:        'Extra delete button'|t('matrix-extended'),
+    name:         'extraDeleteButton',
+    id:           'extraDeleteButton',
+    instructions: 'If there are a lot of entry types, this might come in handy.'|t('matrix-extended'),
+    on:           settings.extraDeleteButton,
+    disabled:     'extraDeleteButton' in overrides,
+    warning:      'extraDeleteButton' in overrides ? configWarning('extraDeleteButton'),
+}) }}
+
+{{ forms.lightswitchField({
     label:        'Enable experimental features'|t('matrix-extended'),
     name:         'experimentalFeatures',
     id:           'experimentalFeatures',

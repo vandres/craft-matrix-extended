@@ -19,7 +19,7 @@ use vandres\matrixextended\web\assets\cp\MatrixExtendedAsset;
  */
 class MatrixExtended extends Plugin
 {
-    public string $schemaVersion = '2.1.0';
+    public string $schemaVersion = '3.1.0';
 
     public bool $hasCpSettings = true;
 

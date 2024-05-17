@@ -633,6 +633,10 @@
         },
 
         addDeleteButton: function ($menu: any, entry: any) {
+            if (!this.settings.extraDeleteButton) {
+                return;
+            }
+
             const $duplicateButton = $(`<li>
                 <button class="menu-item error" data-action="delete" tabindex="0">
                     <span class="icon">

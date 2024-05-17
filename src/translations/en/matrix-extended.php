@@ -7,6 +7,8 @@ return [
     'Delete' => '',
     'Start' => '',
     'End' => '',
+    'Extra delete button' => '',
+    'If there are a lot of entry types, this might come in handy.' => '',
     'Enable drag and drop' => '',
     'Enable drag and drop support, even allowing dragging between matrix fields.' => '',
     'Ungrouped position' => '',
