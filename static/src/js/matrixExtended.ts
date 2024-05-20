@@ -83,6 +83,7 @@
                 // TODO find better way, like changing the owner. Currently clone & delete is used
                 onDragStop: async () => {
                     this.itemDrag.$draggee.closest('.matrixblock').removeClass('draggee');
+                    Garnish.$bod.removeClass('dragging');
                     if (!this.$dropEntry || !this.$pullBlock) {
                         return this.itemDrag.returnHelpersToDraggees();
                     }
@@ -125,7 +126,6 @@
 
                     this.itemDrag.returnHelpersToDraggees();
                     this.prepareEntryDropZones();
-                    Garnish.$bod.removeClass('dragging');
                     this.$dropEntry = undefined;
                     this.$pullBlock = undefined;
                 },

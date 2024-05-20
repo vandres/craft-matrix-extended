@@ -1,6 +1,6 @@
 # Matrix Extended
 
-Adds functionality to the native Matrix field type
+Adds functionality to the native Matrix field type.
 
 ## Feature Overview
 
@@ -68,7 +68,7 @@ return [
 ## Roadmap
 
 - ~~duplicate entries~~ (done)
-- copy and paste an entry to another position in the same or another entry type (testing)
+- ~~copy and paste an entry to another position in the same or another entry type~~ (testing)
 - ~~copy and paste an entry to another section~~ (testing)
 - "Add Block Above" Neo-style (testing)
   - respect `canAddMoreEntries`
