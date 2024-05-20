@@ -2,6 +2,15 @@
 
 Adds functionality to the native Matrix field type
 
+## Feature Overview
+
+- Duplication of entries
+- Additional delete button on top, if your entry type list is very long 
+- Copy&Paste of entries, also in between entry types
+- grouping of entry types
+  - unfold or group ungrouped types
+- Drag&Drop of entries, also in between entry types (experimental)
+
 ## Requirements
 
 This plugin requires Craft CMS 5.1.0 or later, and PHP 8.2 or later.
@@ -59,20 +68,20 @@ return [
 ## Roadmap
 
 - ~~duplicate entries~~ (done)
-- copy and paste an entry to another position in the same or another entry type (experimental, testing)
-- copy and paste an entry to another section (experimental, testing)
-- "Add Block Above" Neo-style (experimental, testing)
+- copy and paste an entry to another position in the same or another entry type (testing)
+- ~~copy and paste an entry to another section~~ (testing)
+- "Add Block Above" Neo-style (testing)
   - respect `canAddMoreEntries`
-- Allow "Add Block Above" to be expanded via settings (experimental, testing)
+- ~~Allow "Add Block Above" to be expanded via settings~~ (testing)
   - ~~show as dropdown, if space is not enough~~ (not for now)
-  - allow to group buttons (experimental, testing)
-    - by config (experimental, testing)
+  - ~~allow to group buttons~~ (testing)
+    - ~~by config~~
     - ~~by settings/backend module~~ (not for now)
-- Replace "New Entry" with expanded logic (experimental, testing)
+- ~~Replace "New Entry" with expanded logic~~ (testing)
 - ~~cut and paste an entry~~ (not for now)
-- drag and drop between entry types (highly experimental, testing)
+- drag and drop between entry types (experimental, testing)
   - drag and drop multiple
-  - ~~drag and drop into "empty" matrix~~ (highly experimental, testing)
+  - ~~drag and drop into "empty" matrix~~ (experimental, testing)
   - respect `canAddMoreEntries`
   - let dragdrop and dragsort coexist
   - get rid of warnings

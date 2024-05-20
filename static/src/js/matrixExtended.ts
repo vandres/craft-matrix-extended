@@ -182,7 +182,7 @@
         },
 
         initAddButtonMenu(disclosureMenu: any) {
-            if (!this.settings.experimentalFeatures || !this.settings.expandMenu) {
+            if (!this.settings.expandMenu) {
                 return;
             }
 
@@ -507,10 +507,6 @@
         },
 
         addPasteButton: function ($menu: any, typeId: any, entry: any, matrix: any) {
-            if (!this.settings.experimentalFeatures) {
-                return;
-            }
-
             const $pasteButton = $(`<li>
             <button class="menu-item" data-action="paste" tabindex="0">
                         <span class="icon">
@@ -526,10 +522,6 @@
         },
 
         addAddBlockButton: function ($menu: any, _: any, entry: any, matrix: any) {
-            if (!this.settings.experimentalFeatures) {
-                return;
-            }
-
             if (!matrix.$addEntryMenuBtn.length) {
                 return;
             }
@@ -599,10 +591,6 @@
         },
 
         addCopyButton: function ($menu: any, typeId: any, entry: any, matrix: any) {
-            if (!this.settings.experimentalFeatures) {
-                return;
-            }
-
             const $copyButton = $(`<li>
                     <button class="menu-item" data-action="copy" tabindex="0">
                         <span class="icon">
