@@ -31,6 +31,12 @@
                 self.prepareEntryDropZones();
             };
 
+            const matrixUpdateAddEntryBtnFn = Craft.MatrixInput.prototype.updateAddEntryBtn;
+            Craft.MatrixInput.prototype.updateAddEntryBtn = function (...args: any[]) {
+                matrixUpdateAddEntryBtnFn.apply(this, args);
+                self.checkAddBtn(this);
+            };
+
             if (!this.settings.experimentalFeatures || !this.settings.enableDragDrop) {
                 return;
             }
@@ -46,7 +52,7 @@
             Craft.MatrixInput.prototype.canAddMoreEntries = function () {
                 return (
                     !this.maxEntries ||
-                    this.$entriesContainer.children(':not(.matrix-extended-drop-target)').length < this.maxEntries
+                    this.$entriesContainer.children(':not(.matrix-extended-drop-target):not(.matrix-extended-buttons)').length < this.maxEntries
                 );
             };
 
@@ -239,6 +245,7 @@
             if (disclosureMenu._hasMatrixExtensionButtonsInitialized) {
                 this.checkPaste($container, matrix);
                 this.checkDuplicate($container, matrix);
+                this.checkAdd($container, matrix);
                 return;
             }
             disclosureMenu._hasMatrixExtensionButtonsInitialized = true;
@@ -410,6 +417,7 @@
                 this.entryReference = data.entryReference;
                 this.checkPaste($menu, matrix);
                 this.checkDuplicate($menu, matrix);
+                this.checkAdd($menu, matrix);
                 await Craft.appendHeadHtml(data.headHtml);
                 await Craft.appendBodyHtml(data.bodyHtml);
                 this._hasMatrixExtensionButtonsInitialized
@@ -501,6 +509,7 @@
             this.addDeleteButton($menu, entry);
             this.checkPaste($menu, matrix);
             this.checkDuplicate($menu, matrix);
+            this.checkAdd($menu, matrix);
 
             $menu.insertBefore($container.find('ul').eq(0));
             $hr.insertAfter($menu);
@@ -744,6 +753,38 @@
                     disclosure.destroy();
                 })
             }
+        },
+
+        checkAdd: function ($container: any, matrix: any) {
+            const $addButton = $container.find('button[data-action="add-block"]');
+            $addButton.disable();
+            const $parent = $addButton.parent();
+            $parent.attr('title', '');
+
+            if (!matrix.canAddMoreEntries()) {
+                $parent.attr('title', Craft.t('matrix-extended', 'No more entries can be added.'));
+                return;
+            }
+
+            $addButton.enable();
+        },
+
+        checkAddBtn: function (matrix: any) {
+            if (!this.settings.expandMenu) {
+                return;
+            }
+
+            const $btns = matrix.$container.find('> .blocks > .matrix-extended-buttons, > .buttons > .matrix-extended-buttons').find('button');
+            $btns.disable();
+            const $parent = $btns.parent();
+            $parent.attr('title', '');
+
+            if (!matrix.canAddMoreEntries()) {
+                $parent.attr('title', Craft.t('matrix-extended', 'No more entries can be added.'));
+                return;
+            }
+
+            $btns.enable();
         },
 
         checkDuplicate: function ($container: any, matrix: any) {
