@@ -1,8 +1,15 @@
 # Release Notes for Matrix Extended
 
+## [v3.2.0] - 2024-05-20
+
+- feat(setup): removed experimental for some of the features [`7c49247`](https://github.com/vandres/craft-matrix-extended/commit/7c492478385fc2da72761ee84c98eace2a73f4b6)
+- chore(cleanup): remove unused variable [`d078127`](https://github.com/vandres/craft-matrix-extended/commit/d078127378af1811923ff9df4128e455866e5952)
+- docs(roadmap): updated roadmap [`5a13265`](https://github.com/vandres/craft-matrix-extended/commit/5a13265194a6e56f0ab7a2445e87e6f6b9f6eb36)
+
 ## [v3.1.0] - 2024-05-17
 
 - feat(delete): made delete button configurable [`c1dc22f`](https://github.com/vandres/craft-matrix-extended/commit/c1dc22fae934844049280236aaf158d5cf1016d2)
+- chore(release): 3.1.0 [`8d776d1`](https://github.com/vandres/craft-matrix-extended/commit/8d776d1ca6fd41e469bea6a6db7d54b005ac62c7)
 
 ## [v3.0.1] - 2024-05-17
 
@@ -112,6 +119,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.1.0...v3.2.0
 [v3.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.0.1...v3.1.0
 [v3.0.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.0.0...v3.0.1
 [v3.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v2.3.0...v3.0.0
