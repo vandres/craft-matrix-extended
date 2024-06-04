@@ -6,11 +6,11 @@ use Craft;
 use craft\helpers\App;
 use craft\helpers\Json;
 use craft\web\AssetBundle;
+use craft\web\assets\cp\CpAsset;
 use craft\web\assets\matrix\MatrixAsset;
 use craft\web\View;
 use nystudio107\pluginvite\services\VitePluginService;
 use vandres\matrixextended\MatrixExtended;
-use verbb\base\assetbundles\CpAsset;
 
 class MatrixExtendedAsset extends AssetBundle
 {
