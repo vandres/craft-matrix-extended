@@ -1,9 +1,14 @@
 # Release Notes for Matrix Extended
 
+## [v3.3.1] - 2024-06-04
+
+- fix(cp): removed wrong dependency [`3883290`](https://github.com/vandres/craft-matrix-extended/commit/3883290a36fec0470c09c72e2b4626c3c09b25ec)
+
 ## [v3.3.0] - 2024-05-20
 
 - fix(add): added build [`122a3ef`](https://github.com/vandres/craft-matrix-extended/commit/122a3ef1731c249f80bf190a52374facc556f49b)
 - feat(add): respect `canAddMoreEntries` in much more places [`583dd66`](https://github.com/vandres/craft-matrix-extended/commit/583dd668d9586e4573339fd288f6ebed77feba86)
+- chore(release): 3.3.0 [`6d4166b`](https://github.com/vandres/craft-matrix-extended/commit/6d4166b04a60d7c2d8e435fc59024053ddb80c3d)
 - fix(dragdrop): dragging class is not always removed [`cc8670f`](https://github.com/vandres/craft-matrix-extended/commit/cc8670fe707c05d3bd1e39b6c5670318be715a05)
 
 ## [v3.2.0] - 2024-05-20
@@ -126,6 +131,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.3.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.3.0...v3.3.1
 [v3.3.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.2.0...v3.3.0
 [v3.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.1.0...v3.2.0
 [v3.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.0.1...v3.1.0
