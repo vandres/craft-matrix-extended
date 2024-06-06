@@ -1,7 +1,12 @@
 # Release Notes for Matrix Extended
 
+## [v3.4.0] - 2024-06-06
+
+- feat(misc): disable initialization on non "blocks" matrix fields [`76aa25f`](https://github.com/vandres/craft-matrix-extended/commit/76aa25ffa77ee9838d8de77d97d9033a1ebbedf0)
+
 ## [v3.3.1] - 2024-06-04
 
+- chore(release): 3.3.1 [`18e2346`](https://github.com/vandres/craft-matrix-extended/commit/18e23466c6669e8a8742076f2472e692b71356f7)
 - fix(cp): removed wrong dependency [`3883290`](https://github.com/vandres/craft-matrix-extended/commit/3883290a36fec0470c09c72e2b4626c3c09b25ec)
 
 ## [v3.3.0] - 2024-05-20
@@ -131,6 +136,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.4.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.3.1...v3.4.0
 [v3.3.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.3.0...v3.3.1
 [v3.3.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.2.0...v3.3.0
 [v3.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.1.0...v3.2.0
