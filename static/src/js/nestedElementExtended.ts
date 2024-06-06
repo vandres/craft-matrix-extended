@@ -4,6 +4,9 @@
         return;
     }
 
+    /**
+     * @see https://github.com/craftcms/cms/blob/5.x/src/web/assets/cp/src/js/NestedElementManager.js
+     */
     Craft.NestedElementExtended = Garnish.Base.extend({
         settings: {}, childParent: {}, entryReference: undefined,
 

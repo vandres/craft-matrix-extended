@@ -4,6 +4,9 @@
         return;
     }
 
+    /**
+     * @see https://github.com/craftcms/cms/blob/5.x/src/web/assets/matrix/src/MatrixInput.js
+     */
     Craft.MatrixExtended = Garnish.Base.extend({
         settings: {}, childParent: {}, entryReference: undefined, itemDrag: undefined,
 
