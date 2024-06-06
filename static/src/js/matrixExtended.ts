@@ -13,8 +13,7 @@
             this.childParent = config.childParent || {};
             this.entryReference = config.entryReference || undefined;
 
-            // Init disclosure menus
-            if (!Garnish.DisclosureMenu) {
+            if (!Garnish.DisclosureMenu || !Craft.MatrixInput) {
                 return;
             }
 
@@ -194,7 +193,7 @@
 
             const {$trigger, $container} = disclosureMenu;
             const $parent = $trigger.parent();
-            const $wrapper = $trigger.closest('.matrix-field');
+            const $wrapper = $trigger.closest('.buttons').parent('.matrix-field');
             if (!$trigger || !$container || !$parent.hasClass('buttons') || !$wrapper.attr('id')) {
                 return;
             }
@@ -228,7 +227,7 @@
             if (!$trigger || !$container || !$trigger.hasClass('action-btn')) {
                 return;
             }
-            const $element = $trigger.closest('.matrixblock');
+            const $element = $trigger.closest('.actions').parent('.matrixblock');
             if (!$element.length) {
                 return;
             }
@@ -634,16 +633,16 @@
                 return;
             }
 
-            const $duplicateButton = $(`<li>
+            const $deleteButton = $(`<li>
                 <button class="menu-item error" data-action="delete" tabindex="0">
                     <span class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
                     </span><span class="menu-item-label">${Craft.t('matrix-extended', 'Delete')}</span>
                 </button>
             </li>`);
-            $menu.append($duplicateButton);
+            $menu.append($deleteButton);
 
-            $duplicateButton.find('button').on('click', function () {
+            $deleteButton.find('button').on('click', function () {
                 entry.selfDestruct();
                 entry.actionDisclosure.hide();
             });

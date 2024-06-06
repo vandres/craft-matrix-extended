@@ -39,6 +39,7 @@ class MatrixExtendedAsset extends AssetBundle
         if ($vite->devServerRunning()) {
             $this->js = [
                 "$viteServer/src/js/matrixExtended.ts",
+                "$viteServer/src/js/nestedElementExtended.ts",
             ];
 
             $this->css = [
@@ -47,6 +48,7 @@ class MatrixExtendedAsset extends AssetBundle
         } else {
             $this->js = [
                 ltrim($vite->entry('src/js/matrixExtended.ts'), '/'),
+                ltrim($vite->entry('src/js/nestedElementExtended.ts'), '/'),
             ];
 
             $this->css = [
@@ -100,6 +102,9 @@ class MatrixExtendedAsset extends AssetBundle
         $js = <<<JS
             if (window.Craft.MatrixExtended) {
                 new window.Craft.MatrixExtended($config);
+            }
+            if (window.Craft.NestedElementExtended) {
+                new window.Craft.NestedElementExtended($config);
             }
         JS;
         $view->registerJs($js, View::POS_END);

@@ -34,6 +34,31 @@ class MatrixService
         return $relations;
     }
 
+    /**
+     * The matrix can have different view modes ('blocks', 'cards', 'index')
+     * Return only the ones, with view mode 'blocks' (inline editable)
+     *
+     * @return array
+     */
+    public function getMatrixInputs(): array
+    {
+        $matrixInputs = [];
+        $fields = Craft::$app->getFields()->getAllFields();
+
+        foreach ($fields as $field) {
+            if (!($field instanceof \craft\fields\Matrix)) {
+                continue;
+            }
+            if ($field->viewMode !== \craft\fields\Matrix::VIEW_MODE_BLOCKS) {
+                continue;
+            }
+
+            $matrixInputs[] = $field->id;
+        }
+
+        return $matrixInputs;
+    }
+
     public function setReference($reference): void
     {
         Craft::$app->getSession()->set('matrixExtendedReference' . MatrixExtended::getInstance()->schemaVersion, $reference);

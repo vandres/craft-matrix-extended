@@ -13,6 +13,7 @@ export default defineConfig(({command}) => ({
         outDir: '../src/web/assets/dist',
         rollupOptions: {
             input: {
+                nestedElementExtendedJs: 'src/js/nestedElementExtended.ts',
                 matrixExtendedJs: 'src/js/matrixExtended.ts',
                 matrixExtendedCss: 'src/css/matrixExtended.scss',
             },
