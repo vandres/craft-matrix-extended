@@ -701,6 +701,10 @@
                     $li.append($button);
                     $menu.append($li);
                     $button.on('activate', () => {
+                        if (!above) {
+                            disclosure.hide();
+                            return;
+                        }
                         $menuContainer.remove();
                         disclosure.destroy();
                     });
@@ -751,6 +755,10 @@
                 $li.append($button);
                 $menu.append($li);
                 $button.on('activate', () => {
+                    if (!above) {
+                        disclosure.hide();
+                        return;
+                    }
                     $menuContainer.remove();
                     disclosure.destroy();
                 })
