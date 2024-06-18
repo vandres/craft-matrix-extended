@@ -1,8 +1,13 @@
 # Release Notes for Matrix Extended
 
+## [v3.4.2] - 2024-06-18
+
+- fix(add): allow grouped blocks to wrap [`17d65b9`](https://github.com/vandres/craft-matrix-extended/commit/17d65b96836e5dc4b09bc9c29b0347948a111f01)
+
 ## [v3.4.1] - 2024-06-17
 
 - fix(add): bottom disclosure menus were only usable once [`9ae2d9b`](https://github.com/vandres/craft-matrix-extended/commit/9ae2d9b1d8c3373ecab0ba5933726ce7102eded5)
+- chore(release): 3.4.1 [`920a89a`](https://github.com/vandres/craft-matrix-extended/commit/920a89a92131f95bc76da736c7e9d3b99ca970e9)
 - docs(misc): add comment which point to source files [`f061372`](https://github.com/vandres/craft-matrix-extended/commit/f061372b55a54222543b94ee3ee9d9b429b6067b)
 
 ## [v3.4.0] - 2024-06-06
@@ -142,6 +147,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.4.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.1...v3.4.2
 [v3.4.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.0...v3.4.1
 [v3.4.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.3.1...v3.4.0
 [v3.3.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.3.0...v3.3.1
