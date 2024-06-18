@@ -207,7 +207,10 @@
             $trigger.hide();
             $trigger._hasMatrixExtensionButtonsInitialized = true;
 
-            const $buttonContainer = $('<div class="buttons matrix-extended-buttons"></div>')
+            const $buttonContainer = $('<div class="buttons matrix-extended-buttons"></div>');
+            if (this.settings.expandUngrouped) {
+                $buttonContainer.addClass('ungrouped');
+            }
             const $actionButtons = $trigger
                 .disclosureMenu()
                 .data('disclosureMenu')

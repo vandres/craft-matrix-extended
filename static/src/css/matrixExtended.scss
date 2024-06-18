@@ -11,6 +11,11 @@
 .matrix-extended-buttons {
   margin-top: 1px;
   margin-bottom: 10px;
+  flex-wrap: wrap;
+
+  &.ungrouped {
+    flex-wrap: nowrap;
+  }
 }
 
 .matrix-extended-btngroup {
