@@ -1,8 +1,13 @@
 # Release Notes for Matrix Extended
 
+## [v3.4.3] - 2024-06-24
+
+- fix(duplicate): duplication of nested asset and entry doesn't work [`3f60730`](https://github.com/vandres/craft-matrix-extended/commit/3f607304516ae04e415ee2e78635b46a1fc2b9c1)
+
 ## [v3.4.2] - 2024-06-18
 
 - fix(add): allow grouped blocks to wrap [`17d65b9`](https://github.com/vandres/craft-matrix-extended/commit/17d65b96836e5dc4b09bc9c29b0347948a111f01)
+- chore(release): 3.4.2 [`277e21d`](https://github.com/vandres/craft-matrix-extended/commit/277e21dbc96bdbb4ecfc74cf6825c6bba81662ab)
 
 ## [v3.4.1] - 2024-06-17
 
@@ -147,6 +152,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.4.3]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.2...v3.4.3
 [v3.4.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.1...v3.4.2
 [v3.4.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.0...v3.4.1
 [v3.4.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.3.1...v3.4.0
