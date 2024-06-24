@@ -4,6 +4,7 @@ namespace vandres\matrixextended\controllers;
 
 use Craft;
 use craft\base\Element;
+use craft\elements\db\AssetQuery;
 use craft\elements\db\EntryQuery;
 use craft\elements\ElementCollection;
 use craft\elements\Entry;
@@ -127,9 +128,27 @@ class MatrixExtendedController extends \craft\web\Controller
 
         try {
             $dirtyFields = $duplicatedEntry->getDirtyFields();
+            $saveLater = [];
             foreach ($entry->getFieldValues() as $handle => $value) {
-                if ($value instanceof EntryQuery) {
-                    $children[] = ['owner' => $entry->id, 'handle' => $handle, 'elements' => $value->status(null)->all()];
+                if ($value instanceof AssetQuery) {
+                    $saveLater[] = [
+                        'handle' => $handle,
+                        'value' => $value,
+                    ];
+                } else if ($value instanceof EntryQuery) {
+                    $elements = $value->status(null)->all();
+                    $matrixElements = array_filter($elements, function ($element) {
+                        return !!$element->fieldId;
+                    });
+
+                    if (empty($matrixElements)) {
+                        $saveLater[] = [
+                            'handle' => $handle,
+                            'value' => $value,
+                        ];
+                    } else {
+                        $children[] = ['owner' => $entry->id, 'handle' => $handle, 'elements' => $matrixElements];
+                    }
                 } else if (is_object($value) && !$value instanceof \UnitEnum) {
                     $duplicatedEntry->setFieldValue($handle, clone $value);
                 }
@@ -142,6 +161,16 @@ class MatrixExtendedController extends \craft\web\Controller
             foreach ($children as $child) {
                 foreach ($child['elements'] as $childElement) {
                     $this->cloneEntry($childElement, $duplicatedEntry->id);
+                }
+            }
+
+            if (!empty($saveLater)) {
+                foreach ($saveLater as $field) {
+                    $duplicatedEntry->setFieldValue($field['handle'], clone $field['value']);
+                }
+
+                if (!$elementsService->saveElement($duplicatedEntry, false)) {
+                    throw new \Exception('Could not save element on cloning process');
                 }
             }
 
