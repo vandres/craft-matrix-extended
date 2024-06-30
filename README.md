@@ -59,6 +59,15 @@ return [
                     'types' => ['header', 'text'], // entry type handles
                 ],
             ],
+        ],
+        'simplecontent' => [ // matrix field handle
+            'oneLiner' => true, // prevent buttons from wrapping
+            'groups' => [
+                [
+                    'label' => \Craft::t('app', 'Simple'),
+                    'types' => ['header', 'text'], // entry type handles
+                ],
+            ],
         ]
     ]
 ];
@@ -70,8 +79,8 @@ return [
 - ~~duplicate entries~~ (done)
 - ~~copy and paste an entry to another position in the same or another entry type~~ (testing)
 - ~~copy and paste an entry to another section~~ (testing)
-- "Add Block Above" Neo-style (testing)
-  - respect `canAddMoreEntries`
+- ~~"Add Block Above" Neo-style~~ (testing)
+  - ~~respect `canAddMoreEntries`~~
 - ~~Allow "Add Block Above" to be expanded via settings~~ (testing)
   - ~~show as dropdown, if space is not enough~~ (not for now)
   - ~~allow to group buttons~~ (testing)

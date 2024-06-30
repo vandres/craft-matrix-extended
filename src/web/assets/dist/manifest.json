@@ -1,11 +1,11 @@
 {
   "src/css/matrixExtended.scss": {
-    "file": "assets/matrixExtended-af5673d2.css",
+    "file": "assets/matrixExtended-aff7b440.css",
     "isEntry": true,
     "src": "src/css/matrixExtended.scss"
   },
   "src/js/matrixExtended.ts": {
-    "file": "assets/matrixExtendedJs-a9e11b24.js",
+    "file": "assets/matrixExtendedJs-814c92e9.js",
     "isEntry": true,
     "src": "src/js/matrixExtended.ts"
   },

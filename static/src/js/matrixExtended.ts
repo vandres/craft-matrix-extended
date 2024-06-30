@@ -208,9 +208,6 @@
             $trigger._hasMatrixExtensionButtonsInitialized = true;
 
             const $buttonContainer = $('<div class="buttons matrix-extended-buttons"></div>');
-            if (this.settings.expandUngrouped) {
-                $buttonContainer.addClass('ungrouped');
-            }
             const $actionButtons = $trigger
                 .disclosureMenu()
                 .data('disclosureMenu')
@@ -675,7 +672,10 @@
                 return;
             }
 
-            const fieldGroup: Record<string, { groups: any }> = this.settings.fields[fieldIndex];
+            const fieldGroup: Record<string, { groups: any, oneLiner: boolean }> = this.settings.fields[fieldIndex];
+            if (fieldGroup.oneLiner) {
+                $buttonContainer.addClass('one-line');
+            }
             for (const [index, group] of Object.entries(fieldGroup.groups)) {
                 $(`#matrix-extended-menu-${id}-${index}${above ? '-above' : ''}`).remove();
 
