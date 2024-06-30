@@ -1,8 +1,13 @@
 # Release Notes for Matrix Extended
 
+## [v3.5.0] - 2024-06-30
+
+- feat(add): added option to manually decide about oneliner [`41ce674`](https://github.com/vandres/craft-matrix-extended/commit/41ce6743a82b7f7690f9479ce3d1e0384cf3ded7)
+
 ## [v3.4.3] - 2024-06-24
 
 - fix(duplicate): duplication of nested asset and entry doesn't work [`3f60730`](https://github.com/vandres/craft-matrix-extended/commit/3f607304516ae04e415ee2e78635b46a1fc2b9c1)
+- chore(release): 3.4.3 [`52410b2`](https://github.com/vandres/craft-matrix-extended/commit/52410b2ae265a8bec8f272861f5cc8f89480f761)
 
 ## [v3.4.2] - 2024-06-18
 
@@ -152,6 +157,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.5.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.3...v3.5.0
 [v3.4.3]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.2...v3.4.3
 [v3.4.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.1...v3.4.2
 [v3.4.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.0...v3.4.1
