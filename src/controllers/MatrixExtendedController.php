@@ -79,7 +79,7 @@ class MatrixExtendedController extends \craft\web\Controller
             throw new ForbiddenHttpException('User not authorized to duplicate this element.');
         }
 
-        $duplicatedEntry = $this->cloneEntry($entry, $ownerId);
+        $duplicatedEntry = $this->cloneEntry($entry, $ownerId, $siteId);
 
         /** @var EntryQuery|ElementCollection $value */
         $value = $owner->getFieldValue($field->handle);
@@ -102,11 +102,11 @@ class MatrixExtendedController extends \craft\web\Controller
         ]);
     }
 
-    private function cloneEntry(Entry $entry, $ownerId)
+    private function cloneEntry(Entry $entry, $ownerId, $siteId = null)
     {
         $elementsService = Craft::$app->getElements();
 
-        $owner = $elementsService->getElementById($ownerId);
+        $owner = $elementsService->getElementById($ownerId, null, $siteId);
 
         // Ensure all fields have been normalized
         $entry->getFieldValues();
@@ -160,7 +160,7 @@ class MatrixExtendedController extends \craft\web\Controller
 
             foreach ($children as $child) {
                 foreach ($child['elements'] as $childElement) {
-                    $this->cloneEntry($childElement, $duplicatedEntry->id);
+                    $this->cloneEntry($childElement, $duplicatedEntry->id, $siteId);
                 }
             }
 
@@ -311,7 +311,7 @@ class MatrixExtendedController extends \craft\web\Controller
             throw new BadRequestHttpException('That entry type cannot be pasted in that element.');
         }
 
-        $duplicatedEntry = $this->cloneEntry($entry, $ownerId);
+        $duplicatedEntry = $this->cloneEntry($entry, $ownerId, $siteId);
 
         /** @var EntryQuery|ElementCollection $value */
         $value = $owner->getFieldValue($field->handle);
@@ -397,7 +397,7 @@ class MatrixExtendedController extends \craft\web\Controller
             throw new BadRequestHttpException('That entry type cannot be pasted in that element.');
         }
 
-        $duplicatedEntry = $this->cloneEntry($entry, $ownerId);
+        $duplicatedEntry = $this->cloneEntry($entry, $ownerId, $siteId);
 
         /** @var EntryQuery|ElementCollection $value */
         $value = $owner->getFieldValue($field->handle);
