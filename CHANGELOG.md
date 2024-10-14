@@ -1,8 +1,13 @@
 # Release Notes for Matrix Extended
 
+## [v3.5.1] - 2024-10-14
+
+- fix(duplicate): respect site, when getting owner of duplication element [`e76385a`](https://github.com/vandres/craft-matrix-extended/commit/e76385a3afe5eba07b10c6bee5676e3481a2a6f1)
+
 ## [v3.5.0] - 2024-06-30
 
 - feat(add): added option to manually decide about oneliner [`41ce674`](https://github.com/vandres/craft-matrix-extended/commit/41ce6743a82b7f7690f9479ce3d1e0384cf3ded7)
+- chore(release): 3.5.0 [`0d85584`](https://github.com/vandres/craft-matrix-extended/commit/0d85584e952bbb9bce01f5579e968086fee6fb07)
 
 ## [v3.4.3] - 2024-06-24
 
@@ -157,6 +162,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.5.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.0...v3.5.1
 [v3.5.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.3...v3.5.0
 [v3.4.3]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.2...v3.4.3
 [v3.4.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.1...v3.4.2
