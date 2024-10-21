@@ -1,7 +1,12 @@
 # Release Notes for Matrix Extended
 
+## [v3.5.2] - 2024-10-21
+
+- fix(copy): copy and paste were still checking for `experimentalFeatures` flag [`9470ab6`](https://github.com/vandres/craft-matrix-extended/commit/9470ab62a09724b5020f58d04ada041b03134835)
+
 ## [v3.5.1] - 2024-10-14
 
+- chore(release): 3.5.1 [`a5636fc`](https://github.com/vandres/craft-matrix-extended/commit/a5636fc96e88cf603e96c62f02e8b34f96763f13)
 - fix(duplicate): respect site, when getting owner of duplication element [`e76385a`](https://github.com/vandres/craft-matrix-extended/commit/e76385a3afe5eba07b10c6bee5676e3481a2a6f1)
 
 ## [v3.5.0] - 2024-06-30
@@ -162,6 +167,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.5.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.1...v3.5.2
 [v3.5.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.0...v3.5.1
 [v3.5.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.3...v3.5.0
 [v3.4.3]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.2...v3.4.3
