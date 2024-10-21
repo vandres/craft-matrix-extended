@@ -190,10 +190,6 @@ class MatrixExtendedController extends \craft\web\Controller
      */
     public function actionCopyEntry(): Response
     {
-        if (!$this->settings->experimentalFeatures) {
-            throw new ForbiddenHttpException('Experimental features not enabled.');
-        }
-
         $entryId = $this->request->getRequiredBodyParam('entryId');
         $fieldId = $this->request->getRequiredBodyParam('fieldId');
         $entryTypeId = $this->request->getRequiredBodyParam('entryTypeId');
@@ -341,10 +337,6 @@ class MatrixExtendedController extends \craft\web\Controller
      */
     public function actionPasteEntry(): Response
     {
-        if (!$this->settings->experimentalFeatures) {
-            throw new ForbiddenHttpException('Experimental features not enabled.');
-        }
-
         // check source
         $entryReference = MatrixExtended::getInstance()->service->getReference();
         if (empty($entryReference)) {
