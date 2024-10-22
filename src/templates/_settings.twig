@@ -23,6 +23,16 @@
 }) }}
 
 {{ forms.lightswitchField({
+    label:        'Remove entry types from disclosure menu'|t('matrix-extended'),
+    name:         'removeEntryTypesFromDiscloseMenu',
+    id:           'removeEntryTypesFromDiscloseMenu',
+    instructions: 'Removes the add buttons from the disclosure menu, so the menu gets more slick.'|t('matrix-extended'),
+    on:           settings.removeEntryTypesFromDiscloseMenu,
+    disabled:     'removeEntryTypesFromDiscloseMenu' in overrides,
+    warning:      'removeEntryTypesFromDiscloseMenu' in overrides ? configWarning('removeEntryTypesFromDiscloseMenu'),
+}) }}
+
+{{ forms.lightswitchField({
     label:        'Enable experimental features'|t('matrix-extended'),
     name:         'experimentalFeatures',
     id:           'experimentalFeatures',

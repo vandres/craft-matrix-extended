@@ -29,4 +29,6 @@ return [
     'Enable experimental features' => '',
     'Use experimental features right now. But they might not be for normal editorial users.' => '',
     'This is being overridden by the {setting} config setting in your {file} config file.' => '',
+    'Remove entry types from disclosure menu' => '',
+    'Removes the add buttons from the disclosure menu, so the menu gets more slick.' => '',
 ];

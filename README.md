@@ -45,7 +45,8 @@ That is also the only way (for now), to configure the group buttons. That could 
 
 ```php
 return [
-    'extraDeleteButton' => true,
+    'extraDeleteButton' => false,
+    'removeEntryTypesFromDiscloseMenu' => true,
     'experimentalFeatures' => true,
     'enableDragDrop' => false,
     'expandMenu' => true,

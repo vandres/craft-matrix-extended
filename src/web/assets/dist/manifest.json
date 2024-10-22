@@ -5,7 +5,7 @@
     "src": "src/css/matrixExtended.scss"
   },
   "src/js/matrixExtended.ts": {
-    "file": "assets/matrixExtendedJs-814c92e9.js",
+    "file": "assets/matrixExtendedJs-fea651f2.js",
     "isEntry": true,
     "src": "src/js/matrixExtended.ts"
   },

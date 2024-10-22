@@ -513,6 +513,12 @@
             this.checkDuplicate($menu, matrix);
             this.checkAdd($menu, matrix);
 
+            if (this.settings.removeEntryTypesFromDiscloseMenu) {
+                const $addButtonContainer = $container.find('[data-action="add"]').parent().parent();
+                $addButtonContainer.prev().remove();
+                $addButtonContainer.remove();
+            }
+
             $menu.insertBefore($container.find('ul').eq(0));
             $hr.insertAfter($menu);
         },
@@ -533,7 +539,7 @@
         },
 
         addAddBlockButton: function ($menu: any, _: any, entry: any, matrix: any) {
-            if (!matrix.$addEntryMenuBtn.length) {
+            if (!matrix.$addEntryMenuBtn.length && !matrix.$addEntryBtn.length) {
                 return;
             }
 
@@ -552,8 +558,11 @@
                 $('.matrix-extended-buttons-above').remove();
                 $(`#matrix-extended-menu-${id}-all`).remove();
 
-                const $buttonContainer = $('<div class="buttons matrix-extended-buttons matrix-extended-buttons-above"></div>')
-                const $actionButtons = matrix.$addEntryMenuBtn.data('disclosureMenu').$container.find('button').clone().off();
+                const $buttonContainer = $('<div class="buttons matrix-extended-buttons matrix-extended-buttons-above"></div>');
+                const $actionButtons =
+                    matrix.$addEntryMenuBtn.length
+                    ? matrix.$addEntryMenuBtn.data('disclosureMenu').$container.find('button').clone().off()
+                    : matrix.$addEntryBtn.clone().off();
 
                 const $clone = Craft.ui
                     .createButton({

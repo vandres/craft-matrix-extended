@@ -28,7 +28,8 @@ class MatrixExtendedAsset extends AssetBundle
         $vite = Craft::createObject([
             'class' => VitePluginService::class,
             'assetClass' => MatrixExtendedViteAsset::class,
-            'useDevServer' => true,
+            'pluginDevServerEnvVar' => 'VANDRES_PLUGIN_DEVSERVER',
+            'useDevServer' => App::env('VANDRES_PLUGIN_DEVSERVER') ?? false,
             'devServerPublic' => $viteServer,
             'serverPublic' => App::env('PRIMARY_SITE_URL'),
             'errorEntry' => 'src/js/matrixExtended.ts',

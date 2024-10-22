@@ -28,5 +28,5 @@
 
 ```php
 # Plugin development
-VITE_PLUGIN_DEVSERVER=1
+VANDRES_PLUGIN_DEVSERVER=1
 ```

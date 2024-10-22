@@ -8,6 +8,8 @@ class Settings extends Model
 {
     public bool $extraDeleteButton = false;
 
+    public bool $removeEntryTypesFromDiscloseMenu = false;
+
     public bool $experimentalFeatures = false;
 
     public bool $enableDragDrop = false;
@@ -23,7 +25,7 @@ class Settings extends Model
     public function defineRules(): array
     {
         return [
-            [['experimentalFeatures', 'expandMenu', 'expandUngrouped', 'enableDragDrop', 'extraDeleteButton'], 'boolean'],
+            [['experimentalFeatures', 'expandMenu', 'expandUngrouped', 'enableDragDrop', 'extraDeleteButton', 'removeEntryTypesFromDiscloseMenu'], 'boolean'],
             [['ungroupedPosition'], 'in', 'range' => ['start', 'end']],
         ];
     }
