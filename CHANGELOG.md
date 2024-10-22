@@ -1,7 +1,12 @@
 # Release Notes for Matrix Extended
 
-## [v3.5.2] - 2024-10-21
+## [v3.6.0] - 2024-10-22
 
+- feat(add): allow to hide the default entry types in the disclosure menu [`d514116`](https://github.com/vandres/craft-matrix-extended/commit/d514116a35b6ecbbe2ab54dede93d70244b1bdc3)
+
+## [v3.5.2] - 2024-10-22
+
+- chore(release): 3.5.2 [`0b8c06a`](https://github.com/vandres/craft-matrix-extended/commit/0b8c06af586ae40efbd55ee56ebb4aeaf597627d)
 - fix(copy): copy and paste were still checking for `experimentalFeatures` flag [`9470ab6`](https://github.com/vandres/craft-matrix-extended/commit/9470ab62a09724b5020f58d04ada041b03134835)
 
 ## [v3.5.1] - 2024-10-14
@@ -167,6 +172,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.6.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.2...v3.6.0
 [v3.5.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.1...v3.5.2
 [v3.5.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.0...v3.5.1
 [v3.5.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.4.3...v3.5.0
