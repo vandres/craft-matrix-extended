@@ -561,8 +561,8 @@
                 const $buttonContainer = $('<div class="buttons matrix-extended-buttons matrix-extended-buttons-above"></div>');
                 const $actionButtons =
                     matrix.$addEntryMenuBtn.length
-                    ? matrix.$addEntryMenuBtn.data('disclosureMenu').$container.find('button').clone().off()
-                    : matrix.$addEntryBtn.clone().off();
+                        ? matrix.$addEntryMenuBtn.data('disclosureMenu').$container.find('button').clone().off()
+                        : matrix.$addEntryBtn.clone().off();
 
                 const $clone = Craft.ui
                     .createButton({
@@ -588,7 +588,7 @@
                 $actionButtons.on('activate', async (ev: any) => {
                     $clone.addClass('loading');
                     try {
-                        await matrix.addEntry($(ev.currentTarget).data('type'), entry.$container);
+                        await matrix.addEntry($(ev.currentTarget).data('type'), entry.$container[0].checkVisibility() ? entry.$container : undefined);
                     } finally {
                         disclosure.hide();
                         $clone.remove();

@@ -6,9 +6,10 @@ Adds functionality to the native Matrix field type.
 
 - Duplication of entries
 - Additional delete button on top, if your entry type list is very long 
+  - Optionally get rid of that long list 
 - Copy&Paste of entries, also in between entry types
-- grouping of entry types
-  - unfold or group ungrouped types
+- Grouping of entry types
+  - Unfold or group ungrouped types
 - Drag&Drop of entries, also in between entry types (experimental)
 
 ## Requirements
