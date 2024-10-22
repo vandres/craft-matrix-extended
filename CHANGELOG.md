@@ -1,8 +1,13 @@
 # Release Notes for Matrix Extended
 
-## [v3.6.0] - 2024-10-22
+## [v3.6.1] - 2024-10-22
+
+- fix(add): when adding an element above, while all other elements were removed [`93749cb`](https://github.com/vandres/craft-matrix-extended/commit/93749cb053a675cd17b52a3e663420f4fca70352)
+
+## [v3.6.0] - 2024-10-23
 
 - feat(add): allow to hide the default entry types in the disclosure menu [`d514116`](https://github.com/vandres/craft-matrix-extended/commit/d514116a35b6ecbbe2ab54dede93d70244b1bdc3)
+- chore(release): 3.6.0 [`4a72f3d`](https://github.com/vandres/craft-matrix-extended/commit/4a72f3d55a0d16d8a841f63407d4f3e3679fff5b)
 
 ## [v3.5.2] - 2024-10-22
 
@@ -172,6 +177,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.6.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.0...v3.6.1
 [v3.6.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.2...v3.6.0
 [v3.5.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.1...v3.5.2
 [v3.5.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.0...v3.5.1
