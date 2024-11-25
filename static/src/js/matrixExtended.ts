@@ -170,7 +170,7 @@
                 $block.before($dropTargetBefore);
             }
 
-            const $buttons = $fields.find('> .buttons');
+            const $buttons = $blocks.find('> .buttons');
             for (const button of $buttons) {
                 const $button = $(button);
 
