@@ -1,8 +1,13 @@
 # Release Notes for Matrix Extended
 
-## [v3.6.1] - 2024-10-22
+## [v3.6.2] - 2024-11-25
+
+- fix(add): add function is triggered twice in Craft 5.5.x [`8ee0fb2`](https://github.com/vandres/craft-matrix-extended/commit/8ee0fb2396cb6da991f5d3cc34563be594cb6028)
+
+## [v3.6.1] - 2024-10-23
 
 - fix(add): when adding an element above, while all other elements were removed [`93749cb`](https://github.com/vandres/craft-matrix-extended/commit/93749cb053a675cd17b52a3e663420f4fca70352)
+- chore(release): 3.6.1 [`5565c9a`](https://github.com/vandres/craft-matrix-extended/commit/5565c9a0c6d9b75dc22ae383d6f428afd1a57bec)
 
 ## [v3.6.0] - 2024-10-23
 
@@ -177,6 +182,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.6.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.1...v3.6.2
 [v3.6.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.0...v3.6.1
 [v3.6.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.2...v3.6.0
 [v3.5.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.1...v3.5.2
