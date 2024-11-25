@@ -1,8 +1,13 @@
 # Release Notes for Matrix Extended
 
+## [v3.6.3] - 2024-11-25
+
+- fix(dragdrop): only add drag and drop target, if there are blocks [`80c1389`](https://github.com/vandres/craft-matrix-extended/commit/80c13891687cdf10f3a7d9f25cf418bd1e235008)
+
 ## [v3.6.2] - 2024-11-25
 
 - fix(add): add function is triggered twice in Craft 5.5.x [`8ee0fb2`](https://github.com/vandres/craft-matrix-extended/commit/8ee0fb2396cb6da991f5d3cc34563be594cb6028)
+- chore(release): 3.6.2 [`7d4aec7`](https://github.com/vandres/craft-matrix-extended/commit/7d4aec71c1ab88635993d4c71a493de5a2b7bd3a)
 
 ## [v3.6.1] - 2024-10-23
 
@@ -182,6 +187,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.6.3]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.2...v3.6.3
 [v3.6.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.1...v3.6.2
 [v3.6.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.0...v3.6.1
 [v3.6.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.5.2...v3.6.0
