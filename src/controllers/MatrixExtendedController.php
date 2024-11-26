@@ -106,6 +106,11 @@ class MatrixExtendedController extends \craft\web\Controller
     {
         $elementsService = Craft::$app->getElements();
 
+        // With Craft 5.5.x, the native Duplication started working
+        if (version_compare(\Craft::$app->getVersion(), '5.5.0', '>=')) {
+            return $elementsService->duplicateElement($entry);
+        }
+
         $owner = $elementsService->getElementById($ownerId, null, $siteId);
 
         // Ensure all fields have been normalized
