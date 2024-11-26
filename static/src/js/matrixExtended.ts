@@ -349,7 +349,7 @@
                 const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/matrix-extended/duplicate-entry-with-new-owner', {
                     data: {
                         fieldId: matrix.settings.fieldId,
-                        entryId: entry.id,
+                        entryId: entry.id, // TODO get draft id in controller
                         entryTypeId: typeId,
                         ownerId: matrix.settings.ownerId,
                         ownerElementType: matrix.settings.ownerElementType,
@@ -510,6 +510,10 @@
             this.addCopyButton($menu, typeId, entry, matrix);
             this.addPasteButton($menu, typeId, entry, matrix);
             this.addDeleteButton($menu, entry);
+
+            $menu.insertBefore($container.find('ul').eq(0));
+            $hr.insertAfter($menu);
+
             this.checkPaste($menu, matrix);
             this.checkDuplicate($menu, matrix);
             this.checkAdd($menu, matrix);
@@ -519,9 +523,6 @@
                 $addButtonContainer.prev().remove();
                 $addButtonContainer.remove();
             }
-
-            $menu.insertBefore($container.find('ul').eq(0));
-            $hr.insertAfter($menu);
         },
 
         addPasteButton: function ($menu: any, typeId: any, entry: any, matrix: any) {

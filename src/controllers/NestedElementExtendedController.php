@@ -9,7 +9,9 @@ use craft\base\NestedElementInterface;
 use craft\elements\db\AssetQuery;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\db\EntryQuery;
+use craft\elements\db\NestedElementQueryInterface;
 use craft\elements\Entry;
+use craft\elements\User;
 use craft\fields\Matrix;
 use craft\helpers\ElementHelper;
 use craft\helpers\StringHelper;
@@ -46,14 +48,15 @@ class NestedElementExtendedController extends \craft\web\Controller
             throw new ForbiddenHttpException('Experimental features not enabled.');
         }
 
-        $entryId = $this->request->getRequiredBodyParam('id');
+        $entryId = $this->request->getRequiredBodyParam('entryId');
         $fieldId = $this->request->getRequiredBodyParam('fieldId');
         $ownerId = $this->request->getRequiredBodyParam('ownerId');
         $ownerElementType = $this->request->getRequiredBodyParam('ownerElementType');
         $siteId = $this->request->getRequiredBodyParam('siteId');
 
         $elementsService = Craft::$app->getElements();
-        $entry = $elementsService->getElementById($entryId, $ownerElementType, $siteId);
+        $user = static::currentUser();
+        $entry = $this->getElementById($entryId, true, 'craft\elements\Entry', $user, $siteId, [], $ownerId, $fieldId);
         if (!$entry) {
             throw new BadRequestHttpException("Invalid entry ID, element type, or site ID.");
         }
@@ -72,7 +75,6 @@ class NestedElementExtendedController extends \craft\web\Controller
             throw new BadRequestHttpException("Invalid site ID: $siteId");
         }
 
-        $user = static::currentUser();
         if (!$entry->canSave($user)) {
             throw new ForbiddenHttpException('User not authorized to duplicate this element.');
         }
@@ -100,18 +102,86 @@ class NestedElementExtendedController extends \craft\web\Controller
         return $this->asJson($duplicatedEntry);
     }
 
+    private function getElementById(
+        int            $elementId,
+        bool           $checkForProvisionalDraft,
+        string         $elementType,
+        User           $user,
+        int|array|null $siteId,
+        ?array         $preferSites,
+                       $ownerId,
+                       $fieldId,
+    ): ?ElementInterface
+    {
+        // First check for a provisional draft, if we're open to it
+        if ($checkForProvisionalDraft) {
+            $element = $this->_elementQuery($elementType, $ownerId, $fieldId)
+                ->provisionalDrafts()
+                ->draftOf($elementId)
+                ->draftCreator($user)
+                ->siteId($siteId)
+                ->preferSites($preferSites)
+                ->unique()
+                ->status(null)
+                ->one();
+
+            if ($element && $element->canSave($user)) {
+                return $element;
+            }
+        }
+
+        $element = $this->_elementQuery($elementType, $ownerId, $fieldId)
+            ->id($elementId)
+            ->siteId($siteId)
+            ->preferSites($preferSites)
+            ->unique()
+            ->status(null)
+            ->one();
+
+        if ($element) {
+            return $element;
+        }
+
+        // finally, check for an unpublished draft
+        // (see https://github.com/craftcms/cms/issues/14199)
+        return $this->_elementQuery($elementType, $ownerId, $fieldId)
+            ->id($elementId)
+            ->siteId($siteId)
+            ->preferSites($preferSites)
+            ->unique()
+            ->draftOf(false)
+            ->status(null)
+            ->one();
+    }
+
+    /**
+     * @param class-string<ElementInterface> $elementType
+     * @return ElementQueryInterface
+     */
+    private function _elementQuery(string $elementType, $ownerId, $fieldId): ElementQueryInterface
+    {
+        $query = $elementType::find();
+        if ($query instanceof NestedElementQueryInterface) {
+            $query
+                ->fieldId($fieldId)
+                ->ownerId($ownerId);
+        }
+        return $query;
+    }
+
     private function cloneEntry(Entry $entry, $ownerId, $siteId = null)
     {
         $elementsService = Craft::$app->getElements();
-        $owner = $elementsService->getElementById($ownerId, 'craft\elements\Entry', $siteId);
 
         // With Craft 5.5.x, the native Duplication started working
         if (version_compare(\Craft::$app->getVersion(), '5.5.0', '>=')) {
-            return $elementsService->duplicateElement($entry, ['owner' => $owner]);
+            return $elementsService->duplicateElement($entry);
         }
 
         // Ensure all fields have been normalized
         $entry->getFieldValues();
+
+        $owner = $elementsService->getElementById($ownerId, 'craft\elements\Entry', $siteId);
 
         $duplicatedEntry = Craft::createObject([
             'class' => Entry::class,

@@ -84,12 +84,13 @@
             // this.addCopyButton($menu, typeId, entry, matrix);
             // this.addPasteButton($menu, typeId, entry, matrix);
             // this.addDeleteButton($menu, entry);
-            // this.checkPaste($menu, matrix);
-            this.checkDuplicate($container, nem);
-            // this.checkAdd($menu, matrix);
 
             $menu.insertBefore($container.find('ul').eq(0));
             $hr.insertAfter($menu);
+
+            // this.checkPaste($menu, matrix);
+            this.checkDuplicate($container, nem);
+            // this.checkAdd($menu, matrix);
         },
 
         addDuplicateButton: function ($container: any, $menu: any, typeId: any, $element: any, nem: any) {
@@ -112,13 +113,17 @@
                 return;
             }
 
-            const baseData = await nem.getBaseActionData();
             try {
+                await nem.markAsDirty();
+
                 const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/nested-element-extended/duplicate-entry', {
                     data: {
-                        ...$element.data(),
-                        ownerId: baseData.ownerId,
-                        ownerElementType: baseData.ownerElementType,
+                        fieldId: $element.data().fieldId,
+                        entryId: $element.data().id,
+                        entryTypeId: typeId,
+                        ownerId: nem.settings.ownerId,
+                        ownerElementType: nem.settings.ownerElementType,
+                        siteId: nem.settings.ownerSiteId,
                     },
                 });
 
