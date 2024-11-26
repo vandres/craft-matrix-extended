@@ -1,7 +1,14 @@
 # Release Notes for Matrix Extended
 
+## [v3.6.4] - 2024-11-26
+
+- fix(duplicate): nested matrix get duplicated twice [`4a70af4`](https://github.com/vandres/craft-matrix-extended/commit/4a70af4fad945e77d8f14983146ea862daec4ad8)
+- fix(duplicate): nested matrix get duplicated twice [`441a83a`](https://github.com/vandres/craft-matrix-extended/commit/441a83ab88030f204e3743ca8af4135bfa783787)
+- fix(duplicate): nested matrix get duplicated twice [`2726cd0`](https://github.com/vandres/craft-matrix-extended/commit/2726cd02d7a8d14145fec01e9af41acb434183bd)
+
 ## [v3.6.3] - 2024-11-25
 
+- chore(release): 3.6.3 [`1989e1a`](https://github.com/vandres/craft-matrix-extended/commit/1989e1af3c87482d67cb66f5ef377d20f09fe482)
 - fix(dragdrop): only add drag and drop target, if there are blocks [`80c1389`](https://github.com/vandres/craft-matrix-extended/commit/80c13891687cdf10f3a7d9f25cf418bd1e235008)
 
 ## [v3.6.2] - 2024-11-25
@@ -187,6 +194,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v3.6.4]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.3...v3.6.4
 [v3.6.3]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.2...v3.6.3
 [v3.6.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.1...v3.6.2
 [v3.6.1]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.0...v3.6.1
