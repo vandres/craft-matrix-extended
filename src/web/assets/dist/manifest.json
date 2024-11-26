@@ -5,12 +5,12 @@
     "src": "src/css/matrixExtended.scss"
   },
   "src/js/matrixExtended.ts": {
-    "file": "assets/matrixExtendedJs-c7fe1f20.js",
+    "file": "assets/matrixExtendedJs-eee17613.js",
     "isEntry": true,
     "src": "src/js/matrixExtended.ts"
   },
   "src/js/nestedElementExtended.ts": {
-    "file": "assets/nestedElementExtendedJs-a5c21ee4.js",
+    "file": "assets/nestedElementExtendedJs-39360094.js",
     "isEntry": true,
     "src": "src/js/nestedElementExtended.ts"
   }
