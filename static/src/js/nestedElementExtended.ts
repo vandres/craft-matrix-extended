@@ -21,9 +21,6 @@
                 return;
             }
 
-            // for now
-            return;
-
             const nestedInitFn = Craft.NestedElementManager.prototype.init;
             Craft.NestedElementManager.prototype.init = function (...args: any[]) {
                 nestedInitFn.apply(this, args);
