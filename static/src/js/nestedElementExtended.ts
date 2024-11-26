@@ -24,6 +24,7 @@
             const nestedInitFn = Craft.NestedElementManager.prototype.init;
             Craft.NestedElementManager.prototype.init = function (...args: any[]) {
                 nestedInitFn.apply(this, args);
+                console.log('NestedElementExtended');
             };
 
             const disclosureMenuShowFn = Garnish.DisclosureMenu.prototype.show;
@@ -111,11 +112,14 @@
                 return;
             }
 
-            // await nem.markAsDirty();
-
+            const baseData = await nem.getBaseActionData();
             try {
                 const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/nested-element-extended/duplicate-entry', {
-                    data: $element.data(),
+                    data: {
+                        ...$element.data(),
+                        ownerId: baseData.ownerId,
+                        ownerElementType: baseData.ownerElementType,
+                    },
                 });
 
                 await this.addElementCard(data, nem, $element.data('id'));
@@ -140,6 +144,11 @@
             $duplicateButton.enable();
         },
 
+        /**
+         * Copy of original method, to allow custom position in the DOM
+         *
+         * @see NestedElementManager.addElementCard(element)
+         */
         async addElementCard(element: any, nem: any, insertAfter: number) {
             if (nem.$createBtn) {
                 nem.$createBtn.addClass('loading');

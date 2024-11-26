@@ -49,14 +49,15 @@ class NestedElementExtendedController extends \craft\web\Controller
         $entryId = $this->request->getRequiredBodyParam('id');
         $fieldId = $this->request->getRequiredBodyParam('fieldId');
         $ownerId = $this->request->getRequiredBodyParam('ownerId');
+        $ownerElementType = $this->request->getRequiredBodyParam('ownerElementType');
         $siteId = $this->request->getRequiredBodyParam('siteId');
 
         $elementsService = Craft::$app->getElements();
-        $entry = $elementsService->getElementById($entryId, 'craft\elements\Entry', $siteId);
+        $entry = $elementsService->getElementById($entryId, $ownerElementType, $siteId);
         if (!$entry) {
             throw new BadRequestHttpException("Invalid entry ID, element type, or site ID.");
         }
-        $owner = $elementsService->getElementById($ownerId, 'craft\elements\Entry', $siteId);
+        $owner = $elementsService->getElementById($ownerId, $ownerElementType, $siteId);
         if (!$owner) {
             throw new BadRequestHttpException("Invalid owner ID, element type, or site ID.");
         }
@@ -76,10 +77,6 @@ class NestedElementExtendedController extends \craft\web\Controller
             throw new ForbiddenHttpException('User not authorized to duplicate this element.');
         }
 
-
-//        ray($entry);
-//        ray($duplicatedEntry->sortOrder);
-
         $attribute = 'field:dyncontent';
         $nestedElements = $owner->$attribute;
 
@@ -97,20 +94,8 @@ class NestedElementExtendedController extends \craft\web\Controller
                 ->all();
         }
 
-        ray($oldSortOrders);
         $entry->sortOrder = array_key_exists($entry->id, $oldSortOrders) ? $oldSortOrders[$entry->id] : 0;
-
-
         $duplicatedEntry = $this->cloneEntry($entry, $ownerId, $siteId);
-
-
-//        ray($entry);
-        ray($duplicatedEntry);
-//
-//        ray($entry);
-//
-//        $structuresService = Craft::$app->getStructures();
-//        $structuresService->moveAfter($entry->structureId, $duplicatedEntry, $entry);
 
         return $this->asJson($duplicatedEntry);
     }
@@ -118,13 +103,12 @@ class NestedElementExtendedController extends \craft\web\Controller
     private function cloneEntry(Entry $entry, $ownerId, $siteId = null)
     {
         $elementsService = Craft::$app->getElements();
+        $owner = $elementsService->getElementById($ownerId, 'craft\elements\Entry', $siteId);
 
         // With Craft 5.5.x, the native Duplication started working
         if (version_compare(\Craft::$app->getVersion(), '5.5.0', '>=')) {
-            return $elementsService->duplicateElement($entry);
+            return $elementsService->duplicateElement($entry, ['owner' => $owner]);
         }
-
-        $owner = $elementsService->getElementById($ownerId, 'craft\elements\Entry', $siteId);
 
         // Ensure all fields have been normalized
         $entry->getFieldValues();
