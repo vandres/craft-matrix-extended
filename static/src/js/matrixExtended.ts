@@ -6,6 +6,7 @@
 
     /**
      * @see https://github.com/craftcms/cms/blob/5.x/src/web/assets/matrix/src/MatrixInput.js
+     * @todo check, that it only initializes on Inline Editable views
      */
     Craft.MatrixExtended = Garnish.Base.extend({
         settings: {}, childParent: {}, entryReference: undefined, itemDrag: undefined,
@@ -585,7 +586,12 @@
                     $menu.append($li);
                 }
 
-                const callback = this.debounce(async (ev: any) => {
+                $actionButtons.on('activate', async (ev: any) => {
+                    // only allow activation logic on "super" disclosure menu
+                    if (!$(ev.currentTarget).closest(`#matrix-extended-menu-${id}-all`).length) {
+                        return;
+                    }
+
                     $clone.addClass('loading');
 
                     try {
@@ -596,9 +602,7 @@
                         $menuContainer.remove();
                         $buttonContainer.remove();
                     }
-                }, 25);
-
-                $actionButtons.on('activate', callback);
+                });
 
                 if (this.settings.expandMenu) {
                     const $container = $clone.data('disclosureMenu').$container;
@@ -864,16 +868,6 @@
             if (type === 'error') {
                 Craft.cp.displayError(message);
             }
-        },
-
-        debounce: function (callback: any, wait = 0) {
-            let timeoutId: any = null;
-            return (...args: any[]) => {
-                window.clearTimeout(timeoutId);
-                timeoutId = window.setTimeout(() => {
-                    callback(...args);
-                }, wait);
-            };
         }
     });
 })(window);
