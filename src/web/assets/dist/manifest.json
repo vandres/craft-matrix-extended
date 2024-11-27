@@ -9,6 +9,11 @@
     "isEntry": true,
     "src": "src/js/matrixExtended.ts"
   },
+  "src/js/matrixExtendedHelper.ts": {
+    "file": "assets/matrixHelperJs-1c4a3e0e.js",
+    "isEntry": true,
+    "src": "src/js/matrixExtendedHelper.ts"
+  },
   "src/js/nestedElementExtended.ts": {
     "file": "assets/nestedElementExtendedJs-326ee424.js",
     "isEntry": true,

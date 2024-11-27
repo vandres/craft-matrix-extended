@@ -15,6 +15,7 @@ export default defineConfig(({command}) => ({
             input: {
                 nestedElementExtendedJs: 'src/js/nestedElementExtended.ts',
                 matrixExtendedJs: 'src/js/matrixExtended.ts',
+                matrixHelperJs: 'src/js/matrixExtendedHelper.ts',
                 matrixExtendedCss: 'src/css/matrixExtended.scss',
             },
             output: {
