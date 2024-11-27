@@ -5,16 +5,21 @@
     }
 
     Craft.MatrixExtendedHelper = Garnish.Base.extend({
-        settings: {}, childParent: {}, entryReference: undefined,
+        settings: {}, childParent: {}, entryTypes: [], entryReference: undefined,
 
-        init: function (config: { settings: any, childParent: any, entryReference: any }) {
+        init: function (config: { settings: any, childParent: any, entryTypes: any, entryReference: any }) {
             this.settings = config.settings || {};
             this.childParent = config.childParent || {};
+            this.entryTypes = config.entryTypes || [];
             this.entryReference = config.entryReference || undefined;
 
             if (!Garnish.DisclosureMenu || !Craft.MatrixInput) {
                 return;
             }
+        },
+
+        getEntryTypeById: function(id: number) {
+            return this.entryTypes.find((entryType: any) => +entryType.id === +id);
         },
 
         getEntryReference: function () {

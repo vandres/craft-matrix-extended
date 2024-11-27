@@ -10,7 +10,7 @@
     "src": "src/js/matrixExtended.ts"
   },
   "src/js/nestedElementExtended.ts": {
-    "file": "assets/nestedElementExtendedJs-6d4f2d74.js",
+    "file": "assets/nestedElementExtendedJs-326ee424.js",
     "isEntry": true,
     "src": "src/js/nestedElementExtended.ts"
   }

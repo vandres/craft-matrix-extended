@@ -17,6 +17,17 @@ use vandres\matrixextended\MatrixExtended;
 
 class MatrixService
 {
+    public function getEntryTypes(): array
+    {
+        $entryTypes = Craft::$app->getEntries()->getAllEntryTypes();
+
+        return array_map(fn($entryType) => [
+            'id' => $entryType->id,
+            'label' => Craft::t('site', $entryType->name),
+            'name' => $entryType->handle,
+        ], $entryTypes);
+    }
+
     /**
      * Returns a list, which child can have which parent.
      *

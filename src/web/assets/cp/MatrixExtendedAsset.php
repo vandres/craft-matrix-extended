@@ -98,6 +98,7 @@ class MatrixExtendedAsset extends AssetBundle
         $data = [
             'settings' => MatrixExtended::getInstance()->getSettings(),
             'childParent' => MatrixExtended::getInstance()->service->getChildParentRelations(),
+            'entryTypes' => MatrixExtended::getInstance()->service->getEntryTypes(),
             'entryReference' => MatrixExtended::getInstance()->service->getReference(),
         ];
         $config = Json::encode($data);
