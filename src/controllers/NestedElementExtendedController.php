@@ -45,6 +45,7 @@ class NestedElementExtendedController extends \craft\web\Controller
         $ownerId = $this->request->getRequiredBodyParam('ownerId');
         $ownerElementType = $this->request->getRequiredBodyParam('ownerElementType');
         $siteId = $this->request->getRequiredBodyParam('siteId');
+        $attribute = $this->request->getRequiredBodyParam('attribute');
 
         $elementsService = Craft::$app->getElements();
         $user = static::currentUser();
@@ -71,7 +72,6 @@ class NestedElementExtendedController extends \craft\web\Controller
             throw new ForbiddenHttpException('User not authorized to duplicate this element.');
         }
 
-        $attribute = 'field:dyncontent';
         $nestedElements = $owner->$attribute;
 
         if ($nestedElements instanceof ElementQueryInterface) {
@@ -173,6 +173,7 @@ class NestedElementExtendedController extends \craft\web\Controller
         $ownerId = $this->request->getRequiredBodyParam('ownerId');
         $ownerElementType = $this->request->getRequiredBodyParam('ownerElementType');
         $siteId = $this->request->getRequiredBodyParam('siteId');
+        $attribute = $this->request->getRequiredBodyParam('attribute');
 
         $elementsService = Craft::$app->getElements();
         $owner = $elementsService->getElementById($ownerId, $ownerElementType, $siteId);
@@ -213,7 +214,6 @@ class NestedElementExtendedController extends \craft\web\Controller
 
         $relation = MatrixExtended::getInstance()->service->getElementById($entryId, true, $ownerElementType, $user, $siteId, [], $ownerId, $fieldId);
 
-        $attribute = 'field:dyncontent';
         $nestedElements = $owner->$attribute;
 
         if ($nestedElements instanceof ElementQueryInterface) {

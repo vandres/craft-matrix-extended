@@ -72,7 +72,6 @@
             if (disclosureMenu._hasNestedElementExtensionButtonsInitialized) {
                 this.checkPaste($container, $element, nem);
                 this.checkDuplicate($container, nem);
-                // this.checkAdd($container, matrix);
                 return;
             }
             disclosureMenu._hasNestedElementExtensionButtonsInitialized = true;
@@ -294,7 +293,6 @@
             const $menu = $('<ul class="matrix-extended"></ul>');
             const $hr = $('<hr class="padded">');
 
-            // this.addAddBlockButton($menu, typeId, entry, matrix);
             this.addDuplicateButton($container, $menu, typeId, $element, nem);
             this.addCopyButton($container, $menu, typeId, $element, nem);
             this.addPasteButton($container, $menu, typeId, $element, nem);
@@ -304,7 +302,6 @@
 
             this.checkPaste($container, $element, nem);
             this.checkDuplicate($container, nem);
-            // this.checkAdd($container, nem);
         },
 
         addDuplicateButton: function ($container: any, $menu: any, typeId: any, $element: any, nem: any) {
@@ -332,6 +329,7 @@
 
                 const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/nested-element-extended/duplicate-entry', {
                     data: {
+                        attribute: nem.settings.attribute,
                         fieldId: $element.data().fieldId,
                         entryId: $element.data().id,
                         entryTypeId: typeId,
@@ -382,6 +380,7 @@
             try {
                 const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/nested-element-extended/copy-entry', {
                     data: {
+                        attribute: nem.settings.attribute,
                         fieldId: $element.data().fieldId,
                         entryId: $element.data().id,
                         entryTypeId: typeId,
@@ -394,7 +393,6 @@
                 this.helper.setEntryReference(data.entryReference);
                 this.checkPaste($container, $element, nem);
                 this.checkDuplicate($container, nem);
-                // this.checkAdd($container, nem);
                 await Craft.appendHeadHtml(data.headHtml);
                 await Craft.appendBodyHtml(data.bodyHtml);
 
@@ -454,6 +452,7 @@
 
                 const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/nested-element-extended/paste-entry', {
                     data: {
+                        attribute: nem.settings.attribute,
                         fieldId: $element.data().fieldId,
                         entryId: $element.data().id,
                         entryTypeId: typeId,
