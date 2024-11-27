@@ -83,15 +83,15 @@ class MatrixService
     {
         $elementsService = Craft::$app->getElements();
 
+        $owner = $elementsService->getElementById($ownerId, 'craft\elements\Entry', $siteId);
+
         // With Craft 5.5.x, the native Duplication started working
         if (version_compare(\Craft::$app->getVersion(), '5.5.0', '>=')) {
-            return $elementsService->duplicateElement($entry, $attributes);
+            return $elementsService->duplicateElement($entry, [...$attributes, 'primaryOwner' => $owner]);
         }
 
         // Ensure all fields have been normalized
         $entry->getFieldValues();
-
-        $owner = $elementsService->getElementById($ownerId, 'craft\elements\Entry', $siteId);
 
         $duplicatedEntry = Craft::createObject([
             'class' => Entry::class,
