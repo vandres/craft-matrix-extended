@@ -3,18 +3,10 @@
 namespace vandres\matrixextended\controllers;
 
 use Craft;
-use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\base\NestedElementInterface;
-use craft\elements\db\AssetQuery;
 use craft\elements\db\ElementQueryInterface;
-use craft\elements\db\EntryQuery;
-use craft\elements\db\NestedElementQueryInterface;
-use craft\elements\Entry;
-use craft\elements\User;
 use craft\fields\Matrix;
-use craft\helpers\ElementHelper;
-use craft\helpers\StringHelper;
 use vandres\matrixextended\MatrixExtended;
 use vandres\matrixextended\models\Settings;
 use yii\web\BadRequestHttpException;
@@ -56,7 +48,7 @@ class NestedElementExtendedController extends \craft\web\Controller
 
         $elementsService = Craft::$app->getElements();
         $user = static::currentUser();
-        $entry = $this->getElementById($entryId, true, 'craft\elements\Entry', $user, $siteId, [], $ownerId, $fieldId);
+        $entry = MatrixExtended::getInstance()->service->getElementById($entryId, true, 'craft\elements\Entry', $user, $siteId, [], $ownerId, $fieldId);
         if (!$entry) {
             throw new BadRequestHttpException("Invalid entry ID, element type, or site ID.");
         }
@@ -97,161 +89,150 @@ class NestedElementExtendedController extends \craft\web\Controller
         }
 
         $entry->sortOrder = array_key_exists($entry->id, $oldSortOrders) ? $oldSortOrders[$entry->id] : 0;
-        $duplicatedEntry = $this->cloneEntry($entry, $ownerId, $siteId);
+        $duplicatedEntry = MatrixExtended::getInstance()->service->cloneEntry($entry, $ownerId, $siteId);
 
         return $this->asJson($duplicatedEntry);
     }
 
-    private function getElementById(
-        int            $elementId,
-        bool           $checkForProvisionalDraft,
-        string         $elementType,
-        User           $user,
-        int|array|null $siteId,
-        ?array         $preferSites,
-                       $ownerId,
-                       $fieldId,
-    ): ?ElementInterface
+    /**
+     * Copies an entry reference to the user session, so it can be pasted later
+     *
+     * @return Response
+     */
+    public function actionCopyEntry(): Response
     {
-        // First check for a provisional draft, if we're open to it
-        if ($checkForProvisionalDraft) {
-            $element = $this->_elementQuery($elementType, $ownerId, $fieldId)
-                ->provisionalDrafts()
-                ->draftOf($elementId)
-                ->draftCreator($user)
-                ->siteId($siteId)
-                ->preferSites($preferSites)
-                ->unique()
-                ->status(null)
-                ->one();
+        $entryId = $this->request->getRequiredBodyParam('entryId');
+        $fieldId = $this->request->getRequiredBodyParam('fieldId');
+        $entryTypeId = $this->request->getRequiredBodyParam('entryTypeId');
+        $ownerId = $this->request->getRequiredBodyParam('ownerId');
+        $ownerElementType = $this->request->getRequiredBodyParam('ownerElementType');
+        $siteId = $this->request->getRequiredBodyParam('siteId');
 
-            if ($element && $element->canSave($user)) {
-                return $element;
-            }
+        $elementsService = Craft::$app->getElements();
+        $user = static::currentUser();
+        $entry = MatrixExtended::getInstance()->service->getElementById($entryId, true, 'craft\elements\Entry', $user, $siteId, [], $ownerId, $fieldId);
+        if (!$entry) {
+            throw new BadRequestHttpException("Invalid entry ID, element type, or site ID.");
+        }
+        $owner = $elementsService->getElementById($ownerId, $ownerElementType, $siteId);
+        if (!$owner) {
+            throw new BadRequestHttpException("Invalid owner ID, element type, or site ID.");
         }
 
-        $element = $this->_elementQuery($elementType, $ownerId, $fieldId)
-            ->id($elementId)
-            ->siteId($siteId)
-            ->preferSites($preferSites)
-            ->unique()
-            ->status(null)
-            ->one();
-
-        if ($element) {
-            return $element;
+        $field = $owner->getFieldLayout()?->getFieldById($fieldId);
+        if (!$field instanceof Matrix) {
+            throw new BadRequestHttpException("Invalid Matrix field ID: $fieldId");
         }
 
-        // finally, check for an unpublished draft
-        // (see https://github.com/craftcms/cms/issues/14199)
-        return $this->_elementQuery($elementType, $ownerId, $fieldId)
-            ->id($elementId)
-            ->siteId($siteId)
-            ->preferSites($preferSites)
-            ->unique()
-            ->draftOf(false)
-            ->status(null)
-            ->one();
+        $entryType = Craft::$app->getEntries()->getEntryTypeById($entryTypeId);
+        if (!$entryType) {
+            throw new BadRequestHttpException("Invalid entry type ID: $entryTypeId");
+        }
+
+        $site = Craft::$app->getSites()->getSiteById($siteId, true);
+        if (!$site) {
+            throw new BadRequestHttpException("Invalid site ID: $siteId");
+        }
+
+        $entryReference = [
+            'entryId' => $entryId,
+            'fieldId' => $fieldId,
+            'entryTypeId' => $entryTypeId,
+            'ownerId' => $ownerId,
+            'ownerElementType' => $ownerElementType,
+            'siteId' => $siteId,
+        ];
+        MatrixExtended::getInstance()->service->setReference($entryReference);
+
+        $view = $this->getView();
+
+        return $this->asJson([
+            'entryReference' => $entryReference,
+            'headHtml' => $view->getHeadHtml(),
+            'bodyHtml' => $view->getBodyHtml(),
+        ]);
     }
+
 
     /**
-     * @param class-string<ElementInterface> $elementType
-     * @return ElementQueryInterface
+     * Get the latest entry reference from the user session and clones that entry at the given position.
+     *
+     * @return Response
      */
-    private function _elementQuery(string $elementType, $ownerId, $fieldId): ElementQueryInterface
+    public function actionPasteEntry(): Response
     {
-        $query = $elementType::find();
-        if ($query instanceof NestedElementQueryInterface) {
-            $query
-                ->fieldId($fieldId)
-                ->ownerId($ownerId);
+        // check source
+        $entryReference = MatrixExtended::getInstance()->service->getReference();
+        if (empty($entryReference)) {
+            throw new BadRequestHttpException("There is nothing to paste");
         }
-        return $query;
-    }
 
-    private function cloneEntry(Entry $entry, $ownerId, $siteId = null)
-    {
+        $entryId = $this->request->getRequiredBodyParam('entryId'); // unused (where did the user click)
+        $fieldId = $this->request->getRequiredBodyParam('fieldId');
+        $entryTypeId = $this->request->getRequiredBodyParam('entryTypeId');
+        $ownerId = $this->request->getRequiredBodyParam('ownerId');
+        $ownerElementType = $this->request->getRequiredBodyParam('ownerElementType');
+        $siteId = $this->request->getRequiredBodyParam('siteId');
+
         $elementsService = Craft::$app->getElements();
-
-        // With Craft 5.5.x, the native Duplication started working
-        if (version_compare(\Craft::$app->getVersion(), '5.5.0', '>=')) {
-            return $elementsService->duplicateElement($entry);
+        $owner = $elementsService->getElementById($ownerId, $ownerElementType, $siteId);
+        if (!$owner) {
+            throw new BadRequestHttpException("Invalid owner ID, element type, or site ID.");
         }
 
-        // Ensure all fields have been normalized
-        $entry->getFieldValues();
-
-        $owner = $elementsService->getElementById($ownerId, 'craft\elements\Entry', $siteId);
-
-        $duplicatedEntry = Craft::createObject([
-            'class' => Entry::class,
-            'siteId' => $entry->siteId,
-            'uid' => StringHelper::UUID(),
-            'typeId' => $entry->typeId,
-            'fieldId' => $entry->fieldId,
-            'owner' => $owner,
-            'title' => $entry->title,
-            'slug' => ElementHelper::tempSlug(),
-            'fieldValues' => $entry->getFieldValues(),
-        ]);
-        $duplicatedEntry->setScenario(Element::SCENARIO_ESSENTIALS);
-        $children = [];
-        $transaction = Craft::$app->getDb()->beginTransaction();
-
-        try {
-            $dirtyFields = $duplicatedEntry->getDirtyFields();
-            $saveLater = [];
-            foreach ($entry->getFieldValues() as $handle => $value) {
-                if ($value instanceof AssetQuery) {
-                    $saveLater[] = [
-                        'handle' => $handle,
-                        'value' => $value,
-                    ];
-                } else if ($value instanceof EntryQuery) {
-                    $elements = $value->status(null)->all();
-                    $matrixElements = array_filter($elements, function ($element) {
-                        return !!$element->fieldId;
-                    });
-
-                    if (empty($matrixElements)) {
-                        $saveLater[] = [
-                            'handle' => $handle,
-                            'value' => $value,
-                        ];
-                    } else {
-                        $children[] = ['owner' => $entry->id, 'handle' => $handle, 'elements' => $matrixElements];
-                    }
-                } else if (is_object($value) && !$value instanceof \UnitEnum) {
-                    $duplicatedEntry->setFieldValue($handle, clone $value);
-                }
-            }
-            $duplicatedEntry->setDirtyFields($dirtyFields, false);
-            if (!$elementsService->saveElement($duplicatedEntry, false)) {
-                throw new \Exception('Could not save element on cloning process');
-            }
-
-            foreach ($children as $child) {
-                foreach ($child['elements'] as $childElement) {
-                    $this->cloneEntry($childElement, $duplicatedEntry->id, $siteId);
-                }
-            }
-
-            if (!empty($saveLater)) {
-                foreach ($saveLater as $field) {
-                    $duplicatedEntry->setFieldValue($field['handle'], clone $field['value']);
-                }
-
-                if (!$elementsService->saveElement($duplicatedEntry, false)) {
-                    throw new \Exception('Could not save element on cloning process');
-                }
-            }
-
-            $transaction->commit();
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            throw $e;
+        $field = $owner->getFieldLayout()?->getFieldById($fieldId);
+        if (!$field instanceof Matrix) {
+            throw new BadRequestHttpException("Invalid Matrix field ID: $fieldId");
         }
 
-        return $duplicatedEntry;
+        $entryType = Craft::$app->getEntries()->getEntryTypeById($entryTypeId);
+        if (!$entryType) {
+            throw new BadRequestHttpException("Invalid entry type ID: $entryTypeId");
+        }
+
+        $site = Craft::$app->getSites()->getSiteById($siteId, true);
+        if (!$site) {
+            throw new BadRequestHttpException("Invalid site ID: $siteId");
+        }
+
+        // check destination
+        $user = static::currentUser();
+        $entry = MatrixExtended::getInstance()->service->getElementById($entryReference['entryId'], true, $entryReference['ownerElementType'], $user, $entryReference['siteId'], [], $entryReference['ownerId'], $entryReference['fieldId']);
+        if (!$entry) {
+            throw new BadRequestHttpException("Invalid entry ID, element type, or site ID.");
+        }
+        $user = static::currentUser();
+        if (!$entry->canSave($user)) {
+            throw new ForbiddenHttpException('User not authorized to duplicate this element.');
+        }
+
+        $childParent = MatrixExtended::getInstance()->service->getChildParentRelations() ?? [];
+        if (!in_array($fieldId, $childParent[$entry->typeId])) {
+            throw new BadRequestHttpException('That entry type cannot be pasted in that element.');
+        }
+
+        $relation = MatrixExtended::getInstance()->service->getElementById($entryId, true, $ownerElementType, $user, $siteId, [], $ownerId, $fieldId);
+
+        $attribute = 'field:dyncontent';
+        $nestedElements = $owner->$attribute;
+
+        if ($nestedElements instanceof ElementQueryInterface) {
+            $oldSortOrders = (clone $nestedElements)
+                ->status(null)
+                ->asArray()
+                ->select(['id', 'sortOrder'])
+                ->pairs();
+        } else {
+            $oldSortOrders = $nestedElements
+                ->keyBy(fn(ElementInterface $element) => $relation->id)
+                /** @phpstan-ignore-next-line */
+                ->map(fn(NestedElementInterface $element) => $element->getSortOrder())
+                ->all();
+        }
+
+        $sortOrder = array_key_exists($relation->id, $oldSortOrders) ? $oldSortOrders[$relation->id] : null;
+        $duplicatedEntry = MatrixExtended::getInstance()->service->cloneEntry($entry, $ownerId, $siteId, ['owner' => $owner, 'sortOrder' => $sortOrder]);
+
+        return $this->asJson($duplicatedEntry);
     }
 }

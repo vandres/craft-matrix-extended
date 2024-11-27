@@ -9,13 +9,13 @@
      * @todo check, that it only initializes on Inline Editable views
      */
     Craft.MatrixExtended = Garnish.Base.extend({
-        settings: {}, childParent: {}, entryReference: undefined, itemDrag: undefined,
+        settings: {}, childParent: {}, helper: undefined, itemDrag: undefined,
 
-        init: function (config: { settings: any, childParent: any, entryReference: any }) {
+        init: function (config: { settings: any, childParent: any }, helper: any) {
             const self = this;
             this.settings = config.settings || {};
             this.childParent = config.childParent || {};
-            this.entryReference = config.entryReference || undefined;
+            this.helper = helper;
 
             if (!Garnish.DisclosureMenu || !Craft.MatrixInput) {
                 return;
@@ -417,13 +417,12 @@
                     },
                 });
 
-                this.entryReference = data.entryReference;
+                this.helper.setEntryReference(data.entryReference);
                 this.checkPaste($menu, matrix);
                 this.checkDuplicate($menu, matrix);
                 this.checkAdd($menu, matrix);
                 await Craft.appendHeadHtml(data.headHtml);
                 await Craft.appendBodyHtml(data.bodyHtml);
-                this._hasMatrixExtensionButtonsInitialized
 
                 this.addStatusMessage(Craft.t('matrix-extended', 'Entry reference copied'));
             } catch (error) {
@@ -510,13 +509,12 @@
             this.addCopyButton($menu, typeId, entry, matrix);
             this.addPasteButton($menu, typeId, entry, matrix);
             this.addDeleteButton($menu, entry);
-
-            $menu.insertBefore($container.find('ul').eq(0));
-            $hr.insertAfter($menu);
-
             this.checkPaste($menu, matrix);
             this.checkDuplicate($menu, matrix);
             this.checkAdd($menu, matrix);
+
+            $menu.insertBefore($container.find('ul').eq(0));
+            $hr.insertAfter($menu);
 
             if (this.settings.removeEntryTypesFromDiscloseMenu) {
                 const $addButtonContainer = $container.find('[data-action="add"]').parent().parent();
@@ -837,23 +835,17 @@
             const $parent = $pasteButton.parent();
             $parent.attr('title', '');
 
-            if (!this.entryReference || !this.entryReference.entryTypeId) {
+            if (!this.helper.getEntryReference() || !this.helper.getEntryReference().entryTypeId) {
                 $parent.attr('title', Craft.t('matrix-extended', 'There is nothing to paste.'));
                 return;
             }
-
-            if (!this.childParent) {
-                $parent.attr('title', Craft.t('matrix-extended', 'The copied entry is not allowed here.'));
-                return;
-            }
-
 
             if (!matrix.canAddMoreEntries()) {
                 $parent.attr('title', Craft.t('matrix-extended', 'No more entries can be added.'));
                 return;
             }
 
-            if (!(this.childParent[this.entryReference.entryTypeId] || []).includes(matrix.settings.fieldId)) {
+            if (!this.helper.isEntryReferenceAllowed(matrix.settings.fieldId)) {
                 $parent.attr('title', Craft.t('matrix-extended', 'The copied entry is not allowed here.'));
                 return;
             }

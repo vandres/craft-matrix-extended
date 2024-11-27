@@ -8,14 +8,14 @@
      * @see https://github.com/craftcms/cms/blob/5.x/src/web/assets/cp/src/js/NestedElementManager.js
      */
     Craft.NestedElementExtended = Garnish.Base.extend({
-        settings: {}, childParent: {}, entryReference: undefined,
+        settings: {}, childParent: {}, helper: undefined,
 
-        init: function (config: { settings: any, childParent: any, entryReference: any }) {
+        init: function (config: { settings: any, childParent: any}, helper: any) {
             const self = this;
 
             this.settings = config.settings || {};
             this.childParent = config.childParent || {};
-            this.entryReference = config.entryReference || undefined;
+            this.helper = helper;
 
             if (!Garnish.DisclosureMenu || !Craft.NestedElementManager) {
                 return;
@@ -24,7 +24,6 @@
             const nestedInitFn = Craft.NestedElementManager.prototype.init;
             Craft.NestedElementManager.prototype.init = function (...args: any[]) {
                 nestedInitFn.apply(this, args);
-                console.log('NestedElementExtended');
             };
 
             const disclosureMenuShowFn = Garnish.DisclosureMenu.prototype.show;
@@ -65,7 +64,7 @@
             }
 
             if (disclosureMenu._hasNestedElementExtensionButtonsInitialized) {
-                // this.checkPaste($container, matrix);
+                this.checkPaste($container, $element, nem);
                 this.checkDuplicate($container, nem);
                 // this.checkAdd($container, matrix);
                 return;
@@ -81,16 +80,15 @@
 
             // this.addAddBlockButton($menu, typeId, entry, matrix);
             this.addDuplicateButton($container, $menu, typeId, $element, nem);
-            // this.addCopyButton($menu, typeId, entry, matrix);
-            // this.addPasteButton($menu, typeId, entry, matrix);
-            // this.addDeleteButton($menu, entry);
+            this.addCopyButton($container, $menu, typeId, $element, nem);
+            this.addPasteButton($container, $menu, typeId, $element, nem);
 
             $menu.insertBefore($container.find('ul').eq(0));
             $hr.insertAfter($menu);
 
-            // this.checkPaste($menu, matrix);
+            this.checkPaste($container, $element, nem);
             this.checkDuplicate($container, nem);
-            // this.checkAdd($menu, matrix);
+            // this.checkAdd($container, nem);
         },
 
         addDuplicateButton: function ($container: any, $menu: any, typeId: any, $element: any, nem: any) {
@@ -149,6 +147,114 @@
             $duplicateButton.enable();
         },
 
+        addCopyButton: function ($container: any, $menu: any, typeId: any, $element: any, nem: any) {
+            const $copyButton = $(`<li>
+                    <button class="menu-item" data-action="copy" tabindex="0">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/></svg>
+                        </span><span class="menu-item-label">${Craft.t('matrix-extended', 'Copy')}</span>
+                    </button>
+                </li>`);
+            $menu.append($copyButton);
+
+            $copyButton.find('button').on('click', () => {
+                this.copyEntry($container, $menu, typeId, $element, nem);
+            });
+        },
+
+        copyEntry: async function ($container: any, $menu: any, typeId: any, $element: any, nem: any) {
+            try {
+                const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/nested-element-extended/copy-entry', {
+                    data: {
+                        fieldId: $element.data().fieldId,
+                        entryId: $element.data().id,
+                        entryTypeId: typeId,
+                        ownerId: nem.settings.ownerId,
+                        ownerElementType: nem.settings.ownerElementType,
+                        siteId: nem.settings.ownerSiteId,
+                    },
+                });
+
+                this.helper.setEntryReference(data.entryReference);
+                this.checkPaste($container, $element, nem);
+                this.checkDuplicate($container, nem);
+                // this.checkAdd($container, nem);
+                await Craft.appendHeadHtml(data.headHtml);
+                await Craft.appendBodyHtml(data.bodyHtml);
+
+                this.addStatusMessage(Craft.t('matrix-extended', 'Entry reference copied'));
+            } catch (error) {
+                this.addStatusMessage(Craft.t('matrix-extended', 'There was an error copying the entry reference'), 'error');
+            }
+            $container.data('disclosureMenu').hide();
+        },
+
+        addPasteButton: function ($container: any, $menu: any, typeId: any, $element: any, nem: any) {
+            const $pasteButton = $(`<li>
+            <button class="menu-item" data-action="paste" tabindex="0"> 
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M104.6 48H64C28.7 48 0 76.7 0 112V384c0 35.3 28.7 64 64 64h96V400H64c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H80c0 17.7 14.3 32 32 32h72.4C202 108.4 227.6 96 256 96h62c-7.1-27.6-32.2-48-62-48H215.4C211.6 20.9 188.2 0 160 0s-51.6 20.9-55.4 48zM144 56a16 16 0 1 1 32 0 16 16 0 1 1 -32 0zM448 464H256c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16l140.1 0L464 243.9V448c0 8.8-7.2 16-16 16zM256 512H448c35.3 0 64-28.7 64-64V243.9c0-12.7-5.1-24.9-14.1-33.9l-67.9-67.9c-9-9-21.2-14.1-33.9-14.1H256c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64z"/></svg>
+                        </span><span class="menu-item-label">${Craft.t('matrix-extended', 'Paste')}</span>
+                    </button>
+                </li>`);
+            $menu.append($pasteButton);
+
+            $pasteButton.find('button').on('click', () => {
+                this.pasteEntry($container, $menu, typeId, $element, nem);
+            });
+        },
+
+        checkPaste: function ($container: any, $element: any, nem: any) {
+            const $pasteButton = $container.find('button[data-action="paste"]');
+            $pasteButton.disable();
+            const $parent = $pasteButton.parent();
+            $parent.attr('title', '');
+
+            if (!this.helper.getEntryReference() || !this.helper.getEntryReference().entryTypeId) {
+                $parent.attr('title', Craft.t('matrix-extended', 'There is nothing to paste.'));
+                return;
+            }
+
+            if (!nem.canCreate()) {
+                $parent.attr('title', Craft.t('matrix-extended', 'No more entries can be added.'));
+                return;
+            }
+
+            if (!this.helper.isEntryReferenceAllowed($element.data().fieldId)) {
+                $parent.attr('title', Craft.t('matrix-extended', 'The copied entry is not allowed here.'));
+                return;
+            }
+
+            $pasteButton.enable();
+        },
+
+        pasteEntry: async function ($container: any, $menu: any, typeId: any, $element: any, nem: any) {
+            if (!nem.canCreate()) {
+                return;
+            }
+
+            try {
+                await nem.markAsDirty();
+
+                const {data} = await Craft.sendActionRequest('POST', 'matrix-extended/nested-element-extended/paste-entry', {
+                    data: {
+                        fieldId: $element.data().fieldId,
+                        entryId: $element.data().id,
+                        entryTypeId: typeId,
+                        ownerId: nem.settings.ownerId,
+                        ownerElementType: nem.settings.ownerElementType,
+                        siteId: nem.settings.ownerSiteId,
+                    },
+                });
+
+                await this.addElementCard(data, nem, $element.data('id'));
+            } catch (error) {
+                this.addStatusMessage(Craft.t('matrix-extended', 'There was an error pasting the entry'), 'error');
+            }
+
+            $container.data('disclosureMenu').hide();
+        },
+
         /**
          * Copy of original method, to allow custom position in the DOM
          *
@@ -170,6 +276,7 @@
                                 {
                                     type: nem.elementType,
                                     id: element.id,
+                                    ownerId: nem.settings.ownerId,
                                     siteId: element.siteId,
                                     instances: [
                                         {
