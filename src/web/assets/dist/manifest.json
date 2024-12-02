@@ -15,7 +15,7 @@
     "src": "src/js/matrixExtendedHelper.ts"
   },
   "src/js/nestedElementExtended.ts": {
-    "file": "assets/nestedElementExtendedJs-955553d0.js",
+    "file": "assets/nestedElementExtendedJs-fe3308ab.js",
     "isEntry": true,
     "src": "src/js/nestedElementExtended.ts"
   }

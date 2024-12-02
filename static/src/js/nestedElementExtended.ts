@@ -26,6 +26,33 @@
                 nestedInitFn.apply(this, args);
             };
 
+            const nestedCreateElementEditorFn = Craft.NestedElementManager.prototype.createElementEditor;
+            Craft.NestedElementManager.prototype.createElementEditor = function ($element: any) {
+                const slideout = Craft.createElementEditor(this.elementType, $element, {
+                    onBeforeSubmit: async () => {
+                        // Derives from the original method, because it is connecting the wrong owner id
+                        if (
+                            typeof this.elementEditor !== 'undefined' &&
+                            Garnish.hasAttr($element, 'data-owner-is-canonical') &&
+                            !this.elementEditor.settings.isUnpublishedDraft
+                        ) {
+                            await slideout.elementEditor.checkForm(true, true);
+                            await this.markAsDirty();
+                        }
+                    },
+                    onSubmit: (ev: any) => {
+                        if (ev.data.id != $element.data('id')) {
+                            // swap the element with the new one
+                            $element
+                                .attr('data-id', ev.data.id)
+                                .data('id', ev.data.id)
+                                .data('owner-id', ev.data.ownerId);
+                            Craft.refreshElementInstances(ev.data.id);
+                        }
+                    },
+                });
+            };
+
             const disclosureMenuShowFn = Garnish.DisclosureMenu.prototype.show;
             Garnish.DisclosureMenu.prototype.show = function (...args: any[]) {
                 self.initDisclosureMenu(this);
@@ -172,7 +199,7 @@
 
         buildGroupedMenu: function ($buttonContainer: any, $actionButtons: any, $actionBtn: any, id: any, above = false) {
             let fieldIndex: string = id.replace(/.*fields-/, '');
-             fieldIndex = fieldIndex.replace(/-element-index-.*/, '');
+            fieldIndex = fieldIndex.replace(/-element-index-.*/, '');
 
             let $unused = $actionButtons;
             if (!this.settings.fields) {

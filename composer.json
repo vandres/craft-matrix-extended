@@ -18,7 +18,7 @@
   },
   "require": {
     "php": ">=8.2",
-    "craftcms/cms": "^5.1.0",
+    "craftcms/cms": "^5.5.4",
     "nystudio107/craft-plugin-vite": "^5.0"
   },
   "require-dev": {
