@@ -12,7 +12,7 @@ Adds functionality to the native Matrix field type.
   - Unfold or group ungrouped types
 - Supported View Modes:
   - Inline-Editable Blocks: Yes
-  - Cards: Experimental
+  - Cards: Experimental (requires Craft 5.5.5+)
   - Element-Index: No
 - Drag&Drop of entries, also in between entry types (experimental)
 
