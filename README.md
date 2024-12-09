@@ -79,6 +79,14 @@ return [
 ];
 
 ```
+
+## Important updates
+
+### v3 -> v4
+
+In v3, the plugin worked around saved entries. In v4, the plugin is working around drafts. Keep in mind, that
+drafts might disappear, when saved or discarded (Copy&Paste).
+
 ## Support my work
 
 PayPal: https://www.paypal.com/donate/?hosted_button_id=3WDU85HZCKMPA
