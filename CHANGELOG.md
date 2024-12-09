@@ -1,5 +1,9 @@
 # Release Notes for Matrix Extended
 
+## [v4.0.1] - 2024-12-09
+
+- feat(dragdrop): restored dragdrop target behaviour [`1f7f0b9`](https://github.com/vandres/craft-matrix-extended/commit/1f7f0b9f0f1fad686273bd014efd727249834dfe)
+
 ## [v4.0.0] - 2024-12-09
 
 - feat(copy): added copy&paste for cards [`0bb608d`](https://github.com/vandres/craft-matrix-extended/commit/0bb608d3ed9a67c46b59b10166c5bddd3c292257)
@@ -12,6 +16,7 @@
 - feat(cards): start working on view mode "cards" [`faaf43c`](https://github.com/vandres/craft-matrix-extended/commit/faaf43c7465d1658c33546b6abb00192a9cde4eb)
 - feat(duplicate): duplication works now together with drafts [`6084713`](https://github.com/vandres/craft-matrix-extended/commit/6084713a95d63420dd020c9039b7db1ce850c518)
 - fix(duplicate): fixed hardcoded field attribute [`c0d7819`](https://github.com/vandres/craft-matrix-extended/commit/c0d7819e7deeb95427b5edadef254ae29420f406)
+- chore(release): 4.0.0 [`7162ead`](https://github.com/vandres/craft-matrix-extended/commit/7162eadfe5e8d0812eb8d3c251e3876c29476363)
 - chore(vite): added missing js files [`9c1dc83`](https://github.com/vandres/craft-matrix-extended/commit/9c1dc8370f4a86070228764b4d9014bc6d3451ef)
 - docs(misc): added note about major version jump [`fb727b3`](https://github.com/vandres/craft-matrix-extended/commit/fb727b36a4efd83681b612922f81b07cf0fc0017)
 - feat(duplicate): require Craft 5.5.5 [`fe6e38e`](https://github.com/vandres/craft-matrix-extended/commit/fe6e38ef1a9fb19a021d14f70ed2de6889a3ee58)
@@ -211,6 +216,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v4.0.1]: https://github.com/vandres/craft-matrix-extended/compare/v4.0.0...v4.0.1
 [v4.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.4...v4.0.0
 [v3.6.4]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.3...v3.6.4
 [v3.6.3]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.2...v3.6.3
