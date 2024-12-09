@@ -1,9 +1,26 @@
 # Release Notes for Matrix Extended
 
+## [v4.0.0] - 2024-12-09
+
+- feat(copy): added copy&paste for cards [`0bb608d`](https://github.com/vandres/craft-matrix-extended/commit/0bb608d3ed9a67c46b59b10166c5bddd3c292257)
+- feat(duplicate): first working version for cards [`e2ca34d`](https://github.com/vandres/craft-matrix-extended/commit/e2ca34d90980ad0ed4beb8f3498f0dd1e0f154e9)
+- feat(add): allow grouping of entry types (cards) [`29ba98f`](https://github.com/vandres/craft-matrix-extended/commit/29ba98f7eee496f3bc1d6364449e8d34b8989e09)
+- fix(dragdrop): added missing drop target right before buttons [`a8721fa`](https://github.com/vandres/craft-matrix-extended/commit/a8721fadc8fa29117f159ae7259a583357f3168e)
+- feat(duplicate): duplicate draft if existing (cards) [`378e787`](https://github.com/vandres/craft-matrix-extended/commit/378e78786f0918ed012a344d8837c13c6c51a692)
+- fix(duplicate): wrong owner id is attached to cards, when they are duplicated and nested [`25efcd3`](https://github.com/vandres/craft-matrix-extended/commit/25efcd3727fda873167e5595f0c456bce41cbf7a)
+- fix(global): take care, that "type-id" is on each card (cards) [`da41411`](https://github.com/vandres/craft-matrix-extended/commit/da414117887738f4b0883d9201e3870c31cbb8ae)
+- feat(cards): start working on view mode "cards" [`faaf43c`](https://github.com/vandres/craft-matrix-extended/commit/faaf43c7465d1658c33546b6abb00192a9cde4eb)
+- feat(duplicate): duplication works now together with drafts [`6084713`](https://github.com/vandres/craft-matrix-extended/commit/6084713a95d63420dd020c9039b7db1ce850c518)
+- fix(duplicate): fixed hardcoded field attribute [`c0d7819`](https://github.com/vandres/craft-matrix-extended/commit/c0d7819e7deeb95427b5edadef254ae29420f406)
+- chore(vite): added missing js files [`9c1dc83`](https://github.com/vandres/craft-matrix-extended/commit/9c1dc8370f4a86070228764b4d9014bc6d3451ef)
+- docs(misc): added note about major version jump [`fb727b3`](https://github.com/vandres/craft-matrix-extended/commit/fb727b36a4efd83681b612922f81b07cf0fc0017)
+- feat(duplicate): require Craft 5.5.5 [`fe6e38e`](https://github.com/vandres/craft-matrix-extended/commit/fe6e38ef1a9fb19a021d14f70ed2de6889a3ee58)
+
 ## [v3.6.4] - 2024-11-26
 
 - fix(duplicate): nested matrix get duplicated twice [`4a70af4`](https://github.com/vandres/craft-matrix-extended/commit/4a70af4fad945e77d8f14983146ea862daec4ad8)
 - fix(duplicate): nested matrix get duplicated twice [`441a83a`](https://github.com/vandres/craft-matrix-extended/commit/441a83ab88030f204e3743ca8af4135bfa783787)
+- chore(release): 3.6.4 [`4c3bc2d`](https://github.com/vandres/craft-matrix-extended/commit/4c3bc2deb1b33a9b4cf53b0a0110eddd9a4ba2f3)
 - fix(duplicate): nested matrix get duplicated twice [`2726cd0`](https://github.com/vandres/craft-matrix-extended/commit/2726cd02d7a8d14145fec01e9af41acb434183bd)
 
 ## [v3.6.3] - 2024-11-25
@@ -194,6 +211,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v4.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.4...v4.0.0
 [v3.6.4]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.3...v3.6.4
 [v3.6.3]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.2...v3.6.3
 [v3.6.2]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.1...v3.6.2
