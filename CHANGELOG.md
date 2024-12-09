@@ -1,8 +1,13 @@
 # Release Notes for Matrix Extended
 
+## [v4.0.2] - 2024-12-09
+
+- chore(dragdrop): added missing build files [`eabe68e`](https://github.com/vandres/craft-matrix-extended/commit/eabe68ec08115f031f281b65e1045587cbc33c52)
+
 ## [v4.0.1] - 2024-12-09
 
 - feat(dragdrop): restored dragdrop target behaviour [`1f7f0b9`](https://github.com/vandres/craft-matrix-extended/commit/1f7f0b9f0f1fad686273bd014efd727249834dfe)
+- chore(release): 4.0.1 [`d9c88fd`](https://github.com/vandres/craft-matrix-extended/commit/d9c88fd93b64aabe85aef384d3e3d86cc38b5bbe)
 
 ## [v4.0.0] - 2024-12-09
 
@@ -216,6 +221,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v4.0.2]: https://github.com/vandres/craft-matrix-extended/compare/v4.0.1...v4.0.2
 [v4.0.1]: https://github.com/vandres/craft-matrix-extended/compare/v4.0.0...v4.0.1
 [v4.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.4...v4.0.0
 [v3.6.4]: https://github.com/vandres/craft-matrix-extended/compare/v3.6.3...v3.6.4
