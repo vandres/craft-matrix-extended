@@ -147,53 +147,46 @@
             }
 
             const $fields = $('.matrix-field');
+            const $blocks = $fields.find('.matrixblock');
 
             $('.matrix-extended-drop-target').remove();
-            this.itemDrag.removeAllItems();
+            for (const block of $blocks) {
+                const $block = $(block);
 
-            for (const field of $fields) {
-                const $field = $(field);
-                const $blocks = $field.find('.matrixblock');
-
-                for (const block of $blocks) {
-                    const $block = $(block);
-
-                    let $entryTypeId = null;
-                    const entry = $block.data('entry');
-                    if (!entry) {
-                        return;
-                    }
-                    const matrix = entry.matrix;
-                    if (!matrix) {
-                        return;
-                    }
-
-                    $entryTypeId = matrix.settings.fieldId;
-
-                    const $dropTargetBefore = $(`<div class="matrix-extended-drop-target" data-position="block"><div></div></div>`);
-                    $dropTargetBefore.data($block.data());
-                    $dropTargetBefore.data('entryTypeId', $entryTypeId);
-                    $block.before($dropTargetBefore);
+                let $entryTypeId = null;
+                const entry = $block.data('entry');
+                if (!entry) {
+                    return;
+                }
+                const matrix = entry.matrix;
+                if (!matrix) {
+                    return;
                 }
 
-                if ($blocks.length) {
-                    this.itemDrag.addItems($blocks);
+                $entryTypeId = matrix.settings.fieldId;
 
-                    const $buttons = $field.find('> .buttons');
-                    for (const button of $buttons) {
-                        const $button = $(button);
-                        const matrix = $field.closest('.matrix-field').data('matrix');
-                        if (!matrix) {
-                            continue;
-                        }
-
-                        const $dropTargetButton = $(`<div class="matrix-extended-drop-target" data-position="button"><div></div></div>`);
-                        $dropTargetButton.data('entryTypeId', matrix.settings.fieldId);
-                        $dropTargetButton.insertBefore($button);
-                    }
-                }
+                const $dropTargetBefore = $(`<div class="matrix-extended-drop-target" data-position="block"><div></div></div>`);
+                $dropTargetBefore.data($block.data());
+                $dropTargetBefore.data('entryTypeId', $entryTypeId);
+                $block.before($dropTargetBefore);
             }
 
+            const $buttons = $fields.find('> .buttons');
+            for (const button of $buttons) {
+                const $button = $(button);
+
+                const matrix = $button.closest('.matrix-field').data('matrix');
+                if (!matrix) {
+                    continue;
+                }
+
+                const $dropTargetButton = $(`<div class="matrix-extended-drop-target" data-position="button"><div></div></div>`);
+                $dropTargetButton.data('entryTypeId', matrix.settings.fieldId);
+                $dropTargetButton.insertBefore($button);
+            }
+
+            this.itemDrag.removeAllItems();
+            this.itemDrag.addItems($blocks);
             Garnish.$bod.addClass('matrix-extended-drag-drop');
         },
 
