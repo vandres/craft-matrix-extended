@@ -13,6 +13,33 @@
 {% from _self import configWarning %}
 
 {{ forms.lightswitchField({
+    label:        'Enable Duplicate feature'|t('matrix-extended'),
+    name:         'enableDuplicate',
+    id:           'enableDuplicate',
+    on:           settings.enableDuplicate,
+    disabled:     'enableDuplicate' in overrides,
+    warning:      'enableDuplicate' in overrides ? configWarning('enableDuplicate'),
+}) }}
+
+{{ forms.lightswitchField({
+    label:        'Enable Copy&Paste feature'|t('matrix-extended'),
+    name:         'enableCopyPaste',
+    id:           'enableCopyPaste',
+    on:           settings.enableCopyPaste,
+    disabled:     'enableCopyPaste' in overrides,
+    warning:      'enableCopyPaste' in overrides ? configWarning('enableCopyPaste'),
+}) }}
+
+{{ forms.lightswitchField({
+    label:        'Enable "Add Block Above" feature'|t('matrix-extended'),
+    name:         'enableAddBlockAbove',
+    id:           'enableAddBlockAbove',
+    on:           settings.enableAddBlockAbove,
+    disabled:     'enableAddBlockAbove' in overrides,
+    warning:      'enableAddBlockAbove' in overrides ? configWarning('enableAddBlockAbove'),
+}) }}
+
+{{ forms.lightswitchField({
     label:        'Extra delete button'|t('matrix-extended'),
     name:         'extraDeleteButton',
     id:           'extraDeleteButton',

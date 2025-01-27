@@ -14,6 +14,12 @@ class Settings extends Model
 
     public bool $enableDragDrop = false;
 
+    public bool $enableDuplicate = true;
+
+    public bool $enableCopyPaste = true;
+
+    public bool $enableAddBlockAbove = true;
+
     public bool $expandMenu = false;
 
     public bool $expandUngrouped = false;
@@ -25,7 +31,7 @@ class Settings extends Model
     public function defineRules(): array
     {
         return [
-            [['experimentalFeatures', 'expandMenu', 'expandUngrouped', 'enableDragDrop', 'extraDeleteButton', 'removeEntryTypesFromDiscloseMenu'], 'boolean'],
+            [['experimentalFeatures', 'expandMenu', 'expandUngrouped', 'enableDragDrop', 'enableDuplicate', 'enableCopyPaste', 'enableAddBlockAbove', 'extraDeleteButton', 'removeEntryTypesFromDiscloseMenu'], 'boolean'],
             [['ungroupedPosition'], 'in', 'range' => ['start', 'end']],
         ];
     }

@@ -50,6 +50,9 @@ That is also the only way (for now), to configure the group buttons. That could 
 
 ```php
 return [
+    'enableDuplicate' => true,
+    'enableCopyPaste' => true,
+    'enableAddBlockAbove' => true,
     'extraDeleteButton' => false,
     'removeEntryTypesFromDiscloseMenu' => true,
     'experimentalFeatures' => true,

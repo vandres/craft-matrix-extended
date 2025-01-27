@@ -5,7 +5,7 @@
     "src": "src/css/matrixExtended.scss"
   },
   "src/js/matrixExtended.ts": {
-    "file": "assets/matrixExtendedJs-493e7ed3.js",
+    "file": "assets/matrixExtendedJs-adec8503.js",
     "isEntry": true,
     "src": "src/js/matrixExtended.ts"
   },
@@ -15,7 +15,7 @@
     "src": "src/js/matrixExtendedHelper.ts"
   },
   "src/js/nestedElementExtended.ts": {
-    "file": "assets/nestedElementExtendedJs-6b42e210.js",
+    "file": "assets/nestedElementExtendedJs-0d8cd2f3.js",
     "isEntry": true,
     "src": "src/js/nestedElementExtended.ts"
   }

@@ -328,6 +328,10 @@
         },
 
         addDuplicateButton: function ($container: any, $menu: any, typeId: any, $element: any, nem: any) {
+            if (!this.settings.enableDuplicate) {
+                return;
+            }
+
             const $duplicateButton = $(`<li>
                 <button class="menu-item" data-action="duplicate" tabindex="0">
                     <span class="icon">
@@ -385,6 +389,10 @@
         },
 
         addCopyButton: function ($container: any, $menu: any, typeId: any, $element: any, nem: any) {
+            if (!this.settings.enableCopyPaste) {
+                return;
+            }
+
             const $copyButton = $(`<li>
                     <button class="menu-item" data-action="copy" tabindex="0">
                         <span class="icon">
@@ -427,6 +435,10 @@
         },
 
         addPasteButton: function ($container: any, $menu: any, typeId: any, $element: any, nem: any) {
+            if (!this.settings.enableCopyPaste) {
+                return;
+            }
+
             const $pasteButton = $(`<li>
             <button class="menu-item" data-action="paste" tabindex="0"> 
                         <span class="icon">
