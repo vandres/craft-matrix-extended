@@ -9,6 +9,7 @@
 ```
 ```json
 "minimum-stability": "dev",
+"prefer-stable": true,
 ```
 ```json
 "repositories": [

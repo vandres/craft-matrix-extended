@@ -36,10 +36,6 @@ class NestedElementExtendedController extends \craft\web\Controller
      */
     public function actionDuplicateEntry(): Response
     {
-        if (!$this->settings->experimentalFeatures) {
-            throw new ForbiddenHttpException('Experimental features not enabled.');
-        }
-
         $entryId = $this->request->getRequiredBodyParam('entryId');
         $fieldId = $this->request->getRequiredBodyParam('fieldId');
         $ownerId = $this->request->getRequiredBodyParam('ownerId');

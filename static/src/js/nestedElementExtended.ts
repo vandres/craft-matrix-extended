@@ -67,10 +67,6 @@
         },
 
         initDisclosureMenu(disclosureMenu: any) {
-            if (!this.settings.experimentalFeatures) {
-                return;
-            }
-
             const {$trigger, $container} = disclosureMenu;
             if (!$trigger || !$container || !$trigger.hasClass('action-btn')) {
                 return;
