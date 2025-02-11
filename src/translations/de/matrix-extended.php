@@ -7,6 +7,7 @@ return [
     'Delete' => 'Löschen',
     'Start' => 'Am Anfang',
     'End' => 'Am Ende',
+    'Hidden' => 'Versteckt',
     'Enable Duplicate feature' => 'Duplizieren-Funktion aktivieren',
     'Enable Copy&Paste feature' => 'Kopieren&Einfügen-Funktion aktivieren',
     'Enable "Add Block Above" feature' => '"Block oberhalb einfügen"-Funktion aktivieren',

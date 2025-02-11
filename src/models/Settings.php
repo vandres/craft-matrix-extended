@@ -32,7 +32,7 @@ class Settings extends Model
     {
         return [
             [['experimentalFeatures', 'expandMenu', 'expandUngrouped', 'enableDragDrop', 'enableDuplicate', 'enableCopyPaste', 'enableAddBlockAbove', 'extraDeleteButton', 'removeEntryTypesFromDiscloseMenu'], 'boolean'],
-            [['ungroupedPosition'], 'in', 'range' => ['start', 'end']],
+            [['ungroupedPosition'], 'in', 'range' => ['start', 'end', 'hidden']],
         ];
     }
 }

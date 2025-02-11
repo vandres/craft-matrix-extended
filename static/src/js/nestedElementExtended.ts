@@ -267,10 +267,13 @@
                 $unused.first().addClass('add icon');
                 $unused.addClass('btn dashed');
                 $actionButtonContainer.append($unused);
-                if (this.settings.ungroupedPosition === 'end') {
-                    $buttonContainer.append($actionButtonContainer)
-                } else {
-                    $buttonContainer.prepend($actionButtonContainer)
+                switch (this.settings.ungroupedPosition) {
+                    case 'start':
+                        $buttonContainer.prepend($actionButtonContainer);
+                        break;
+                    case 'end':
+                        $buttonContainer.append($actionButtonContainer)
+                        break;
                 }
                 return;
             }
@@ -283,10 +286,13 @@
                 .addClass('btn menubtn dashed add icon')
                 .attr('aria-controls', `matrix-extended-menu-${id}-others${above ? '-above' : ''}`);
 
-            if (this.settings.ungroupedPosition === 'end') {
-                $groupedMenuButton.appendTo($buttonContainer);
-            } else {
-                $groupedMenuButton.prependTo($buttonContainer);
+            switch (this.settings.ungroupedPosition) {
+                case 'start':
+                    $groupedMenuButton.prependTo($buttonContainer);
+                    break;
+                case 'end':
+                    $groupedMenuButton.appendTo($buttonContainer);
+                    break;
             }
 
             const $menuContainer = $(`<div class="menu menu--disclosure" id="matrix-extended-menu-${id}-others${above ? '-above' : ''}">`);

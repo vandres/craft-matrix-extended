@@ -7,6 +7,7 @@ return [
     'Delete' => '',
     'Start' => '',
     'End' => '',
+    'Hidden' => '',
     'Enable Duplicate feature' => '',
     'Enable Copy&Paste feature' => '',
     'Enable "Add Block Above" feature' => '',

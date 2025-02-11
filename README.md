@@ -59,7 +59,7 @@ return [
     'enableDragDrop' => false,
     'expandMenu' => true,
     'expandUngrouped' => false,
-    'ungroupedPosition' => 'start',
+    'ungroupedPosition' => 'start', // start, end or hidden
     'fields' => [
         'dyncontent' => [ // matrix field handle
             'groups' => [
