@@ -1,8 +1,13 @@
 # Release Notes for Matrix Extended
 
+## [v4.2.1] - 2025-02-18
+
+- feat(setup): new icon [`3b8a2c2`](https://github.com/vandres/craft-matrix-extended/commit/3b8a2c23a8b7966dcbfd56f80c0b29ee03f4b303)
+
 ## [v4.2.0] - 2025-02-11
 
 - feat(add): allow ungrouped entry types to be hidden [`8528b6a`](https://github.com/vandres/craft-matrix-extended/commit/8528b6ad0a818a30bc6c074dc6c8810cba95f3df)
+- chore(release): 4.2.0 [`c21a5fa`](https://github.com/vandres/craft-matrix-extended/commit/c21a5fa852459c4f4cf72c03c20aa013d46dd2d5)
 
 ## [v4.1.0] - 2025-01-27
 
@@ -232,6 +237,7 @@
 - chore(release): 1.0.1 [`f4b3032`](https://github.com/vandres/craft-matrix-extended/commit/f4b30323e0839adb11447fe11150b609bfeaa8f6)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v4.2.1]: https://github.com/vandres/craft-matrix-extended/compare/v4.2.0...v4.2.1
 [v4.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v4.1.0...v4.2.0
 [v4.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v4.0.2...v4.1.0
 [v4.0.2]: https://github.com/vandres/craft-matrix-extended/compare/v4.0.1...v4.0.2
