@@ -1,0 +1,6 @@
+{
+  "commitLimit": false,
+  "ignoreCommitPattern": "^chore\\(release\\).*$",
+  "template": "./.github/keepachangelog.hbs",
+  "unreleased": true
+}

@@ -3,7 +3,8 @@
   "description": "Adds functionality to the native Matrix field type",
   "version": "4.2.1",
   "scripts": {
-    "release": "release-it"
+    "release": "release-it",
+    "changelog": "auto-changelog -p"
   },
   "private": true,
   "repository": {
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/vandres/craft-matrix-extended#readme",
   "devDependencies": {
+    "auto-changelog": "^2.5.0",
     "release-it": "^17.2.1"
   }
 }

@@ -1,10 +1,10 @@
 {
   "git": {
     "commitMessage": "chore(release): ${version}",
-    "changelog": "npx auto-changelog --stdout --commit-limit false -u --template ./.github/keepachangelog.hbs"
+    "changelog": "auto-changelog --stdout"
   },
   "hooks": {
-    "after:bump": "npx auto-changelog -p --commit-limit false -u --template ./.github/keepachangelog.hbs"
+    "after:bump": "auto-changelog -p"
   },
   "plugins": {}
 }
