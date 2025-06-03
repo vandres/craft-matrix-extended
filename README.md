@@ -4,10 +4,6 @@ Adds functionality to the native Matrix field type.
 
 ## Feature Overview
 
-- Duplication of entries
-- Additional delete button on top, if your entry type list is very long 
-  - Optionally get rid of that long list 
-- Copy&Paste of entries, also in between entry types
 - Grouping of entry types
   - Unfold or group ungrouped types
 - Supported View Modes:
@@ -50,15 +46,10 @@ That is also the only way (for now), to configure the group buttons. That could 
 
 ```php
 return [
-    'enableDuplicate' => true,
-    'enableCopyPaste' => true,
-    'enableAddBlockAbove' => true,
-    'extraDeleteButton' => false,
     'removeEntryTypesFromDiscloseMenu' => true,
-    'experimentalFeatures' => true,
-    'enableDragDrop' => false,
+    'enableDragDrop' => true,
     'expandMenu' => true,
-    'expandUngrouped' => false,
+    'expandUngrouped' => true,
     'ungroupedPosition' => 'start', // start, end or hidden
     'fields' => [
         'dyncontent' => [ // matrix field handle
@@ -84,6 +75,14 @@ return [
 ```
 
 ## Important updates
+
+### v4 -> v5
+
+The feature "Copy&Paste", "Add Block Above" and "Duplicate" have been removed. With it, a lot of configuration is gone. 
+So please check the supported configuration options from the README.
+
+This was the core feature of the plugin, but has meanwhile be implemented natively. What remains is the grouping of Entry Types
+and the experimental Drag&Drop support.
 
 ### v3 -> v4
 

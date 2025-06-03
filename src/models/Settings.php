@@ -6,19 +6,9 @@ use craft\base\Model;
 
 class Settings extends Model
 {
-    public bool $extraDeleteButton = false;
-
     public bool $removeEntryTypesFromDiscloseMenu = false;
 
-    public bool $experimentalFeatures = false;
-
     public bool $enableDragDrop = false;
-
-    public bool $enableDuplicate = true;
-
-    public bool $enableCopyPaste = true;
-
-    public bool $enableAddBlockAbove = true;
 
     public bool $expandMenu = false;
 
@@ -31,7 +21,7 @@ class Settings extends Model
     public function defineRules(): array
     {
         return [
-            [['experimentalFeatures', 'expandMenu', 'expandUngrouped', 'enableDragDrop', 'enableDuplicate', 'enableCopyPaste', 'enableAddBlockAbove', 'extraDeleteButton', 'removeEntryTypesFromDiscloseMenu'], 'boolean'],
+            [['expandMenu', 'expandUngrouped', 'enableDragDrop', 'removeEntryTypesFromDiscloseMenu'], 'boolean'],
             [['ungroupedPosition'], 'in', 'range' => ['start', 'end', 'hidden']],
         ];
     }
