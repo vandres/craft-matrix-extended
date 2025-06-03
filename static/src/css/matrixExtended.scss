@@ -6,6 +6,12 @@
   .draggee {
     opacity: 0.5;
   }
+
+  .move {
+    --icon-size: 0.75rem;
+
+    cursor: move;
+  }
 }
 
 .matrix-extended-buttons {

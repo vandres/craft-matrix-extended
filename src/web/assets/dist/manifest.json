@@ -1,11 +1,11 @@
 {
   "src/css/matrixExtended.scss": {
-    "file": "assets/matrixExtended-aff7b440.css",
+    "file": "assets/matrixExtended-ca871108.css",
     "isEntry": true,
     "src": "src/css/matrixExtended.scss"
   },
   "src/js/matrixExtended.ts": {
-    "file": "assets/matrixExtendedJs-10dfc73b.js",
+    "file": "assets/matrixExtendedJs-d4001fec.js",
     "isEntry": true,
     "src": "src/js/matrixExtended.ts"
   },
@@ -15,7 +15,7 @@
     "src": "src/js/matrixExtendedHelper.ts"
   },
   "src/js/nestedElementExtended.ts": {
-    "file": "assets/nestedElementExtendedJs-3b1295d5.js",
+    "file": "assets/nestedElementExtendedJs-f113f26a.js",
     "isEntry": true,
     "src": "src/js/nestedElementExtended.ts"
   }
