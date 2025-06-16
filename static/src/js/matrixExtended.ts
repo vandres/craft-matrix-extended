@@ -152,7 +152,7 @@
         },
 
         prepareEntryDropZones() {
-            if (!this.settings.enableDragDrop) {
+            if (!this.settings.experimentalFeatures || !this.settings.enableDragDrop) {
                 return;
             }
 
@@ -267,15 +267,12 @@
             }
 
             if (disclosureMenu._hasMatrixExtensionButtonsInitialized) {
+                this.checkAdd($container, matrix);
                 return;
             }
             disclosureMenu._hasMatrixExtensionButtonsInitialized = true;
 
-            if (this.settings.removeEntryTypesFromDiscloseMenu) {
-                const $addButtonContainer = $container.find('[data-action="add"]').parent().parent();
-                $addButtonContainer.prev().remove();
-                $addButtonContainer.remove();
-            }
+            this.addMenu($container, typeId, entry, matrix);
         },
 
         duplicateWithNewOwner: async function ($relationEntry: any, relationPosition: any, typeId: any, entry: any, matrix: any, matrix2: any) {
@@ -354,6 +351,105 @@
 
             matrix.addingEntry = false;
             entry.actionDisclosure.hide();
+        },
+
+        addMenu: function ($container: any, typeId: any, entry: any, matrix: any) {
+            const $menu = $('<ul class="matrix-extended"></ul>');
+            const $hr = $('<hr class="padded">');
+
+            this.addAddBlockButton($menu, typeId, entry, matrix);
+            this.checkAdd($menu, matrix);
+
+            $menu.insertBefore($container.find('ul').eq(0));
+            $hr.insertAfter($menu);
+
+            if (this.settings.removeEntryTypesFromDiscloseMenu) {
+                const $addButtonContainer = $container.find('[data-action="add"]').parent().parent();
+                $addButtonContainer.prev().remove();
+                $addButtonContainer.remove();
+            }
+        },
+
+        addAddBlockButton: function ($menu: any, _: any, entry: any, matrix: any) {
+            if (!this.settings.enableAddBlockAbove) {
+                return;
+            }
+
+            if (!matrix.$addEntryMenuBtn.length && !matrix.$addEntryBtn.length) {
+                return;
+            }
+
+            const $addBlockButton = $(`<li>
+                    <button class="menu-item" data-action="add-block" tabindex="0">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                        </span><span class="menu-item-label">${Craft.t('matrix-extended', 'Add block above')}</span>
+                    </button>
+                </li>`);
+            $menu.append($addBlockButton);
+
+            $addBlockButton.find('button').on('click', () => {
+                const id = matrix.id;
+
+                $('.matrix-extended-buttons-above').remove();
+                $(`#matrix-extended-menu-${id}-all`).remove();
+
+                const $buttonContainer = $('<div class="buttons matrix-extended-buttons matrix-extended-buttons-above"></div>');
+                const $actionButtons =
+                    matrix.$addEntryMenuBtn.length
+                        ? matrix.$addEntryMenuBtn.data('disclosureMenu').$container.find('button').clone().off()
+                        : matrix.$addEntryBtn.clone().off();
+
+                const $clone = Craft.ui
+                    .createButton({
+                        label: matrix.$addEntryMenuBtn.find('.label').text(), spinner: true,
+                    })
+                    .addClass('btn menubtn dashed add icon')
+                    .attr('aria-controls', `matrix-extended-menu-${id}-all`);
+
+                const $menuContainer = $(`<div class="menu menu--disclosure" id="matrix-extended-menu-${id}-all">`);
+                const $menu = $('<ul></ul>');
+
+                $menuContainer.append($menu);
+                $(document.body).append($menuContainer);
+                const disclosure = new Garnish.DisclosureMenu($clone);
+
+                for (const button of $actionButtons) {
+                    const $li = $(`<li></li>`);
+                    const $button = $(button);
+                    $li.append($button)
+                    $menu.append($li);
+                }
+
+                $actionButtons.on('activate', async (ev: any) => {
+                    // only allow activation logic on "super" disclosure menu
+                    if (!$(ev.currentTarget).closest(`#matrix-extended-menu-${id}-all`).length) {
+                        return;
+                    }
+
+                    $clone.addClass('loading');
+
+                    try {
+                        await matrix.addEntry($(ev.currentTarget).data('type'), entry.$container[0].checkVisibility() ? entry.$container : undefined);
+                    } finally {
+                        disclosure.hide();
+                        $clone.remove();
+                        $menuContainer.remove();
+                        $buttonContainer.remove();
+                    }
+                });
+
+                if (this.settings.expandMenu) {
+                    const $container = $clone.data('disclosureMenu').$container;
+                    const $actionButtons = $container.find('button').clone(true, true);
+                    this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, id, true);
+                } else {
+                    $buttonContainer.append($clone);
+                }
+
+                $buttonContainer.insertBefore(entry.$container);
+                entry.actionDisclosure.hide();
+            });
         },
 
         buildGroupedMenu: function ($buttonContainer: any, $actionButtons: any, $actionBtn: any, id: any, above = false) {
@@ -478,6 +574,20 @@
                     disclosure.destroy();
                 })
             }
+        },
+
+        checkAdd: function ($container: any, matrix: any) {
+            const $addButton = $container.find('button[data-action="add-block"]');
+            $addButton.disable();
+            const $parent = $addButton.parent();
+            $parent.attr('title', '');
+
+            if (!matrix.canAddMoreEntries()) {
+                $parent.attr('title', Craft.t('matrix-extended', 'No more entries can be added.'));
+                return;
+            }
+
+            $addButton.enable();
         },
 
         checkAddBtn: function (matrix: any) {

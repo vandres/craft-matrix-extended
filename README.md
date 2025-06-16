@@ -47,7 +47,8 @@ That is also the only way (for now), to configure the group buttons. That could 
 ```php
 return [
     'removeEntryTypesFromDiscloseMenu' => true,
-    'enableDragDrop' => true,
+    'enableDragDrop' => false,
+    'enableAddBlockAbove' => true,
     'expandMenu' => true,
     'expandUngrouped' => true,
     'ungroupedPosition' => 'start', // start, end or hidden

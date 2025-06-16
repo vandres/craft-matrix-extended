@@ -10,6 +10,8 @@ class Settings extends Model
 
     public bool $enableDragDrop = false;
 
+    public bool $enableAddBlockAbove = true;
+
     public bool $expandMenu = false;
 
     public bool $expandUngrouped = false;
@@ -21,7 +23,7 @@ class Settings extends Model
     public function defineRules(): array
     {
         return [
-            [['expandMenu', 'expandUngrouped', 'enableDragDrop', 'removeEntryTypesFromDiscloseMenu'], 'boolean'],
+            [['enableAddBlockAbove', 'expandMenu', 'expandUngrouped', 'enableDragDrop', 'removeEntryTypesFromDiscloseMenu'], 'boolean'],
             [['ungroupedPosition'], 'in', 'range' => ['start', 'end', 'hidden']],
         ];
     }

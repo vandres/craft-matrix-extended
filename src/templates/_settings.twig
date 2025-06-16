@@ -13,6 +13,15 @@
 {% from _self import configWarning %}
 
 {{ forms.lightswitchField({
+    label:        'Enable "Add Block Above" feature'|t('matrix-extended'),
+    name:         'enableAddBlockAbove',
+    id:           'enableAddBlockAbove',
+    on:           settings.enableAddBlockAbove,
+    disabled:     'enableAddBlockAbove' in overrides,
+    warning:      'enableAddBlockAbove' in overrides ? configWarning('enableAddBlockAbove'),
+}) }}
+
+{{ forms.lightswitchField({
     label:        'Remove entry types from disclosure menu'|t('matrix-extended'),
     name:         'removeEntryTypesFromDiscloseMenu',
     id:           'removeEntryTypesFromDiscloseMenu',
