@@ -59,6 +59,22 @@
                 );
             };
 
+            const matrixCanPasteFn = Craft.MatrixInput.prototype.canPaste;
+            Craft.MatrixInput.prototype.canPaste = function (elementInfo: any) {
+                if (!elementInfo?.length) {
+                    return false;
+                }
+
+                return matrixCanPasteFn.apply(this, [elementInfo]);
+            };
+
+            const matrixUpdatePasteBtnFn = Craft.MatrixInput.prototype.updatePasteBtn;
+            Craft.MatrixInput.prototype.updatePasteBtn = function (elementInfo?: any) {
+                elementInfo = elementInfo || Craft.cp.getCopiedElements();
+
+                matrixUpdatePasteBtnFn.apply(this, [elementInfo]);
+            };
+
             const $fields = $('.matrix-field');
             const $blocks = $fields.find('.matrixblock');
             for (const block of $blocks) {
@@ -179,11 +195,6 @@
                 $dropTargetBefore.data($block.data());
                 $dropTargetBefore.data('entryTypeId', $entryTypeId);
                 $block.before($dropTargetBefore);
-                matrix.updatePasteBtn();
-                const elementInfo = Craft.cp.getCopiedElements();
-                if (!elementInfo.length) {
-                    matrix.$pasteBtn?.addClass('hidden');
-                }
             }
 
             const $buttons = $fields.find('> .buttons');
@@ -198,11 +209,6 @@
                 const $dropTargetButton = $(`<div class="matrix-extended-drop-target" data-position="button"><div></div></div>`);
                 $dropTargetButton.data('entryTypeId', matrix.settings.fieldId);
                 $dropTargetButton.insertBefore($button);
-                matrix.updatePasteBtn();
-                const elementInfo = Craft.cp.getCopiedElements();
-                if (!elementInfo.length) {
-                    matrix.$pasteBtn?.addClass('hidden');
-                }
             }
 
             this.itemDrag.removeAllItems();
@@ -443,6 +449,7 @@
                     const $container = $clone.data('disclosureMenu').$container;
                     const $actionButtons = $container.find('button').clone(true, true);
                     this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, id, true);
+                    matrix.updatePasteBtn();
                 } else {
                     $buttonContainer.append($clone);
                 }
