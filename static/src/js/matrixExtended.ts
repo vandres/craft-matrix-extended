@@ -428,11 +428,6 @@
                 }
 
                 $actionButtons.on('activate', async (ev: any) => {
-                    // only allow activation logic on "super" disclosure menu
-                    if (!$(ev.currentTarget).closest(`#matrix-extended-menu-${id}-all`).length) {
-                        return;
-                    }
-
                     $clone.addClass('loading');
 
                     try {
