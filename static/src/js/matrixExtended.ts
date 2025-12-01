@@ -168,7 +168,7 @@
         },
 
         prepareEntryDropZones() {
-            if (!this.settings.experimentalFeatures || !this.settings.enableDragDrop) {
+            if (!this.settings.enableDragDrop) {
                 return;
             }
 
