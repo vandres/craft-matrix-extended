@@ -9,7 +9,7 @@
      * @todo check, that it only initializes on Inline Editable views
      */
     Craft.MatrixExtended = Garnish.Base.extend({
-        settings: {}, childParent: {}, helper: undefined, itemDrag: undefined,
+        settings: {}, childParent: {}, helper: undefined, itemDrag: undefined, $trigger: undefined,
 
         init: function (config: { settings: any, childParent: any }, helper: any) {
             const self = this;
@@ -217,10 +217,6 @@
         },
 
         initAddButtonMenu(disclosureMenu: any) {
-            if (!this.settings.expandMenu) {
-                return;
-            }
-
             const {$trigger, $container} = disclosureMenu;
             const $parent = $trigger.parent();
             const $nativeButtonContainer = $trigger.closest('.buttons');
@@ -232,9 +228,14 @@
             if ($trigger._hasMatrixExtensionButtonsInitialized) {
                 return;
             }
-            $trigger.hide();
             $trigger._hasMatrixExtensionButtonsInitialized = true;
+            this.$trigger = $trigger;
 
+            if (!this.settings.expandMenu) {
+                return;
+            }
+
+            $trigger.hide();
             const $buttonContainer = $('<div class="buttons matrix-extended-buttons"></div>');
             const $actionButtons = $trigger
                 .disclosureMenu()
@@ -371,8 +372,8 @@
 
             if (this.settings.removeEntryTypesFromDiscloseMenu) {
                 const $addButtonContainer = $container.find('[data-action="add"]').parent().parent();
-                $addButtonContainer.prev().remove();
-                $addButtonContainer.remove();
+                $addButtonContainer.prev().hide();
+                $addButtonContainer.hide();
             }
         },
 
@@ -394,68 +395,92 @@
                 </li>`);
             $menu.append($addBlockButton);
 
-            $addBlockButton.find('button').on('click', () => {
+            $addBlockButton.on('click', 'button[data-action="add-block"]', () => {
                 const id = matrix.id;
 
                 $('.matrix-extended-buttons-above').remove();
-                $(`#matrix-extended-menu-${id}-all`).remove();
 
-                const $buttonContainer = $('<div class="buttons matrix-extended-buttons matrix-extended-buttons-above"></div>');
-                const $actionButtons =
-                    matrix.$addEntryMenuBtn.length
-                        ? matrix.$addEntryMenuBtn.data('disclosureMenu').$container.find('button').clone().off()
-                        : matrix.$addEntryBtn.clone().off();
+                const $actionsContainer = entry && entry.actionDisclosure && entry.actionDisclosure.$container
+                    ? entry.actionDisclosure.$container
+                    : null;
 
-                const $clone = Craft.ui
-                    .createButton({
-                        label: matrix.$addEntryMenuBtn.find('.label').text(), spinner: true,
-                    })
-                    .addClass('btn menubtn dashed add icon')
-                    .attr('aria-controls', `matrix-extended-menu-${id}-all`);
-
-                const $menuContainer = $(`<div class="menu menu--disclosure" id="matrix-extended-menu-${id}-all">`);
-                const $menu = $('<ul></ul>');
-
-                $menuContainer.append($menu);
-                $(document.body).append($menuContainer);
-                const disclosure = new Garnish.DisclosureMenu($clone);
-
-                for (const button of $actionButtons) {
-                    const $li = $(`<li></li>`);
-                    const $button = $(button);
-                    $li.append($button)
-                    $menu.append($li);
+                if (!$actionsContainer) {
+                    return;
                 }
 
-                $actionButtons.on('activate', async (ev: any) => {
-                    // only allow activation logic on "super" disclosure menu
-                    if (!$(ev.currentTarget).closest(`#matrix-extended-menu-${id}-all`).length) {
-                        return;
-                    }
+                const $nativeButtons = $actionsContainer.find('[data-action="add"]');
+                if (!$nativeButtons.length) {
+                    return;
+                }
 
-                    $clone.addClass('loading');
+                const $buttonContainer = $('<div class="buttons matrix-extended-buttons matrix-extended-buttons-above"></div>');
 
-                    try {
-                        await matrix.addEntry($(ev.currentTarget).data('type'), entry.$container[0].checkVisibility() ? entry.$container : undefined);
-                    } finally {
-                        disclosure.hide();
-                        $clone.remove();
-                        $menuContainer.remove();
-                        $buttonContainer.remove();
+                // Create proxy buttons by cloning visuals only; forward activation to native buttons
+                const $proxyButtons = $nativeButtons
+                    .clone()
+                    .off()
+                    .on('activate', (ev: any) => {
+                        const type = $(ev.currentTarget).data('type');
+                        const $orig = $nativeButtons.filter((_: any, x: any) => $(x).data('type') === type);
+                        if ($orig.length) {
+                            $orig.trigger('activate');
+                        }
+                        setTimeout(() => $buttonContainer.remove(), 0);
+                    });
+
+                $proxyButtons.each((_: number, btn: any) => {
+                    const $btn = $(btn);
+                    const $actions = this.$trigger.disclosureMenu()
+                        .data('disclosureMenu').$container;
+
+                    const label = $actions.find('[data-type="' + $btn.data('type') + '"]').text();
+                    if (label) {
+                        $(btn).text(label)
+                    } else {
+                        $(btn).text($(btn).text())
                     }
                 });
 
+
                 if (this.settings.expandMenu) {
-                    const $container = $clone.data('disclosureMenu').$container;
-                    const $actionButtons = $container.find('button').clone(true, true);
-                    this.buildGroupedMenu($buttonContainer, $actionButtons, $clone, id, true);
+                    this.buildGroupedMenu($buttonContainer, $proxyButtons, matrix.$addEntryMenuBtn, id, true);
                     matrix.updatePasteBtn();
                 } else {
-                    $buttonContainer.append($clone);
+                    const baseLabel = matrix.$addEntryMenuBtn.find('.label').text();
+
+                    const plainMenuId = `matrix-extended-menu-${id}-all`;
+                    $(`#${plainMenuId}`).remove();
+
+                    const $menubtn = Craft.ui
+                        .createButton({label: baseLabel, spinner: true})
+                        .addClass('btn menubtn dashed add icon')
+                        .attr('aria-controls', plainMenuId)
+                        .appendTo($buttonContainer);
+
+                    const $menuContainer = $(`<div class="menu menu--disclosure mx-no-focus" id="${plainMenuId}">`);
+                    const $menu = $('<ul></ul>');
+                    $menuContainer.append($menu);
+                    $(document.body).append($menuContainer);
+
+                    const disclosure = new Garnish.DisclosureMenu($menubtn);
+
+                    $proxyButtons.each((_: number, btn: any) => {
+                        const $li = $('<li></li>');
+                        const $b = $(btn);
+                        $li.append($b);
+                        $menu.append($li);
+                        $b.on('activate', () => {
+                            $menuContainer.remove();
+                            disclosure.destroy();
+                            setTimeout(() => $buttonContainer.remove(), 0);
+                        });
+                    });
                 }
 
                 $buttonContainer.insertBefore(entry.$container);
-                entry.actionDisclosure.hide();
+                if (entry.actionDisclosure) {
+                    entry.actionDisclosure.hide();
+                }
             });
         },
 
