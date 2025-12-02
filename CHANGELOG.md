@@ -1,5 +1,14 @@
 # Release Notes for Matrix Extended
 
+## [v5.1.0] - 2025-12-02
+
+- feat(add): reintroduce add block above [`9a25af5`](https://github.com/vandres/craft-matrix-extended/commit/9a25af5385e274dac140513413cf25a0f4c55240)
+- feat(add): first working version with less cloning and event forwarding [`e393db8`](https://github.com/vandres/craft-matrix-extended/commit/e393db8b3c9bb74c2a94f3d7c9cc98ffa603570a)
+- fix(dragdrop): fixed issue of dragdrop in combination with the new native copy&paste functionality [`b47a525`](https://github.com/vandres/craft-matrix-extended/commit/b47a525d0b37305faf20d66b02f993f3c781f224)
+- fix(dragdrop): drag&drop not initializing [`49dc648`](https://github.com/vandres/craft-matrix-extended/commit/49dc648cf5ce537f4a4fb7c7779ee72f86250dd4)
+- feat(add): first working version with less cloning and event forwarding (build) [`d1aeb74`](https://github.com/vandres/craft-matrix-extended/commit/d1aeb74fd0eb1b128e02207f3369b9ba8c546c7b)
+- feat(add): first working version with less cloning and event forwarding (build) [`02ded6a`](https://github.com/vandres/craft-matrix-extended/commit/02ded6a2db85a883e1de1fcc0cb5c1b743353d9e)
+
 ## [v5.0.0] - 2025-06-03
 
 - feat(core): removed "Add Block Above", "Duplicate" and "Copy&Paste" features in favor of native Matrix functions [`eab1f31`](https://github.com/vandres/craft-matrix-extended/commit/eab1f313670dd5d1cfefd8c53f3de611120d9944)
@@ -206,6 +215,7 @@
 - initial commit [`ca7df0a`](https://github.com/vandres/craft-matrix-extended/commit/ca7df0ae9a845bf43eb593645293190638533fd9)
 - docs(plugin): updated readme [`01b3ba0`](https://github.com/vandres/craft-matrix-extended/commit/01b3ba090a7a79464cfb919a73480d8525e927fe)
 
+[v5.1.0]: https://github.com/vandres/craft-matrix-extended/compare/v5.0.0...v5.1.0
 [v5.0.0]: https://github.com/vandres/craft-matrix-extended/compare/v4.2.1...v5.0.0
 [v4.2.1]: https://github.com/vandres/craft-matrix-extended/compare/v4.2.0...v4.2.1
 [v4.2.0]: https://github.com/vandres/craft-matrix-extended/compare/v4.1.0...v4.2.0
